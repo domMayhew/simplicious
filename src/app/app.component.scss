@@ -1,0 +1,26 @@
+@use '../theme.scss' as theme;
+
+.title {
+  @include theme.title();
+}
+
+.tab-title {
+  @include theme.tab-title();
+}
+
+.tab-title-selected {
+  @include theme.tab-title(true);
+}
+
+.body {
+  @include theme.body();
+}
+
+.component-container {
+  border: 1px solid red;
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  flex-flow: row wrap;
+}

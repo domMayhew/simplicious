@@ -1,0 +1,20 @@
+@use '../../../theme.scss';
+
+div {
+  // Layout
+  display: inline-flex;
+  height: var(--token_height);
+  padding: var(--token_padding);
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  // Style
+  border-radius: var(--token_radius);
+  border: 1px solid var(--Primary---Dark);
+  background: var(--Primary---Light);
+
+  @include theme.body();
+  font-style: italic;
+  font-weight: 600;
+}

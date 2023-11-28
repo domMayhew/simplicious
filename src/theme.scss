@@ -1,0 +1,34 @@
+@use 'sass:map';
+
+// Typography
+@mixin title() {
+  font-family: 'Cardo';
+  font-weight: 'regular';
+  font-size: 4rem;
+  line-height: 120%;
+  margin: 0;
+}
+
+@mixin tab-title($selected: false) {
+  font-family: 'Open Sans';
+  font-size: 1.5rem;
+  margin: 0;
+
+  @if $selected {
+    font-weight: 600;
+  }
+
+  @else {
+    font-weight: 'regular';
+  }
+}
+
+@mixin body() {
+  font-family: 'Open Sans';
+  font-size: 1rem;
+}
+
+@mixin body-2() {
+  @include body();
+  opacity: 70%;
+}

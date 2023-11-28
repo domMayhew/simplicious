@@ -1,0 +1,24 @@
+@use 'sass:math';
+
+div {
+  // Layout
+  width: var(--token_height);
+  height: var(--token_height);
+
+  // Style
+  border-radius: var(--token_radius);
+
+  #circle {
+    // Layout
+    width: var(--token_height);
+    height: var(--token_height);
+
+    fill: var(--Primary---Light);
+    stroke-width: 1px;
+    stroke: var(--Primary---Dark);
+  }
+
+  #plus {
+    stroke: var(--Secondary);
+  }
+}
