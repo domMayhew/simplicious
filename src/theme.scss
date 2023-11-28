@@ -3,10 +3,16 @@
 // Typography
 @mixin title() {
   font-family: 'Cardo';
-  font-weight: 'regular';
+  font-weight: 400;
   font-size: 4rem;
   line-height: 120%;
-  margin: 0;
+}
+
+@mixin subtitle() {
+  font-family: 'Open Sans';
+  font-weight: 400;
+  font-size: 2rem;
+  line-height: 120%;
 }
 
 @mixin tab-title($selected: false) {

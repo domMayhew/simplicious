@@ -1,26 +1,42 @@
 @use '../theme.scss' as theme;
 
+$header-height: 10rem;
+$footer-height: 5rem;
+
+@mixin bar($height: 10rem, $color: var(--Primary)) {
+  height: $height;
+  width: 100%;
+  background-color: $color;
+}
+
+.title-bar {
+  @include bar($header-height);
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+}
+
+.title-content {
+  display: flex;
+  flex-flow: row wrap;
+  row-gap: 2rem;
+  column-gap: 4rem;
+  padding: 0 4rem;
+  align-items: first baseline
+}
+
 .title {
   @include theme.title();
 }
 
-.tab-title {
-  @include theme.tab-title();
+.subtitle {
+  @include theme.subtitle();
 }
 
-.tab-title-selected {
-  @include theme.tab-title(true);
+.app-content {
+  min-height: calc(100vh - $header-height - $footer-height);
 }
 
-.body {
-  @include theme.body();
-}
-
-.component-container {
-  border: 1px solid red;
-  margin: 0;
-  padding: 0;
-
-  display: flex;
-  flex-flow: row wrap;
+.footer {
+  @include bar($footer-height);
 }
