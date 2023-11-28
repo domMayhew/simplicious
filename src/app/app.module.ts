@@ -4,17 +4,19 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AddAlternativeButton } from './ui/add-alternative/add-alternative.component';
-import { OneOfToken } from './ui/one-of-token/one-of-token.component';
+import { OneOfToken } from './ui/tokens/one-of-token/one-of-token.component';
+import { IngredientTokenComponent } from './ui/tokens/ingredient-token/ingredient-token.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    OneOfToken,
+    AppComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AddAlternativeButton
+    AddAlternativeButton,
+    OneOfToken,
+    IngredientTokenComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,10 @@
+@use '../ingredient-token/ingredient-token.component.scss';
+
+div {
+  // Style
+  border: 1px solid var(--Primary---Dark);
+  background: var(--Primary---Light);
+
+  font-style: italic;
+  font-weight: 600;
+}

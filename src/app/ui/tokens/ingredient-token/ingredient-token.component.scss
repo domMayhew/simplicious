@@ -1,4 +1,4 @@
-@use '../../../theme.scss';
+@use '../../../../theme.scss';
 
 div {
   // Layout
@@ -11,8 +11,7 @@ div {
 
   // Style
   border-radius: var(--token_radius);
-  border: 1px solid var(--Primary---Dark);
-  background: var(--Primary---Light);
+  background: var(--Background);
 
   @include theme.body();
   font-style: italic;
