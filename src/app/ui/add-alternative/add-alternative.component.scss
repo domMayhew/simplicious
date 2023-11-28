@@ -1,24 +1,26 @@
 @use 'sass:math';
+@use '../../../theme.scss' as theme;
 
 div {
   // Layout
-  width: var(--token_height);
-  height: var(--token_height);
+  width: theme.token-height();
+  height: theme.token-height();
 
   // Style
-  border-radius: var(--token_radius);
+  border-radius: theme.radius("small");
 
   #circle {
     // Layout
-    width: var(--token_height);
-    height: var(--token_height);
+    width: theme.token-height();
+    height: theme.token-height();
 
-    fill: var(--Primary---Light);
+    fill: theme.primary-light();
+    ;
     stroke-width: 1px;
-    stroke: var(--Primary---Dark);
+    stroke: theme.primary-dark();
   }
 
   #plus {
-    stroke: var(--Secondary);
+    stroke: theme.secondary();
   }
 }

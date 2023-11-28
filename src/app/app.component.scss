@@ -3,38 +3,65 @@
 $header-height: 10rem;
 $footer-height: 5rem;
 
-@mixin bar($height: 10rem, $color: var(--Primary)) {
+@mixin bar($height: 10rem, $color: theme.primary()) {
   height: $height;
   width: 100%;
   background-color: $color;
 }
 
-.title-bar {
-  @include bar($header-height);
+.vertical-centering-container {
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
+  height: 100%;
+}
+
+.horizontal-centering-container {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+}
+
+
+.title-bar {
+  @include bar($header-height);
 }
 
 .title-content {
   display: flex;
-  flex-flow: row wrap;
-  row-gap: 2rem;
-  column-gap: 4rem;
+  flex-flow: row nowrap;
+  column-gap: clamp(2rem, 10vw, 20rem);
   padding: 0 4rem;
-  align-items: first baseline
+  align-items: baseline;
 }
 
+.padding-before,
+.padding-after {
+  flex-shrink: 1;
+  flex-basis: 33vw;
+}
+
+
 .title {
-  @include theme.title();
+  @include theme.headline-1();
 }
 
 .subtitle {
-  @include theme.subtitle();
+  @include theme.headline-2();
 }
 
 .app-content {
   min-height: calc(100vh - $header-height - $footer-height);
+  width: 100%;
+
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+}
+
+.centering-container {
+  width: 100%;
+  max-width: 1120px;
 }
 
 .footer {

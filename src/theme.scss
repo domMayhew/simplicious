@@ -1,22 +1,110 @@
 @use 'sass:map';
 
+// Colours
+@function primary-all() {
+  @return (default: #EBE580,
+    light: #F1EDA6,
+    dark: #DDD350,
+    "onPrimary": #0F2001,
+    "onPrimaryLight": #0F2001,
+    "onPrimaryDark": #0F2001,
+  );
+}
+
+@function secondary-all() {
+  @return (default: #2A4705,
+    light: #B8DE84,
+    dark: #0F2001,
+    "onSecondary": white,
+    "onSecondaryLight": black,
+    "onSecondaryDark": white,
+  );
+}
+
+@function background() {
+  @return #D9D9D9;
+}
+
+@function surface() {
+  @return white;
+}
+
+@function onSurface() {
+  @return black;
+}
+
+@function warn() {
+  @return #DD1D1D;
+}
+
+@function primary() {
+  @return map.get(primary-all(), "default");
+}
+
+@function primary-light() {
+  @return map.get(primary-all(), "light");
+}
+
+@function primary-dark() {
+  @return map.get(primary-all(), "dark");
+}
+
+@function on-primary() {
+  @return map.get(primary-all(), "onPrimary");
+}
+
+@function on-primary-light() {
+  @return map.get(primary-all(), "onPrimaryLight");
+}
+
+@function on-primary-dark() {
+  @return map.get(primary-all(), "onPrimaryDark");
+}
+
+@function secondary() {
+  @return map.get(secondary-all(), "default");
+}
+
+@function secondary-light() {
+  @return map.get(secondary-all(), "light");
+}
+
+@function secondary-dark() {
+  @return map.get(secondary-all(), "dark");
+}
+
+@function on-secondary() {
+  @return map.get(secondary-all(), "onSecondary");
+}
+
+@function on-secondary-light() {
+  @return map.get(secondary-all(), "onSecondaryLight");
+}
+
+@function on-secondary-dark() {
+  @return map.get(secondary-all(), "onSecondaryDark");
+}
+
 // Typography
-@mixin title() {
+@mixin font-family() {
+  font-family: 'Open Sans';
+}
+
+@mixin headline-1() {
   font-family: 'Cardo';
   font-weight: 400;
   font-size: 4rem;
   line-height: 120%;
 }
 
-@mixin subtitle() {
-  font-family: 'Open Sans';
+@mixin headline-2() {
   font-weight: 400;
   font-size: 2rem;
   line-height: 120%;
 }
 
-@mixin tab-title($selected: false) {
-  font-family: 'Open Sans';
+@mixin headline-3($selected: false) {
+  @include font-family();
   font-size: 1.5rem;
   margin: 0;
 
@@ -30,11 +118,40 @@
 }
 
 @mixin body() {
-  font-family: 'Open Sans';
+  @include font-family();
   font-size: 1rem;
 }
 
 @mixin body-2() {
   @include body();
   opacity: 70%;
+}
+
+// Shapes
+@function radius($size) {
+  @if(size !="small") {
+    @return 0.625rem;
+  }
+
+  @else {
+    @return 0.3125rem;
+  }
+}
+
+@function padding($size) {
+  @if $size==small {
+    @return 0.3125rem;
+  }
+
+  @else if $size==large {
+    @return 2rem;
+  }
+
+  @else {
+    @return 1rem;
+  }
+}
+
+@function token-height() {
+  @return 2rem;
 }

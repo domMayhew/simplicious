@@ -1,17 +1,17 @@
-@use '../../../../theme.scss';
+@use '../../../../theme.scss' as theme;
 
 div {
   // Layout
   display: inline-flex;
-  height: var(--token_height);
-  padding: var(--token_padding);
+  height: theme.token_height();
+  padding: theme.padding("small");
   flex-direction: row;
   justify-content: center;
   align-items: center;
 
   // Style
-  border-radius: var(--token_radius);
-  background: var(--Background);
+  border-radius: theme.radius("small");
+  background: theme.background();
 
   @include theme.body();
   font-style: italic;

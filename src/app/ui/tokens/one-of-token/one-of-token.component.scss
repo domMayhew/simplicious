@@ -1,9 +1,10 @@
 @use '../ingredient-token/ingredient-token.component.scss';
+@use '../../../../theme.scss' as theme;
 
 div {
   // Style
-  border: 1px solid var(--Primary---Dark);
-  background: var(--Primary---Light);
+  border: 1px solid theme.primary-dark();
+  background: theme.primary-light();
 
   font-style: italic;
   font-weight: 600;

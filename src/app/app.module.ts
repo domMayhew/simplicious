@@ -6,17 +6,19 @@ import { AppComponent } from './app.component';
 import { AddAlternativeButton } from './ui/add-alternative/add-alternative.component';
 import { OneOfToken } from './ui/tokens/one-of-token/one-of-token.component';
 import { IngredientTokenComponent } from './ui/tokens/ingredient-token/ingredient-token.component';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     AddAlternativeButton,
     OneOfToken,
-    IngredientTokenComponent
+    IngredientTokenComponent,
+    WelcomeComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

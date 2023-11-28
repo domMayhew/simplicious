@@ -1,0 +1,27 @@
+@use '../../../theme.scss';
+
+.instruction {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.header {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  @include theme.headline-3();
+  padding: theme.padding("large");
+}
+
+.instruction-text {
+  @include theme.body-2();
+  padding: theme.padding("medium");
+  width: 100%;
+  max-width: 720px;
+}

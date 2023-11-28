@@ -1,0 +1,20 @@
+@use '../../theme.scss' as theme;
+
+.instructions {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: flex-start;
+  align-items: center;
+
+  padding: theme.padding(large);
+}
+
+.line {
+  height: 2.5rem;
+  width: 0.125rem;
+  background-color: theme.background();
+}
+
+.line:last-of-type {
+  display: none;
+}

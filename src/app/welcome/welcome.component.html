@@ -1,0 +1,9 @@
+<div class="instructions">
+	<ng-container *ngFor="let instruction of instructions; index as i">
+		<app-instruction [stepNumber]="i+1"
+			[title]="instruction.title"
+			[content]="instruction.content">
+		</app-instruction>
+		<div class="line"></div>
+	</ng-container>
+</div>

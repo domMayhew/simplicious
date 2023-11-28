@@ -7,29 +7,3 @@
   padding: 0;
   box-sizing: border-box;
 }
-
-:root {
-  --Primary: #EBE580;
-  --Primary---Light: #F1EDA6;
-  --Primary---Dark: #DDD350;
-  --Secondary: #2A4705;
-  --Secondary---Light: #B8DE84;
-  --Secondary---Dark: #0F2001;
-  --Background: #D9D9D9;
-  --Surface: white;
-  --On---Surface: black;
-  --On---Primary: #0F2001;
-  --On---Primary---Light: #0F2001;
-  --On---Primary---Dark: #0F2001;
-  --On---Secondary: black;
-  --On---Secondary---Light: black;
-  --On---Secondary---Dark: white;
-  --Error: #DD1D1D;
-
-  --token_radius: 0.3125rem;
-  --token_padding: 0.5rem 0.5rem;
-  --token_height: 2rem;
-
-  --card_padding: 2rem;
-  --card_radius: $--token_radius;
-}

@@ -1,0 +1,25 @@
+@use '../../../../theme.scss' as theme;
+
+.number-container {
+  position: relative;
+}
+
+svg {
+  width: 72px;
+  height: 72px;
+}
+
+#circle {
+  fill: theme.secondary();
+}
+
+#step-number {
+  position: absolute;
+  left: 22px;
+  bottom: 10px;
+
+  @include theme.font-family();
+  font-weight: 700;
+  font-size: 48px;
+  color: theme.on-secondary();
+}
