@@ -1,15 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { InstructionComponent } from './instruction/instruction.component';
 import { NgFor } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   standalone: true,
   selector: 'app-welcome',
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.scss'],
-  imports: [InstructionComponent, NgFor]
+  imports: [InstructionComponent, NgFor, MatButtonModule]
 })
 export class WelcomeComponent {
+  @Output() finished: EventEmitter<boolean> = new EventEmitter();
+
   instructions: Instruction[] = [
     {
       title: "Add your go-to meals",
@@ -28,6 +31,10 @@ export class WelcomeComponent {
       content: "Generate a shopping list from your meal plan, and add any other items you need. Need some batteries? Add it to the list!"
     }
   ]
+
+  callToAction() {
+    this.finished.emit(true);
+  }
 }
 
 interface Instruction {

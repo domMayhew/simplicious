@@ -7,6 +7,10 @@
   align-items: center;
 
   padding: theme.padding(large);
+
+  #call-to-action {
+    margin-top: theme.padding(large);
+  }
 }
 
 .line {

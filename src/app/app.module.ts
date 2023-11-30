@@ -7,10 +7,14 @@ import { AddAlternativeButton } from './ui/add-alternative/add-alternative.compo
 import { OneOfToken } from './ui/tokens/one-of-token/one-of-token.component';
 import { IngredientTokenComponent } from './ui/tokens/ingredient-token/ingredient-token.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { MealsComponent } from './meals/meals.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
     AppComponent,
+    MealsComponent,
   ],
   imports: [
     BrowserModule,
@@ -18,7 +22,9 @@ import { WelcomeComponent } from './welcome/welcome.component';
     AddAlternativeButton,
     OneOfToken,
     IngredientTokenComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    BrowserAnimationsModule,
+    MatButtonModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -10,7 +10,7 @@ svg {
 }
 
 #circle {
-  fill: theme.secondary();
+  fill: theme.get-color(accent, default);
 }
 
 #step-number {
@@ -18,8 +18,8 @@ svg {
   left: 22px;
   bottom: 10px;
 
-  @include theme.font-family();
+  @include theme.typography-level(headline-2);
   font-weight: 700;
   font-size: 48px;
-  color: theme.on-secondary();
+  color: theme.get-color(accent, default-contrast);
 }

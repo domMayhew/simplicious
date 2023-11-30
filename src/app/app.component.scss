@@ -3,7 +3,7 @@
 $header-height: 10rem;
 $footer-height: 5rem;
 
-@mixin bar($height: 10rem, $color: theme.primary()) {
+@mixin bar($height: 10rem, $color: theme.get-color(primary, default)) {
   height: $height;
   width: 100%;
   background-color: $color;
@@ -39,15 +39,6 @@ $footer-height: 5rem;
 .padding-after {
   flex-shrink: 1;
   flex-basis: 33vw;
-}
-
-
-.title {
-  @include theme.headline-1();
-}
-
-.subtitle {
-  @include theme.headline-2();
 }
 
 .app-content {

@@ -1,25 +1,104 @@
 @use 'sass:map';
+@use '@angular/material' as mat;
 
-// Colours
-@function primary-all() {
-  @return (default: #EBE580,
-    light: #F1EDA6,
-    dark: #DDD350,
-    "onPrimary": #0F2001,
-    "onPrimaryLight": #0F2001,
-    "onPrimaryDark": #0F2001,
-  );
-}
+/*
+ * COLORS
+ */
+$primary: (
+  50 : #fdfcf0,
+  100 : #f9f7d9,
+  200 : #f5f2c0,
+  300 : #f1eda6,
+  400 : #eee993,
+  500 : #ebe580,
+  600 : #e9e278,
+  700 : #e5de6d,
+  800 : #e2da63,
+  900 : #ddd350,
+  A100 : #ffffff,
+  A200 : #ffffff,
+  A400 : #fffcd4,
+  A700 : #fffabb,
+  contrast: (50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #000000,
+    500 : #000000,
+    600 : #000000,
+    700 : #000000,
+    800 : #000000,
+    900 : #000000,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
 
-@function secondary-all() {
-  @return (default: #2A4705,
-    light: #B8DE84,
-    dark: #0F2001,
-    "onSecondary": white,
-    "onSecondaryLight": black,
-    "onSecondaryDark": white,
-  );
-}
+$secondary: (
+  50 : #e5e9e1,
+  100 : #bfc8b4,
+  200 : #95a382,
+  300 : #6a7e50,
+  400 : #4a632b,
+  500 : #2a4705,
+  600 : #254004,
+  700 : #1f3704,
+  800 : #192f03,
+  900 : #0f2001,
+  A100 : #B8DE84,
+  A200 : #6dff2a,
+  A400 : #4ef600,
+  A700 : #46dc00,
+  contrast: (50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #ffffff,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+
+$warn: (
+  50 : #fbe4e4,
+  100 : #f5bbbb,
+  200 : #ee8e8e,
+  300 : #e76161,
+  400 : #e23f3f,
+  500 : #dd1d1d,
+  600 : #d91a1a,
+  700 : #d41515,
+  800 : #cf1111,
+  900 : #c70a0a,
+  A100 : #fff1f1,
+  A200 : #ffbebe,
+  A400 : #ff8b8b,
+  A700 : #ff7272,
+  contrast: (50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
 
 @function background() {
   @return #D9D9D9;
@@ -37,104 +116,119 @@
   @return #DD1D1D;
 }
 
-@function primary() {
-  @return map.get(primary-all(), "default");
+/*
+ * TYPOGRAPHY
+ */
+$brand-font: 'Cardo';
+$app-font: 'Open Sans';
+
+$md-headline-1: mat.define-typography-level($font-family: $brand-font,
+    $font-weight: 400,
+    $font-size: 4rem,
+    $line-height: 120%,
+    $letter-spacing: normal);
+
+$md-headline-2: mat.define-typography-level($font-family: $app-font,
+    $font-weight: 400,
+    $font-size: 2rem,
+    $line-height: 120%,
+    $letter-spacing: normal);
+
+$md-headline-3: mat.define-typography-level($font-family: $app-font,
+    $font-weight: 600,
+    $font-size: 1.5rem);
+
+$md-headline-4: mat.define-typography-level($font-family: $app-font,
+    $font-weight: 400,
+    $font-size: 1.5rem);
+
+$md-headline-5: mat.define-typography-level($font-family: $app-font,
+    $font-weight: 600,
+    $font-size: 1.25rem);
+
+$md-headline-6: mat.define-typography-level($font-family: $app-font,
+    $font-weight: 400,
+    $font-size: 1.25rem);
+
+$md-body-1: mat.define-typography-level($font-family: $app-font,
+    $font-weight: 600,
+    $font-size: 1rem);
+
+$md-body-2: mat.define-typography-level($font-family: $app-font,
+    $font-weight: 400,
+    $font-size: 1rem);
+
+$md-caption: mat.define-typography-level($font-family: $app-font,
+    $font-weight: 200,
+    $font-size: 0.8rem);
+
+$md-button: mat.define-typography-level($font-family: $app-font,
+    $font-weight: 600,
+    $font-size: 1.1rem,
+    $letter-spacing: 0.1rem);
+
+/*
+ * ANGULAR THEMING
+ */
+
+$md-primary: mat.define-palette($primary, 500, 300, 900);
+$md-secondary: mat.define-palette($secondary, 500, A100, 900);
+$md-warn: mat.define-palette($warn);
+$md-typography: mat.define-typography-config($headline-1: $md-headline-1,
+    $headline-2: $md-headline-2,
+    $headline-3: $md-headline-3,
+    $headline-4: $md-headline-4,
+    $headline-5: $md-headline-5,
+    $headline-6: $md-headline-6,
+    $subtitle-1: $md-headline-2,
+    $subtitle-2: $md-headline-4,
+    $body-1: $md-body-1,
+    $body-2: $md-body-2,
+    $caption: $md-caption,
+    $button: $md-button,
+  );
+
+$md-theme: mat.define-light-theme((color: (primary: $md-primary,
+        accent: $md-secondary,
+        warn: $md-warn),
+      typography: $md-typography));
+
+@function get-theme() {
+  @return $md-theme;
 }
 
-@function primary-light() {
-  @return map.get(primary-all(), "light");
+@function get-typography() {
+  @return $md-typography;
 }
 
-@function primary-dark() {
-  @return map.get(primary-all(), "dark");
-}
+@mixin typography-level($level) {
+  $config: mat.get-typography-config($md-theme);
+  $typography-level: map.get($config, $level);
+  font-family: map.get($typography-level, 'font-family');
+  font-size: map.get($typography-level, font-size);
+  font-weight: map.get($typography-level, font-weight);
+  $spacing: map.get($typography-level, line-spacing);
 
-@function on-primary() {
-  @return map.get(primary-all(), "onPrimary");
-}
-
-@function on-primary-light() {
-  @return map.get(primary-all(), "onPrimaryLight");
-}
-
-@function on-primary-dark() {
-  @return map.get(primary-all(), "onPrimaryDark");
-}
-
-@function secondary() {
-  @return map.get(secondary-all(), "default");
-}
-
-@function secondary-light() {
-  @return map.get(secondary-all(), "light");
-}
-
-@function secondary-dark() {
-  @return map.get(secondary-all(), "dark");
-}
-
-@function on-secondary() {
-  @return map.get(secondary-all(), "onSecondary");
-}
-
-@function on-secondary-light() {
-  @return map.get(secondary-all(), "onSecondaryLight");
-}
-
-@function on-secondary-dark() {
-  @return map.get(secondary-all(), "onSecondaryDark");
-}
-
-// Typography
-@mixin font-family() {
-  font-family: 'Open Sans';
-}
-
-@mixin headline-1() {
-  font-family: 'Cardo';
-  font-weight: 400;
-  font-size: 4rem;
-  line-height: 120%;
-}
-
-@mixin headline-2() {
-  font-weight: 400;
-  font-size: 2rem;
-  line-height: 120%;
-}
-
-@mixin headline-3($selected: false) {
-  @include font-family();
-  font-size: 1.5rem;
-  margin: 0;
-
-  @if $selected {
-    font-weight: 600;
+  @if $spacing {
+    line-spacing: $spacing;
   }
-
-  @else {
-    font-weight: 'regular';
-  }
 }
 
-@mixin body() {
-  @include font-family();
-  font-size: 1rem;
-}
-
-@mixin body-2() {
-  @include body();
-  opacity: 70%;
+@function get-color($paletteName, $hue: default) {
+  $color-config: mat.get-color-config($md-theme);
+  $palette: map.get($color-config, $paletteName);
+  $color: mat.get-color-from-palette($palette, $hue);
+  @return $color;
 }
 
 // Shapes
 @function radius($size) {
-  @if(size !="small") {
-    @return 0.625rem;
+  @if $size==small {
+    @return 0.3125rem;
   }
 
   @else {
-    @return 0.3125rem;
+    @return 0.625rem;
   }
 }
 
@@ -154,4 +248,9 @@
 
 @function token-height() {
   @return 2rem;
+}
+
+// Elevation
+@mixin drop-shadow() {
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }

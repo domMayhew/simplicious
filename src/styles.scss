@@ -1,9 +1,58 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
 @use 'assets/fonts/fonts.scss';
 @use './theme.scss';
+
+@include mat.core();
+@include mat.core-theme(theme.get-theme());
+@include mat.typography-hierarchy(theme.get-typography());
+@include mat.button-theme(theme.get-theme());
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+.headline-1 {
+  @include theme.typography-level(headline-1);
+}
+
+.headline-2 {
+  @include theme.typography-level(headline-2);
+}
+
+.headline-3 {
+  @include theme.typography-level(headline-3);
+}
+
+.headline-4 {
+  @include theme.typography-level(headline-4);
+}
+
+.headline-5 {
+  @include theme.typography-level(headline-5);
+}
+
+.headline-6 {
+  @include theme.typography-level(headline-6);
+}
+
+.subtitle-1 {
+  @include theme.typography-level(subtitle-1);
+}
+
+.subtitle-2 {
+  @include theme.typography-level(subtitle-2);
+}
+
+.body-1 {
+  @include theme.typography-level(body-1);
+}
+
+.body-2 {
+  @include theme.typography-level(body-2);
+}
+
+.caption {
+  @include theme.typography-level(caption);
 }

@@ -8,19 +8,22 @@
 }
 
 .header {
+  width: 100%;
+  padding-left: 10%;
+
   display: flex;
   flex-flow: row nowrap;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 }
 
 .title {
-  @include theme.headline-3();
+  @include theme.typography-level(headline-3);
   padding: theme.padding("large");
 }
 
 .instruction-text {
-  @include theme.body-2();
+  @include theme.typography-level(body-2);
   padding: theme.padding("medium");
   width: 100%;
   max-width: 720px;

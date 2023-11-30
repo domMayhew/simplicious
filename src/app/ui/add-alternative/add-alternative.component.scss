@@ -14,13 +14,13 @@ div {
     width: theme.token-height();
     height: theme.token-height();
 
-    fill: theme.primary-light();
+    fill: theme.get-color(primary, lighter);
     ;
     stroke-width: 1px;
-    stroke: theme.primary-dark();
+    stroke: theme.get-color(primary, darker);
   }
 
   #plus {
-    stroke: theme.secondary();
+    stroke: theme.get-color(accent, default);
   }
 }

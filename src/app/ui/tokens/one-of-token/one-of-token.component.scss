@@ -3,8 +3,8 @@
 
 div {
   // Style
-  border: 1px solid theme.primary-dark();
-  background: theme.primary-light();
+  border: 1px solid theme.get-color(primary, darker);
+  background: theme.get-color(primary, lighter);
 
   font-style: italic;
   font-weight: 600;
