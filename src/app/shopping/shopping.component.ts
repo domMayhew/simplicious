@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { WithNavComponent } from '../with-nav/with-nav.component';
 
 @Component({
-  selector: 'app-lists',
+  selector: 'app-shopping',
   standalone: true,
   imports: [CommonModule, WithNavComponent],
-  templateUrl: './lists.component.html',
-  styleUrls: ['./lists.component.scss']
+  templateUrl: './shopping.component.html',
+  styleUrls: ['./shopping.component.scss']
 })
-export class ListsComponent {
+export class ShoppingComponent {
 
 }

@@ -3,13 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { RecipesComponent } from './recipes/recipes.component';
 import { RoutinesComponent } from './routines/routines.component';
-import { ListsComponent } from './lists/lists.component';
+import { ShoppingComponent } from './shopping/shopping.component';
 
 const routes: Routes = [
   { path: 'welcome', component: WelcomeComponent },
   { path: 'recipes', component: RecipesComponent },
   { path: 'routines', component: RoutinesComponent },
-  { path: 'lists', component: ListsComponent },
+  { path: 'shopping', component: ShoppingComponent },
   { path: '**', redirectTo: '/welcome' }
 ];
 
