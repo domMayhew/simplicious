@@ -13,7 +13,7 @@ div {
   border-radius: theme.radius("small");
   background: theme.background();
 
-  @include theme.body();
+  @include theme.typography-level(body-1);
   font-style: italic;
   font-weight: 600;
 }
