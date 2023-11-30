@@ -1,0 +1,32 @@
+<mat-card>
+	<div class="card-text-elements">
+		<div *ngIf="title"
+			class="card-header">
+			<div class="card-header-contents">
+				<h4 class="card-title">{{title}}</h4>
+			</div>
+		</div>
+		<div class="card-body">
+
+			<div class="ingredients">
+				<h6 class="subtitle-2">Ingredients</h6>
+				<ul>
+					<li *ngFor="let ingredient of ingredients">{{ingredient}}</li>
+				</ul>
+			</div>
+			<div *ngIf="instructions"
+				class="instructions">
+				<h6 class="subtitle-2">Instructions</h6>
+				<p>{{instructions}}</p>
+			</div>
+		</div>
+	</div>
+	<div class="card-image">
+		<img [attr.src]="image"
+			class="card-image">
+		<p *ngIf="caption"
+			class="caption">
+			{{caption}}
+		</p>
+	</div>
+</mat-card>

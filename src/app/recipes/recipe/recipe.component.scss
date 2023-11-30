@@ -1,0 +1,37 @@
+@use '../../../theme.scss';
+
+mat-card {
+  padding: theme.padding(large);
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  column-gap: theme.padding(medium);
+}
+
+.card-header-contents {
+  display: inline-flex;
+  flex-flow: column nowrap;
+  align-items: flex-start;
+  padding-bottom: theme.padding(medium);
+  margin-bottom: theme.padding(large);
+  border-bottom: 1px solid black;
+}
+
+.card-title {
+  @include theme.typography-level(headline-4);
+}
+
+.subtitle-2 {
+  padding-bottom: theme.padding(medium);
+}
+
+.card-body {
+  display: flex;
+  flex-flow: row wrap;
+  column-gap: theme.padding(large);
+  row-gap: theme.padding(large);
+}
+
+.card-image {
+  width: 200px;
+}
