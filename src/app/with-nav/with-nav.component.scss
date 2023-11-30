@@ -1,0 +1,5 @@
+@use '../../theme.scss';
+
+.with-nav-content {
+  padding: theme.app-body-padding();
+}

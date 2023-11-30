@@ -1,5 +1,21 @@
-<div class="nav-bar">
-	<a href="/recipes">Recipes</a>
-	<a href="/routines">Routines</a>
-	<a href="/lists">Lists</a>
+<div class="nav-background">
+	<app-full-grid-width>
+		<div class="nav-bar">
+			<a [routerLinkActive]="['active']"
+				[routerLink]="['/recipes']"
+				class="headline-4">
+				Recipes
+			</a>
+			<a [routerLinkActive]="['active']"
+				[routerLink]="['/routines']"
+				class="headline-4">
+				Routines
+			</a>
+			<a [routerLinkActive]="['active']"
+				[routerLink]="['/lists']"
+				class="headline-4">
+				Lists
+			</a>
+		</div>
+	</app-full-grid-width>
 </div>

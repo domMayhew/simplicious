@@ -10,6 +10,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
+import { FullGridWidthComponent } from './ui/full-grid-width/full-grid-width.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { RouterModule } from '@angular/router';
     WelcomeComponent,
     BrowserAnimationsModule,
     MatButtonModule,
+    FullGridWidthComponent
   ],
   providers: [RouterModule],
   bootstrap: [AppComponent]

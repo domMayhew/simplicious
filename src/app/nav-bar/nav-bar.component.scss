@@ -1,0 +1,32 @@
+@use '../../theme.scss';
+
+.nav-background {
+  background-color: theme.surface();
+  padding: theme.app-body-padding();
+}
+
+.nav-bar {
+  width: 100%;
+  height: 3rem;
+  display: flex;
+  flex-flow: row nowrap;
+  column-gap: 4.5rem;
+  align-items: stretch;
+}
+
+a {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-decoration: none;
+}
+
+a:link,
+a:visited {
+  color: theme.on-surface();
+}
+
+a.active {
+  @include theme.typography-level(headline-3);
+  border-bottom: 3px solid black;
+}

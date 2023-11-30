@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { NavBarComponent } from '../nav-bar/nav-bar.component';
+import { WithNavComponent } from '../with-nav/with-nav.component';
 
 @Component({
   standalone: true,
   selector: 'app-meals',
   templateUrl: './recipes.component.html',
   styleUrls: ['./recipes.component.scss'],
-  imports: [NavBarComponent]
+  imports: [WithNavComponent]
 })
 export class RecipesComponent {
 

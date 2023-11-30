@@ -25,29 +25,20 @@ $footer-height: 5rem;
 
 .title-bar {
   @include bar($header-height);
+  padding: theme.app-body-padding();
 }
 
 .title-content {
   display: flex;
   flex-flow: row nowrap;
   column-gap: clamp(2rem, 10vw, 20rem);
-  padding: 0 4rem;
   align-items: baseline;
-}
-
-.padding-before,
-.padding-after {
-  flex-shrink: 1;
-  flex-basis: 33vw;
 }
 
 .app-content {
   min-height: calc(100vh - $header-height - $footer-height);
   width: 100%;
-
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: center;
+  background-color: theme.background();
 }
 
 .centering-container {
