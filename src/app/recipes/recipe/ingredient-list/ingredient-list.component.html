@@ -1,0 +1,20 @@
+<div class="ingredients-display">
+	<ng-container *ngFor="let selection of items">
+		<div *ngIf="selection.options.length > 1"
+			class="ingredient-options">
+			<h6 *ngIf="selection.title"
+				class="selection-title">
+				{{selection.title}}
+			</h6>
+			<ng-container *ngFor="let option of selection.options">
+				<app-ingredient-token [content]="option.name"
+					[matTooltip]="option | ingredientQuantity"></app-ingredient-token>
+			</ng-container>
+		</div>
+		<div style="display: flex; flex-direction: row;">
+			<app-ingredient-token *ngIf="selection.options.length==1"
+				[content]="selection.options[0].name"
+				[matTooltip]="selection.options[0] | ingredientQuantity"></app-ingredient-token>
+		</div>
+	</ng-container>
+</div>

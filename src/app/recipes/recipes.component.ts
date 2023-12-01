@@ -22,8 +22,13 @@ export class RecipesComponent {
           { name: 'frozen cod fillets', quantity: 4 },
           { name: 'frozen tilapia fillets', quantity: 4 },
           { name: 'frozen swai fillets', quantity: 4 }
-        ]
-      }
+        ],
+        title: "Frozen Fish"
+      },
+      { options: [{ name: 'coleslaw', quantity: 1, units: 'bag' }] },
+      { options: [{ name: 'taco seasoning', quantity: 2, units: 'tablespoons' }] },
+      { options: [{ name: 'lemonjuice', quantity: 2, units: 'tablespoons' }] },
+      { options: [{ name: 'chipotle mayonnaise', quantity: 4, units: 'tablespoons' }] }
     ],
     instructions: ['Cover the fish fillets in taco seasoning.',
       'Cook the fish fillets in an air fryer until they flake when scraped with a fork, usually 10-12 minutes.',

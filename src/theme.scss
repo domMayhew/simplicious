@@ -172,7 +172,7 @@ $md-button: mat.define-typography-level($font-family: $app-font,
  */
 
 $md-primary: mat.define-palette($primary, 500, 300, 900);
-$md-secondary: mat.define-palette($secondary, 500, A100, 900);
+$md-secondary: mat.define-palette($secondary, 500, A100, 700);
 $md-warn: mat.define-palette($warn);
 $md-typography: mat.define-typography-config($headline-1: $md-headline-1,
     $headline-2: $md-headline-2,
@@ -222,7 +222,7 @@ $md-theme: mat.define-light-theme((color: (primary: $md-primary,
 }
 
 // Shapes
-@function radius($size) {
+@function radius($size: small) {
   @if $size==small {
     @return 0.3125rem;
   }
@@ -238,7 +238,11 @@ $md-theme: mat.define-light-theme((color: (primary: $md-primary,
   }
 
   @else if $size==large {
-    @return 2rem;
+    @return 1.75rem;
+  }
+
+  @else if $size==medium {
+    @return 0.625rem;
   }
 
   @else {

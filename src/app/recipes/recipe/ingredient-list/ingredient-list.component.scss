@@ -1,0 +1,27 @@
+@use '../../../../theme.scss';
+
+.ingredients-display {
+  border: 1px solid theme.get-color(accent, darker);
+  border-radius: theme.radius();
+  padding: theme.padding(medium);
+
+  display: flex;
+  flex-flow: column nowrap;
+  row-gap: theme.padding(medium);
+}
+
+.ingredient-options {
+  display: flex;
+  flex-flow: column nowrap;
+  row-gap: theme.padding(medium);
+
+  border: 1px solid theme.get-color(accent, darker);
+  border-radius: theme.radius();
+  padding: theme.padding(medium);
+}
+
+.selection-title {
+  @include theme.typography-level(body-2);
+  opacity: 0.7;
+  font-style: italic;
+}

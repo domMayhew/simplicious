@@ -10,6 +10,7 @@ interface Recipe {
 
 interface IngredientSelection {
   options: Ingredient[];
+  title?: string;
   method?: SelectionMethod;
 }
 

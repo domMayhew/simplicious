@@ -21,8 +21,8 @@ mat-card {
   @include theme.typography-level(headline-4);
 }
 
-.subtitle-1 {
-  padding-bottom: theme.padding(medium);
+.body-section-header {
+  padding-bottom: theme.padding(large);
 }
 
 .card-body {
@@ -38,6 +38,10 @@ mat-card {
     flex-flow: column nowrap;
     column-gap: theme.padding(large);
   }
+}
+
+.ingredients-container {
+  flex-shrink: 0;
 }
 
 .ingredients,
