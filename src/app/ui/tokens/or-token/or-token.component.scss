@@ -1,0 +1,20 @@
+@use '../../../../theme.scss';
+
+.or-token {
+  display: flex;
+  height: theme.token-height();
+  padding: theme.padding(medium);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: theme.token-height();
+  height: theme.token-height();
+
+  border-radius: theme.radius(small);
+  border: 1px solid theme.get-color(primary, darker);
+  opacity: 0.7;
+  background: theme.get-color(primary, lighter);
+
+  font-style: italic;
+}

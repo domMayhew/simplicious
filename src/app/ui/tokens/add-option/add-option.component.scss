@@ -1,0 +1,14 @@
+@use '../../../../theme.scss';
+
+button {
+  display: inline-flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+
+  width: theme.token-height();
+  height: theme.token-height();
+  // background-color: theme.get-color(primary, lighter);
+  // border: 1px solid theme.get-color(primary, darker);
+  border-radius: 100%;
+}

@@ -6,6 +6,6 @@ import { Component } from '@angular/core';
   templateUrl: './one-of-token.component.html',
   styleUrls: ['./one-of-token.component.scss']
 })
-export class OneOfToken {
+export class OneOfTokenComponent {
 
 }

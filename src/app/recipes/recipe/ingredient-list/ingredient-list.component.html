@@ -6,15 +6,25 @@
 				class="selection-title">
 				{{selection.title}}
 			</h6>
-			<ng-container *ngFor="let option of selection.options">
+			<div *ngFor="let option of selection.options; last as isLast"
+				class="one-of-option">
 				<app-ingredient-token [content]="option.name"
-					[matTooltip]="option | ingredientQuantity"></app-ingredient-token>
-			</ng-container>
+					[matTooltip]="option | ingredientQuantity"
+					[matTooltipShowDelay]="500"></app-ingredient-token>
+				<app-or-token *ngIf="!isLast"></app-or-token>
+				<app-add-option *ngIf="isLast"></app-add-option>
+			</div>
 		</div>
-		<div style="display: flex; flex-direction: row;">
-			<app-ingredient-token *ngIf="selection.options.length==1"
-				[content]="selection.options[0].name"
-				[matTooltip]="selection.options[0] | ingredientQuantity"></app-ingredient-token>
+		<div *ngIf="selection.options.length==1"
+			class="option">
+			<app-ingredient-token [content]="selection.options[0].name"
+				[matTooltip]="selection.options[0] | ingredientQuantity"
+				[matTooltipShowDelay]="500"></app-ingredient-token>
+			<app-add-option></app-add-option>
 		</div>
 	</ng-container>
+	<button mat-raised-button
+		color="accent">
+		<mat-icon>add</mat-icon>
+	</button>
 </div>
