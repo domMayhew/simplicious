@@ -2,10 +2,14 @@
 
 mat-card {
   padding: theme.padding(large);
+  width: 100%;
   display: flex;
   flex-flow: row nowrap;
-  justify-content: space-between;
   column-gap: theme.padding(medium);
+}
+
+.card-text-elements {
+  flex-grow: 1;
 }
 
 .card-header-contents {
@@ -29,19 +33,23 @@ mat-card {
   display: flex;
   flex-flow: row nowrap;
   column-gap: theme.padding(large);
-  row-gap: theme.padding(large);
+  // row-gap: theme.padding(large);
 }
 
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 1100px) {
   .card-body {
     display: flex;
     flex-flow: column nowrap;
-    column-gap: theme.padding(large);
+    align-items: flex-start;
   }
 }
 
 .ingredients-container {
-  flex-shrink: 0;
+  flex-grow: 0;
+}
+
+.instructions-container {
+  flex-grow: 0;
 }
 
 .ingredients,
@@ -56,4 +64,5 @@ mat-card {
 
 .card-image {
   width: 200px;
+  flex-grow: 0;
 }

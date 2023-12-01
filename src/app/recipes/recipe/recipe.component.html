@@ -9,7 +9,7 @@
 		<div class="card-body">
 			<div class="ingredients-container">
 				<h6 class="subtitle-1 body-section-header">Ingredients</h6>
-				<app-ingredient-list [items]="recipe.items"></app-ingredient-list>
+				<app-ingredient-chip-list [items]="recipe.items"></app-ingredient-chip-list>
 			</div>
 			<div *ngIf="recipe.instructions"
 				class="instructions-container">

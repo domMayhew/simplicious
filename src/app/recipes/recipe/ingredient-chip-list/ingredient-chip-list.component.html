@@ -1,0 +1,79 @@
+<!-- <mat-form-field class="ingredients-chip-list">
+	<mat-chip-grid #chipGrid
+		aria-label="Enter ingredients"
+		class="mat-mdc-chip-set-stacked">
+		<ng-container *ngFor="let item of items">
+			<mat-chip-row [editable]="true"
+				[aria-description]="'press enter to edit ' + item.options[0].name"
+				(removed)="remove(item.options[0])"
+				(edited)="edit(item.options[0], $event)">
+				{{item.options[0].name}}
+				<button [attr.aria-label]="'remove ' + item.options[0].name"
+					matChipRemove>
+					<mat-icon>cancel</mat-icon>
+				</button>
+			</mat-chip-row>
+		</ng-container>
+		<input [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+			[matChipInputAddOnBlur]="addOnBlur"
+			[matChipInputFor]="chipGrid"
+			(matChipInputTokenEnd)="add($event)"
+			placeholder="New ingredient...">
+		<input [matChipInputFor]="chipGrid"
+			[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+			[matChipInputAddOnBlur]="addOnBlur"
+			(matChipInputTokenEnd)="add($event)"
+			placeholder="Units">
+	</mat-chip-grid>
+</mat-form-field> -->
+
+<div class="chip-list-with-input">
+	<div class="chip-list">
+		<ng-container *ngFor="let item of items">
+			<mat-chip-row [editable]="true"
+				[aria-description]="'press enter to edit ' + item.options[0].name"
+				(removed)="remove(item)"
+				(edited)="edit(item, $event)">
+				{{item.options[0].name}}
+				<button [attr.aria-label]="'remove ' + item.options[0].name"
+					matChipRemove>
+					<mat-icon>cancel</mat-icon>
+				</button>
+			</mat-chip-row>
+		</ng-container>
+	</div>
+
+	<form [formGroup]="form"
+		(ngSubmit)="add()"
+		id="newIngredientForm">
+		<mat-form-field id="quantity"
+			color="accent">
+			<mat-label>Quantity</mat-label>
+			<input formControlName="quantity"
+				matInput
+				type="text"
+				inputmode="numeric"
+				placeholder="1">
+		</mat-form-field>
+		<mat-form-field color="accent"
+			id="units">
+			<mat-label>Units</mat-label>
+			<input formControlName="units"
+				matInput
+				type="text"
+				placeholder="Units">
+		</mat-form-field>
+		<mat-form-field color="accent"
+			id="ingredient">
+			<mat-label>Ingredient</mat-label>
+			<input formControlName="name"
+				matInput
+				type="text"
+				placeholder="Ingredient">
+		</mat-form-field>
+		<button type="submit"
+			hidden>
+			Submit
+		</button>
+	</form>
+</div>

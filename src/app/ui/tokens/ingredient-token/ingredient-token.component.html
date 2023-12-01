@@ -1,1 +1,9 @@
-<div>{{content}}</div>
+<div *ngIf="!editing"
+	(click)="startEditing()">
+	{{content}}
+</div>
+<form (ngSumbit)="doneEditing()">
+	<input *ngIf="editing"
+		[attr.placeholder]="content"
+		type="text">
+</form>
