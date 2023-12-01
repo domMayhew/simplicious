@@ -191,7 +191,8 @@ $md-typography: mat.define-typography-config($headline-1: $md-headline-1,
 $md-theme: mat.define-light-theme((color: (primary: $md-primary,
         accent: $md-secondary,
         warn: $md-warn),
-      typography: $md-typography));
+      typography: $md-typography,
+      density: -1));
 
 @function get-theme() {
   @return $md-theme;

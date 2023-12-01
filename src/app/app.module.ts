@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { FullGridWidthComponent } from './ui/full-grid-width/full-grid-width.component';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,9 @@ import { FullGridWidthComponent } from './ui/full-grid-width/full-grid-width.com
     MatButtonModule,
     FullGridWidthComponent
   ],
-  providers: [RouterModule],
+  providers: [RouterModule,
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
