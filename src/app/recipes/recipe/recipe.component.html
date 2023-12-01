@@ -1,32 +1,33 @@
 <mat-card>
 	<div class="card-text-elements">
-		<div *ngIf="title"
+		<div *ngIf="recipe.title"
 			class="card-header">
 			<div class="card-header-contents">
-				<h4 class="card-title">{{title}}</h4>
+				<h4 class="card-title">{{recipe.title}}</h4>
 			</div>
 		</div>
 		<div class="card-body">
-
-			<div class="ingredients">
-				<h6 class="subtitle-2">Ingredients</h6>
-				<ul>
-					<li *ngFor="let ingredient of ingredients">{{ingredient}}</li>
+			<div class="ingredients-container">
+				<h6 class="subtitle-1">Ingredients</h6>
+				<ul class="ingredients">
+					<li *ngFor="let item of recipe.items">
+						{{item.options[0].name}}
+					</li>
 				</ul>
 			</div>
-			<div *ngIf="instructions"
-				class="instructions">
-				<h6 class="subtitle-2">Instructions</h6>
-				<p>{{instructions}}</p>
+			<div *ngIf="recipe.instructions"
+				class="instructions-container">
+				<h6 class="subtitle-1">Instructions</h6>
+				<ol class="instructions">
+					<li *ngFor="let instruction of recipe.instructions">{{instruction}}</li>
+				</ol>
 			</div>
 		</div>
 	</div>
-	<div class="card-image">
-		<img [attr.src]="image"
+	<div *ngIf="recipe.image"
+		class="card-image">
+		<img [attr.src]="recipe.image.url"
+			[matTooltip]="recipe.image.caption"
 			class="card-image">
-		<p *ngIf="caption"
-			class="caption">
-			{{caption}}
-		</p>
 	</div>
 </mat-card>

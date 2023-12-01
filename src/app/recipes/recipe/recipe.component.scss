@@ -21,15 +21,33 @@ mat-card {
   @include theme.typography-level(headline-4);
 }
 
-.subtitle-2 {
+.subtitle-1 {
   padding-bottom: theme.padding(medium);
 }
 
 .card-body {
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: row nowrap;
   column-gap: theme.padding(large);
   row-gap: theme.padding(large);
+}
+
+@media only screen and (max-width: 900px) {
+  .card-body {
+    display: flex;
+    flex-flow: column nowrap;
+    column-gap: theme.padding(large);
+  }
+}
+
+.ingredients,
+.instructions {
+  @include theme.typography-level(body-2);
+  opacity: 0.7;
+}
+
+.instructions {
+  padding-left: 1rem;
 }
 
 .card-image {

@@ -9,6 +9,7 @@ $theme: theme.get-theme();
 @include mat.typography-hierarchy($theme);
 @include mat.button-theme($theme);
 @include mat.card-theme($theme);
+@include mat.tooltip-theme($theme);
 
 * {
   margin: 0;
