@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Recipe } from '../../model';
-import { IngredientChipListComponent } from './ingredient-chip-list/ingredient-chip-list.component';
+import { IngredientListComponent } from './ingredient-list/ingredient-list.component';
 
 @Component({
   standalone: true,
@@ -14,7 +14,7 @@ import { IngredientChipListComponent } from './ingredient-chip-list/ingredient-c
     CommonModule,
     MatCardModule,
     MatTooltipModule,
-    IngredientChipListComponent
+    IngredientListComponent
   ]
 })
 export class RecipeComponent {

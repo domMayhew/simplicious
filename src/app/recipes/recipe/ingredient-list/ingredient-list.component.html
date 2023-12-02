@@ -1,20 +1,16 @@
-<div class="chip-list-with-input">
+<div class="ingredient-list-with-input">
 	<ng-container *ngFor="let req of requirements">
-		<app-ingredient-chip *ngIf="isIngredient(req)"
+		<app-ingredient *ngIf="isIngredient(req)"
 			[ingredient]="req"
 			[removedCb]="remove()"
 			[editedCb]="edit()">
-			<button class="add-alternative"
-				mat-mini-fab
-				color="primary">
-				<mat-icon>add</mat-icon>
-			</button>
-		</app-ingredient-chip>
-		<app-option-chip-list *ngIf="isOption(req)"
+			<app-add-alternative></app-add-alternative>
+		</app-ingredient>
+		<app-option *ngIf="isOption(req)"
 			[option]="req"
 			[removedCb]="remove(req)"
 			[editedCb]="edit(req)">
-		</app-option-chip-list>
+		</app-option>
 	</ng-container>
 
 	<form [formGroup]="form"

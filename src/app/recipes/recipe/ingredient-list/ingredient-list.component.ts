@@ -12,14 +12,15 @@ import { IngredientQuantityPipe } from 'src/app/pipes/ingredient-quantity.pipe';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
 import { OrTokenComponent } from 'src/app/ui/tokens/or-token/or-token.component';
-import { IngredientChipComponent } from './ingredient-chip.component';
-import { OptionChipListComponent } from './option-chip-list.component';
+import { IngredientComponent } from './ingredient.component';
+import { OptionComponent } from './option.component';
+import { AddAlternativeButton } from './add-alternative.component';
 
 @Component({
   standalone: true,
-  selector: 'app-ingredient-chip-list',
-  templateUrl: './ingredient-chip-list.component.html',
-  styleUrls: ['./ingredient-chip-list.component.scss'],
+  selector: 'app-ingredient-list',
+  templateUrl: './ingredient-list.component.html',
+  styleUrls: ['./ingredient-list.component.scss'],
   imports: [
     CommonModule,
     FormsModule,
@@ -32,12 +33,13 @@ import { OptionChipListComponent } from './option-chip-list.component';
     MatButtonModule,
     IngredientQuantityPipe,
     OrTokenComponent,
-    IngredientChipComponent,
-    OptionChipListComponent
+    IngredientComponent,
+    OptionComponent,
+    AddAlternativeButton
   ],
   providers: [FormBuilder]
 })
-export class IngredientChipListComponent {
+export class IngredientListComponent {
   @Input({ required: true }) requirements: Requirement[] = [];
 
   constructor(private formBuilder: FormBuilder) { };

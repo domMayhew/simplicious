@@ -1,6 +1,6 @@
 @use '../../../../theme.scss';
 
-@mixin chip-list() {
+@mixin ingredient-list() {
   display: flex;
   flex-flow: column nowrap;
   gap: theme.padding(small);
@@ -10,23 +10,23 @@
   border-radius: theme.radius(medium);
 }
 
-.chip-list-with-input {
-  @include chip-list();
+.ingredient-list-with-input {
+  @include ingredient-list();
   align-items: flex-start;
 }
 
-app-option-chip-list {
-  @include chip-list();
+app-option {
+  @include ingredient-list();
   align-items: stretch;
 }
 
-.add-alternative {
+app-add-alternative {
   height: theme.token-height();
   width: theme.token-height();
   visibility: hidden;
 }
 
-app-ingredient-chip:hover .add-alternative {
+app-ingredient:hover app-add-alternative {
   visibility: visible;
 }
 
