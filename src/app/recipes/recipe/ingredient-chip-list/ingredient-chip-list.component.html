@@ -1,32 +1,24 @@
 <div class="chip-list-with-input">
-	<ng-container *ngFor="let item of items">
-		<div (mouseover)="onHover(item)"
-			(mouseleave)="onHover()"
-			class="chip-and-option-row">
-			<mat-chip-row [editable]="true"
-				[aria-description]="'press enter to edit ' + item.options[0].name"
-				[matTooltipPosition]="'below'"
-				[matTooltipShowDelay]="250"
-				(removed)="remove(item)"
-				(edited)="edit(item, $event)"
-				matTooltip="{{item.options[0]|ingredientQuantity}}">
-				{{item.options[0].name}}
-				<button [attr.aria-label]="'remove ' + item.options[0].name"
-					matChipRemove>
-					<mat-icon>cancel</mat-icon>
-				</button>
-			</mat-chip-row>
-			<button *ngIf="hovered?.options?.[0]?.name === item.options[0].name"
-				class="add-alternative"
+	<ng-container *ngFor="let req of requirements">
+		<app-ingredient-chip *ngIf="isIngredient(req)"
+			[ingredient]="req"
+			[removedCb]="remove()"
+			[editedCb]="edit()">
+			<button class="add-alternative"
 				mat-mini-fab
 				color="primary">
 				<mat-icon>add</mat-icon>
 			</button>
-		</div>
+		</app-ingredient-chip>
+		<app-option-chip-list *ngIf="isOption(req)"
+			[option]="req"
+			[removedCb]="remove(req)"
+			[editedCb]="edit(req)">
+		</app-option-chip-list>
 	</ng-container>
 
 	<form [formGroup]="form"
-		(ngSubmit)="add()"
+		(ngSubmit)="add()(form)"
 		id="newIngredientForm">
 		<div class="form-inputs">
 			<mat-form-field id="quantity"

@@ -1,0 +1,9 @@
+@use '../../../../theme.scss';
+
+.ingredient-chip-and-button {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: theme.padding(small);
+}

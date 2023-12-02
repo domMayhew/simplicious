@@ -1,19 +1,36 @@
 @use '../../../../theme.scss';
 
-.chip-list-with-input {
+@mixin chip-list() {
   display: flex;
   flex-flow: column nowrap;
-  align-items: flex-start;
   gap: theme.padding(small);
 
   padding: theme.padding(medium);
   border: 1px solid theme.get-color(accent, darker);
   border-radius: theme.radius(medium);
-
-  mat-chip-row {
-    width: auto;
-  }
 }
+
+.chip-list-with-input {
+  @include chip-list();
+  align-items: flex-start;
+}
+
+app-option-chip-list {
+  @include chip-list();
+  align-items: stretch;
+}
+
+.add-alternative {
+  height: theme.token-height();
+  width: theme.token-height();
+  visibility: hidden;
+}
+
+app-ingredient-chip:hover .add-alternative {
+  visibility: visible;
+}
+
+// Form styles
 
 .form-inputs {
   display: flex;
@@ -38,24 +55,13 @@
   width: 10rem;
 }
 
-.chip-and-option-row {
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  gap: theme.padding(small);
-}
-
 .add-new-ingredient-submit {
   width: 100%;
   margin: theme.padding(small) 0;
   @include theme.typography-level(body-2);
 }
 
-.add-alternative {
-  height: theme.token-height();
-  width: theme.token-height();
-}
-
+// Eliminates extra space underneath the input for a hint
 ::ng-deep .mat-mdc-form-field-subscript-wrapper {
   display: none;
 }

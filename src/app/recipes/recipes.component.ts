@@ -15,20 +15,20 @@ import { Recipe } from '../model';
 export class RecipesComponent {
   fishTacos: Recipe = {
     title: 'Fish Tacos',
-    items: [
-      { options: [{ name: 'corn tortillas', quantity: 10 }] },
+    requirements: [
+      { name: 'corn tortillas', quantity: 10 },
       {
         options: [
           { name: 'frozen cod fillets', quantity: 4 },
           { name: 'frozen tilapia fillets', quantity: 4 },
           { name: 'frozen swai fillets', quantity: 4 }
         ],
-        title: "Frozen Fish"
+        name: "Frozen Fish"
       },
-      { options: [{ name: 'coleslaw', quantity: 1, units: 'bag' }] },
-      { options: [{ name: 'taco seasoning', quantity: 2, units: 'tablespoons' }] },
-      { options: [{ name: 'lemonjuice', quantity: 2, units: 'tablespoons' }] },
-      { options: [{ name: 'chipotle mayonnaise is a long name', quantity: 4, units: 'tablespoons' }] }
+      { name: 'coleslaw', quantity: 1, units: 'bag' },
+      { name: 'taco seasoning', quantity: 2, units: 'tablespoons' },
+      { name: 'lemonjuice', quantity: 2, units: 'tablespoons' },
+      { name: 'chipotle mayonnaise is a long name', quantity: 4, units: 'tablespoons' }
     ],
     instructions: ['Cover the fish fillets in taco seasoning.',
       'Cook the fish fillets in an air fryer until they flake when scraped with a fork, usually 10-12 minutes.',

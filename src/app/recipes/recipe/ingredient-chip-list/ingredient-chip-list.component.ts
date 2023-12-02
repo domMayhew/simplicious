@@ -1,16 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { MatChipEditedEvent, MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
+import { MatChipEditedEvent, MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { AbstractControl, ControlContainer, FormsModule, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, FormGroup, FormsModule, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatIconModule } from '@angular/material/icon';
-import { Ingredient, IngredientSelection } from 'src/app/model';
-import { ReactiveFormsModule, FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { Ingredient, Option, Requirement } from 'src/app/model';
+import { ReactiveFormsModule, Validators, FormBuilder } from '@angular/forms';
 import { IngredientQuantityPipe } from 'src/app/pipes/ingredient-quantity.pipe';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
+import { OrTokenComponent } from 'src/app/ui/tokens/or-token/or-token.component';
+import { IngredientChipComponent } from './ingredient-chip.component';
+import { OptionChipListComponent } from './option-chip-list.component';
 
 @Component({
   standalone: true,
@@ -27,12 +30,15 @@ import { MatButtonModule } from '@angular/material/button';
     MatInputModule,
     MatTooltipModule,
     MatButtonModule,
-    IngredientQuantityPipe
+    IngredientQuantityPipe,
+    OrTokenComponent,
+    IngredientChipComponent,
+    OptionChipListComponent
   ],
   providers: [FormBuilder]
 })
 export class IngredientChipListComponent {
-  @Input({ required: true }) items: IngredientSelection[] = [];
+  @Input({ required: true }) requirements: Requirement[] = [];
 
   constructor(private formBuilder: FormBuilder) { };
 
@@ -43,47 +49,50 @@ export class IngredientChipListComponent {
     return matches ? null : { invalidNumber: control.value + "is not a number" };
   }
 
-  hovered: IngredientSelection | undefined;
-
   form = this.formBuilder.group({
     quantity: ['1', this.numberValidator],
     units: [''],
     name: ['', Validators.required],
   });
 
-  remove(selection: IngredientSelection): void {
-    const index = this.items.indexOf(selection);
-    if (index > 0) {
-      this.items.splice(index, 1);
+  remove = (option?: Option) => (ingredient: Ingredient): void => {
+    const list = option ? option.options : this.requirements;
+    const index = list.indexOf(ingredient);
+    if (index >= 0) {
+      list.splice(index, 1);
     }
   }
 
-  edit(selection: IngredientSelection, event: MatChipEditedEvent): void {
-    const ingredient = selection.options[0];
+  edit = (option?: Option) => (ingredient: Ingredient, event: MatChipEditedEvent): void => {
+    const list = option ? option.options : this.requirements;
     const newIngredient = Object.assign({}, ingredient, { name: event.value });
-    const newSelection = Object.assign({}, selection, { options: [newIngredient] })
-    const index = this.items.indexOf(selection);
-    if (index > 0) {
-      this.items.splice(index, 1, newSelection);
+    const index = list.indexOf(ingredient);
+    if (index >= 0) {
+      list.splice(index, 1, newIngredient);
     }
   }
 
-  add() {
-    if (this.form.valid) {
+  add = (option?: Option) => (form: FormGroup): void => {
+    if (form.valid) {
       const newIngredient: Ingredient = {
         name: this.form.value.name || '',
         units: this.form.value.units || '',
         quantity: Number.parseFloat(this.form.value.quantity || '') || 1
       }
-      this.items.push({ options: [newIngredient] });
-      this.form.reset();
-      this.form.controls.name.setErrors(null);
-      this.form.controls.quantity.setErrors(null);
-      this.form.controls.units.setErrors(null);
+      const list = option ? option.options : this.requirements;
+      list.push(newIngredient);
+      form.reset();
+      Object.values(form.controls).forEach(control => control.setErrors(null));
     }
   }
 
-  onHover(item?: IngredientSelection) {
-    this.hovered = item;
+  isIngredient(req: Requirement): req is Ingredient {
+    const ingredient = req as Ingredient;
+    return ingredient.name !== undefined && ingredient.quantity !== undefined;
+  }
+
+  isOption(req: Requirement): req is Option {
+    const op = req as Option;
+    return op.options !== undefined;
   }
 }

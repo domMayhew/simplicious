@@ -1,6 +1,6 @@
 interface Recipe {
   title: string;
-  items: IngredientSelection[];
+  requirements: Requirement[];
   instructions?: string[];
   image?: {
     url: string;
@@ -8,9 +8,11 @@ interface Recipe {
   }
 }
 
-interface IngredientSelection {
+type Requirement = Option | Ingredient;
+
+interface Option {
   options: Ingredient[];
-  title?: string;
+  name?: string;
   method?: SelectionMethod;
 }
 
@@ -27,5 +29,5 @@ enum SelectionMethod {
 }
 
 export type {
-  Recipe, IngredientSelection, Ingredient, SelectionMethod
+  Recipe, Requirement, Option, Ingredient, SelectionMethod
 }

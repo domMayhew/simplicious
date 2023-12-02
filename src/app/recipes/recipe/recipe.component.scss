@@ -32,8 +32,7 @@ mat-card {
 .card-body {
   display: flex;
   flex-flow: row nowrap;
-  column-gap: theme.padding(large);
-  // row-gap: theme.padding(large);
+  gap: theme.padding(large);
 }
 
 @media only screen and (max-width: 1100px) {

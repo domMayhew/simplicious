@@ -3,7 +3,6 @@ import { Component, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Recipe } from '../../model';
-import { IngredientListComponent } from './ingredient-list/ingredient-list.component';
 import { IngredientChipListComponent } from './ingredient-chip-list/ingredient-chip-list.component';
 
 @Component({
@@ -12,7 +11,6 @@ import { IngredientChipListComponent } from './ingredient-chip-list/ingredient-c
   templateUrl: './recipe.component.html',
   styleUrls: ['./recipe.component.scss'],
   imports: [
-    IngredientListComponent,
     CommonModule,
     MatCardModule,
     MatTooltipModule,
