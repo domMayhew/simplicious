@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { MatChipEditedEvent, MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { AbstractControl, FormGroup, FormsModule, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, FormsModule, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,6 +15,8 @@ import { OrTokenComponent } from 'src/app/ui/tokens/or-token/or-token.component'
 import { IngredientComponent } from './ingredient.component';
 import { OptionComponent } from './option.component';
 import { AddAlternativeButton } from './add-alternative.component';
+import { AddIngredientForm } from './add-ingredient-form.component';
+import { Subject } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -35,7 +37,8 @@ import { AddAlternativeButton } from './add-alternative.component';
     OrTokenComponent,
     IngredientComponent,
     OptionComponent,
-    AddAlternativeButton
+    AddAlternativeButton,
+    AddIngredientForm
   ],
   providers: [FormBuilder]
 })
@@ -50,6 +53,8 @@ export class IngredientListComponent {
     const matches = /^(\d+|(\d*\.\d+))$/.test(control.value);
     return matches ? null : { invalidNumber: control.value + "is not a number" };
   }
+
+  focusForm: Subject<void> = new Subject();
 
   form = this.formBuilder.group({
     quantity: ['1', this.numberValidator],
@@ -74,18 +79,9 @@ export class IngredientListComponent {
     }
   }
 
-  add = (option?: Option) => (form: FormGroup): void => {
-    if (form.valid) {
-      const newIngredient: Ingredient = {
-        name: this.form.value.name || '',
-        units: this.form.value.units || '',
-        quantity: Number.parseFloat(this.form.value.quantity || '') || 1
-      }
-      const list = option ? option.options : this.requirements;
-      list.push(newIngredient);
-      form.reset();
-      Object.values(form.controls).forEach(control => control.setErrors(null));
-    }
+  add = (option?: Option) => (ingredient: Ingredient): void => {
+    const list = option ? option.options : this.requirements;
+    list.push(ingredient);
   }
 
   isIngredient(req: Requirement): req is Ingredient {
