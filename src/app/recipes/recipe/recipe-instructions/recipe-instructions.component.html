@@ -1,0 +1,30 @@
+<h6 class="subtitle-2 body-section-header">Instructions</h6>
+<ol class="instructions">
+	<div *ngFor="let instruction of instructions; index as i"
+		class="instruction">
+		<li #instructionEl
+			[attr.contenteditable]="editing ? 'plaintext-only' : 'false'"
+			(blur)="editInstruction(i, instructionEl.innerText)">
+			{{instruction}}
+		</li>
+		<button *ngIf="editing"
+			(click)="deleteInstruction(i)"
+			mat-button>
+			<mat-icon>cancel</mat-icon>
+		</button>
+	</div>
+</ol>
+<div *ngIf="editing"
+	class="edit-actions">
+	<form [formGroup]="newInstructionForm"
+		(ngSubmit)="addInstruction()"
+		class="new-instruction-form">
+		<mat-form-field color="accent">
+			<mat-label>New Instruction</mat-label>
+			<input formControlName="instruction"
+				matInput
+				type="text">
+		</mat-form-field>
+	</form>
+	<ng-content></ng-content>
+</div>

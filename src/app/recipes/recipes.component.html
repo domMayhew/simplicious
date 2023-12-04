@@ -1,6 +1,13 @@
 <app-with-nav>
 	<div class="recipes">
 		<app-recipe *ngFor="let recipe of recipes"
-			[recipe]="recipe"></app-recipe>
+			[recipe]="recipe"
+			(deleteRecipe)="deleteRecipe(recipe)"></app-recipe>
 	</div>
+	<button (click)="newRecipe()"
+		id="new-recipe-button"
+		mat-raised-button
+		color="accent">
+		New Recipe
+	</button>
 </app-with-nav>

@@ -6,9 +6,14 @@ import { MatIconModule } from "@angular/material/icon";
   standalone: true,
   selector: 'app-edit-button',
   template: `
-    <button mat-icon-button>
       <mat-icon>edit</mat-icon>
-    </button>`,
+    `,
+  styles: [`
+    @use '../../theme.scss';
+    mat-icon {
+      color: theme.token-color();
+    }
+  `],
   imports: [MatButtonModule, MatIconModule]
 })
 export class EditButtonComponent { }

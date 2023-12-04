@@ -1,10 +1,10 @@
-import { C, COMMA, ENTER } from "@angular/cdk/keycodes";
+import { COMMA, ENTER } from "@angular/cdk/keycodes";
+import { CommonModule } from "@angular/common";
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from "@angular/core";
 import { AbstractControl, FormBuilder, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
-import { Observable } from "rxjs";
 import { Ingredient } from "src/app/model";
 
 @Component({
@@ -13,6 +13,7 @@ import { Ingredient } from "src/app/model";
   templateUrl: './add-ingredient-form.component.html',
   styleUrls: ['./add-ingredient-form.component.scss'],
   imports: [
+    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
@@ -21,7 +22,7 @@ import { Ingredient } from "src/app/model";
   ]
 })
 export class AddIngredientForm {
-
+  @Input() inOption = false;
   @Output() newIngredient: EventEmitter<Ingredient> = new EventEmitter();
   @Output() close: EventEmitter<void> = new EventEmitter();
   @ViewChild('quantity') quantityRef!: ElementRef<HTMLInputElement>;

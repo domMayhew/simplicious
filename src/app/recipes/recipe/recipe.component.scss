@@ -4,30 +4,27 @@ mat-card {
   padding: theme.padding(large);
   width: 100%;
   display: flex;
-  flex-flow: row nowrap;
-  column-gap: theme.padding(medium);
-}
-
-.card-text-elements {
-  flex-grow: 1;
-}
-
-.card-header-contents {
-  display: inline-flex;
   flex-flow: column nowrap;
-  align-items: flex-start;
+  column-gap: theme.padding(large);
+}
+
+.card-header {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+
+.card-title-container {
   padding-bottom: theme.padding(medium);
   margin-bottom: theme.padding(large);
   border-bottom: 1px solid black;
 }
 
-.card-title {
+.card-title,
+.title-input {
   @include theme.typography-level(headline-4);
 }
 
-.body-section-header {
-  padding-bottom: theme.padding(large);
-}
 
 .card-body {
   display: flex;
@@ -35,46 +32,61 @@ mat-card {
   gap: theme.padding(large);
 }
 
-@media only screen and (max-width: 1100px) {
+@media only screen and (max-width: 800px) {
   .card-body {
     display: flex;
+    flex-flow: column-reverse nowrap;
+    // align-items: flex-start;
+  }
+
+  .card-image-container {
+    width: 40%;
+
+    .card-image {
+      width: 100%;
+    }
+  }
+}
+
+.card-image {
+  width: 200px;
+  flex-grow: 0;
+}
+
+.card-text-elements {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: theme.padding(large);
+}
+
+@media only screen and (max-width: 1100px) {
+  .card-text-elements {
     flex-flow: column nowrap;
     align-items: flex-start;
   }
+}
+
+.body-section-header {
+  padding-bottom: theme.padding(large);
 }
 
 .ingredients-container {
   flex-grow: 0;
 }
 
-.instructions-container {
-  position: relative;
-  flex-grow: 0;
-}
-
-.ingredients,
-.instructions {
+.ingredients {
   @include theme.typography-level(body-2);
   opacity: 0.7;
 }
 
-.instructions {
-  padding-left: 1rem;
-}
-
-.instructions-container app-edit-button {
-  position: absolute;
-  right: 0;
-  top: 0;
-}
-
-.instruction {
+.settings-buttons div {
   display: flex;
-  flex-flow: row nowrap;
   align-items: center;
-}
+  gap: theme.padding(large);
 
-.card-image {
-  width: 200px;
-  flex-grow: 0;
+  app-settings-button {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+  }
 }

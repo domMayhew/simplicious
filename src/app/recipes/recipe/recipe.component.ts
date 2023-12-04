@@ -1,15 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, DoCheck, ElementRef, EventEmitter, Input, Output } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Recipe } from '../../model';
 import { IngredientListComponent } from './ingredient-list/ingredient-list.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditButtonComponent } from 'src/app/ui/edit-button.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { RecipeInstructionsComponent } from './recipe-instructions/recipe-instructions.component';
+import { MenuItem, SettingsButtonComponent } from 'src/app/ui/settings-button.component';
 
 @Component({
   standalone: true,
@@ -27,46 +29,47 @@ import { MatButtonModule } from '@angular/material/button';
     MatButtonModule,
     MatIconModule,
     IngredientListComponent,
-    EditButtonComponent
+    EditButtonComponent,
+    RecipeInstructionsComponent,
+    SettingsButtonComponent
   ]
 })
 export class RecipeComponent {
   @Input({ required: true }) recipe!: Recipe;
+  @Output() deleteRecipe: EventEmitter<void> = new EventEmitter();
 
-  editingInstructions = false;
+  constructor(private readonly ref: ElementRef<HTMLElement>) { }
 
-  constructor(private readonly formBuilder: FormBuilder) { };
+  editing = false;
+  settingsMenuItems: MenuItem[] = [
+    { name: menuItemNames.EDIT, icon: "edit" },
+    { name: menuItemNames.DELETE, icon: "delete", color: "warn" }
+  ]
 
-  newInstructionForm = this.formBuilder.group({
-    instruction: ['', Validators.required]
-  });
+  menuItemSelected(item: MenuItem) {
+    switch (item.name) {
+      case menuItemNames.EDIT:
+        this.setEditing(true);
+        break;
+      case menuItemNames.DELETE:
+        this.deleteRecipe.emit();
+        break;
+    }
+  }
 
-  setEditingInstructions(value: boolean) {
-    this.editingInstructions = value;
+  setEditing(value: boolean) {
+    this.editing = value;
   }
 
   titleChange(title: string) {
-    this.recipe.title = title;
+    const trimmed = title.trim();
+    const firstNewline = title.indexOf("\n");
+    const firstLine = firstNewline === -1 ? trimmed : trimmed.substring(0, firstNewline);
+    this.recipe.title = firstLine || 'Untitle Recipe';
   }
 
-  addInstruction() {
-    Object.values(this.newInstructionForm.controls).forEach(control => {
-      control.updateValueAndValidity();
-    })
-    if (this.newInstructionForm.valid) {
-      const instruction = this.newInstructionForm.controls.instruction.value || '';
-      this.recipe.instructions = this.recipe.instructions || [];
-      this.recipe.instructions.push(instruction);
-      this.newInstructionForm.reset();
-      Object.values(this.newInstructionForm.controls).forEach(control => control.setErrors(null));
-    }
-  }
-
-  editInstruction(original: string, newVal: string) {
-    const index = (this.recipe.instructions || []).indexOf(original);
-    if (index >= 0) {
-      this.recipe.instructions?.splice(index, 1, newVal.trim());
-    }
+  updateInstructions(instructions: string[]) {
+    this.recipe.instructions = instructions;
   }
 
   deleteInstruction(instruction: string) {
@@ -75,4 +78,13 @@ export class RecipeComponent {
       this.recipe.instructions?.splice(index, 1);
     }
   }
+
+  scrollIntoView() {
+    this.ref.nativeElement.scrollIntoView({ behavior: 'smooth' });
+  }
 }
+
+enum menuItemNames {
+  EDIT = "Edit",
+  DELETE = "Delete"
+};

@@ -18,17 +18,14 @@
 					[closeForm$]="closeFormsSub$.asObservable()"
 					(newIngredient)="add(req)($event)"
 					(revertToIngredient)="revertToIngredient(req)"
-					(deleteOption)="deleteOption(req)">
+					(deleteOption)="deleteOption(req)"
+					(editName)="editOptionName(req)($event)">
 				</app-option>
 			</ng-container>
 		</div>
-		<app-edit-button *ngIf="!editing"
-			(click)="setEditing(true)">
-		</app-edit-button>
 	</div>
 
 	<app-add-ingredient-form *ngIf="editing"
-		(newIngredient)="add()($event)"
-		(close)="setEditing(false)">
+		(newIngredient)="add()($event)">
 	</app-add-ingredient-form>
 </div>

@@ -1,60 +1,50 @@
 <mat-card>
-	<div class="card-text-elements">
-		<div *ngIf="recipe.title"
-			class="card-header">
-			<div class="card-header-contents">
-				<h4 #title
-					[contentEditable]="'plaintext-only'"
-					(input)="titleChange(title.innerHTML)"
-					class="card-title">
-					{{recipe.title}}
-				</h4>
-			</div>
+	<div class="card-header">
+		<div class="card-title-container">
+			<h4 *ngIf="!editing"
+				class="card-title">
+				{{recipe.title || 'Untitled Recipe'}}
+			</h4>
+			<input #title
+				*ngIf="editing"
+				[value]="recipe.title"
+				(blur)="titleChange(title.value)"
+				class="title-input"
+				type="text">
 		</div>
-		<div class="card-body">
-			<div class="ingredients-container">
-				<h6 class="subtitle-1 body-section-header">Ingredients</h6>
-				<app-ingredient-list [requirements]="recipe.requirements"></app-ingredient-list>
-			</div>
-			<div *ngIf="recipe.instructions"
-				class="instructions-container">
-				<h6 class="subtitle-1 body-section-header">Instructions</h6>
-				<app-edit-button *ngIf="!editingInstructions"
-					(click)="setEditingInstructions(true)"></app-edit-button>
-				<ol class="instructions">
-					<div *ngFor="let instruction of recipe.instructions"
-						class="instruction">
-						<li #instructionEl
-							[attr.contenteditable]="editingInstructions ? 'plaintext-only' : 'false'"
-							(blur)="editInstruction(instruction, instructionEl.innerText)">
-							{{instruction}}
-						</li>
-						<button *ngIf="editingInstructions"
-							(click)="deleteInstruction(instruction)"
-							mat-button>
-							<mat-icon>cancel</mat-icon>
-						</button>
-					</div>
-				</ol>
-				<form *ngIf="editingInstructions"
-					[formGroup]="newInstructionForm"
-					(ngSubmit)="addInstruction()"
-					class="new-instruction-form">
-					<mat-form-field color="accent">
-						<mat-label>New Instruction</mat-label>
-						<input (blur)="setEditingInstructions(false)"
-							formControlName="instruction"
-							matInput
-							type="text">
-					</mat-form-field>
-				</form>
+		<div class="settings-buttons">
+			<div>
+				<button *ngIf="editing"
+					(click)="setEditing(false)"
+					mat-flat-button
+					class="edit-action-button"
+					color="primary">
+					Save Recipe
+				</button>
+				<app-settings-button [menuItems]="settingsMenuItems"
+					(itemSelected)="menuItemSelected($event)"></app-settings-button>
 			</div>
 		</div>
 	</div>
-	<div *ngIf="recipe.image"
-		class="card-image">
-		<img [attr.src]="recipe.image.url"
-			[matTooltip]="recipe.image.caption"
-			class="card-image">
+	<div class="card-body">
+		<div class="card-text-elements">
+			<div class="ingredients-container">
+				<h6 class="subtitle-2 body-section-header">Ingredients</h6>
+				<app-ingredient-list [requirements]="recipe.requirements"
+					[editing]="editing"></app-ingredient-list>
+			</div>
+			<app-recipe-instructions *ngIf="recipe.instructions"
+				[instructions]="recipe.instructions || []"
+				[editing]="editing"
+				(updateInstructions)="updateInstructions($event)">
+			</app-recipe-instructions>
+		</div>
+		<div *ngIf="recipe.image"
+			class="card-image-container">
+			<img [attr.src]="recipe.image.url"
+				[matTooltip]="recipe.image.caption"
+				matTooltipShowDelay="500"
+				class="card-image">
+		</div>
 	</div>
 </mat-card>

@@ -13,6 +13,15 @@ import { Observable, Subject } from "rxjs";
 	selector: 'app-option',
 	template: `
 		<div class="option-list">
+			<h4 *ngIf="!editing"
+				class="body-1 option-name">
+				{{option.name || 'Untitled option'}}
+			</h4>
+			<input #name *ngIf="editing"
+				class="body-1 option-name"
+				type="text"
+				value="{{option.name || 'Untitled option'}}"
+				(blur)="editName(name.value)">
 			<div *ngFor="let ingredient of option.options; last as isLast"
 				class="chip-and-or-token">
 				<app-ingredient [ingredient]="ingredient"
@@ -28,7 +37,8 @@ import { Observable, Subject } from "rxjs";
 			</div>
 			<app-add-ingredient-form *ngIf="editing && showForm"
 				(newIngredient)="newIngredient.emit($event)"
-				(close)="closeForm()">
+				(close)="closeForm()"
+				[inOption]="true">
 			</app-add-ingredient-form>
 		</div>
   `,
@@ -38,6 +48,11 @@ import { Observable, Subject } from "rxjs";
 			display: flex;
 			flex-flow: column nowrap;
 			gap: theme.padding(small);
+		}
+
+		.option-name {
+			font-weight: 600;
+			font-style: italic;
 		}
 		app-add-alternative {
 			visibility: hidden;
@@ -63,12 +78,14 @@ export class OptionComponent {
 	@Output() newIngredient: EventEmitter<Ingredient> = new EventEmitter();
 	@Output() revertToIngredient: EventEmitter<void> = new EventEmitter();
 	@Output() deleteOption: EventEmitter<void> = new EventEmitter();
+	@Output('editName') editNameEvent: EventEmitter<string> = new EventEmitter();
 
 	showForm = true;
 	focusForm: Subject<void> = new Subject();
 
 	ngOnInit() {
 		this.closeForm$.subscribe(() => {
+			console.log("Closed FORM");
 			this.closeForm();
 		});
 	}
@@ -78,6 +95,10 @@ export class OptionComponent {
 		// use setTimeout so that the DOM has time to respond to the changed
 		// `showForm` value and the form has actually rendered
 		setTimeout(() => this.focusForm.next(), 0);
+	}
+
+	editName(newName: string) {
+		this.editNameEvent.emit(newName);
 	}
 
 	removed = (ingredient: Ingredient) => {

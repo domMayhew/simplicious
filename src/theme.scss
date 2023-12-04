@@ -112,6 +112,10 @@ $warn: (
   @return black;
 }
 
+@function token-color() {
+  @return #d7d7d7;
+}
+
 @function warn() {
   @return #DD1D1D;
 }
@@ -180,8 +184,8 @@ $md-typography: mat.define-typography-config($headline-1: $md-headline-1,
     $headline-4: $md-headline-4,
     $headline-5: $md-headline-5,
     $headline-6: $md-headline-6,
-    $subtitle-1: $md-headline-6,
-    $subtitle-2: $md-body-1,
+    $subtitle-1: $md-headline-2,
+    $subtitle-2: $md-headline-5,
     $body-1: $md-body-1,
     $body-2: $md-body-2,
     $caption: $md-caption,
@@ -215,6 +219,12 @@ $md-theme: mat.define-light-theme((color: (primary: $md-primary,
   }
 }
 
+@mixin main-page-FAB() {
+  @include typography-level(headline-4);
+  padding: padding(large);
+  margin: padding(very-large);
+}
+
 @function get-color($paletteName, $hue: default) {
   $color-config: mat.get-color-config($md-theme);
   $palette: map.get($color-config, $paletteName);
@@ -238,12 +248,16 @@ $md-theme: mat.define-light-theme((color: (primary: $md-primary,
     @return 0.3125rem;
   }
 
+  @else if $size==medium {
+    @return 0.625rem;
+  }
+
   @else if $size==large {
     @return 1.75rem;
   }
 
-  @else if $size==medium {
-    @return 0.625rem;
+  @else if $size==very-large {
+    @return 3.5rem;
   }
 
   @else {

@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { WithNavComponent } from '../with-nav/with-nav.component';
 import { MatButtonModule } from '@angular/material/button';
-import { CommonModule } from '@angular/common';
+import { CommonModule, ViewportScroller } from '@angular/common';
 import { RecipeComponent } from './recipe/recipe.component';
 import { Recipe } from '../model';
 
@@ -13,6 +13,10 @@ import { Recipe } from '../model';
   imports: [CommonModule, WithNavComponent, RecipeComponent, MatButtonModule]
 })
 export class RecipesComponent {
+  @ViewChild(RecipeComponent) firstRecipe: RecipeComponent | undefined;
+
+  constructor(private readonly viewPortScroller: ViewportScroller) { }
+
   fishTacos: Recipe = {
     title: 'Fish Tacos',
     requirements: [
@@ -41,4 +45,26 @@ export class RecipesComponent {
   }
 
   recipes: Recipe[] = [this.fishTacos, this.fishTacos, this.fishTacos, this.fishTacos, this.fishTacos];
+
+  newRecipe() {
+    this.recipes.unshift({
+      title: 'No title',
+      requirements: []
+    });
+
+    setTimeout(() => {
+      console.log(this.firstRecipe);
+      this.firstRecipe?.scrollIntoView();
+      if (this.firstRecipe) {
+        this.firstRecipe.editing = true;
+      }
+    }, 0);
+  }
+
+  deleteRecipe(recipe: Recipe) {
+    const index = this.recipes.indexOf(recipe);
+    if (index >= 0) {
+      this.recipes.splice(index, 1);
+    }
+  }
 }

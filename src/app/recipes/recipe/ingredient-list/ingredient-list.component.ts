@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
 import { MatChipEditedEvent, MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AbstractControl, FormsModule, ValidationErrors, ValidatorFn } from '@angular/forms';
@@ -46,6 +46,7 @@ import { EditButtonComponent } from 'src/app/ui/edit-button.component';
 })
 export class IngredientListComponent {
   @Input({ required: true }) requirements: Requirement[] = [];
+  @Input() editing = false;
 
   constructor(private formBuilder: FormBuilder) { };
 
@@ -56,7 +57,6 @@ export class IngredientListComponent {
     return matches ? null : { invalidNumber: control.value + "is not a number" };
   }
 
-  editing = false;
   closeFormsSub$: Subject<void> = new Subject();
 
   ngAfterViewInit() {
@@ -68,10 +68,6 @@ export class IngredientListComponent {
     units: [''],
     name: ['', Validators.required],
   });
-
-  setEditing(value: boolean) {
-    this.editing = value;
-  }
 
   remove = (option?: Option) => (ingredient: Ingredient): void => {
     const list = option ? option.options : this.requirements;
@@ -88,6 +84,10 @@ export class IngredientListComponent {
     if (index >= 0) {
       list.splice(index, 1, newIngredient);
     }
+  }
+
+  editOptionName = (option: Option) => (name: string) => {
+    option.name = name;
   }
 
   add = (option?: Option) => (ingredient: Ingredient): void => {

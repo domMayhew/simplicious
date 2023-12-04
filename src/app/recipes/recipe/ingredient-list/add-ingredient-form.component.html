@@ -33,11 +33,12 @@
 	<div class="buttons">
 		<button class="add-new-ingredient-submit"
 			mat-raised-button
-			color="accent"
+			color="{{inOption ? 'primary' : 'accent'}}"
 			type="submit">
-			Add new ingredient
+			{{inOption ? 'Add new alternative' : 'Add new ingredient'}}
 		</button>
-		<button (click)="close.emit()"
+		<button *ngIf="inOption"
+			(click)="close.emit()"
 			mat-stroked-button
 			color="warn">
 			Close

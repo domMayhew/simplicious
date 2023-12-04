@@ -1,0 +1,23 @@
+@use '../../../../theme.scss';
+
+:host {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: theme.padding(large);
+}
+
+.instructions {
+  padding-left: 1rem;
+}
+
+.instruction {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.edit-actions {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
