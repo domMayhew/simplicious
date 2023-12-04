@@ -17,6 +17,11 @@ import { MatIconModule } from "@angular/material/icon";
   .add-alternative {
     width: theme.token-height();
     height: theme.token-height();
+
+    mat-icon {
+      width: theme.token-height();
+      height: theme.token_height();
+    }
   }
   `],
   imports: [MatButtonModule, MatIconModule]

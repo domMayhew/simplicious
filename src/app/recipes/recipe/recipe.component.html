@@ -3,7 +3,12 @@
 		<div *ngIf="recipe.title"
 			class="card-header">
 			<div class="card-header-contents">
-				<h4 class="card-title">{{recipe.title}}</h4>
+				<h4 #title
+					[contentEditable]="'plaintext-only'"
+					(input)="titleChange(title.innerHTML)"
+					class="card-title">
+					{{recipe.title}}
+				</h4>
 			</div>
 		</div>
 		<div class="card-body">
@@ -14,9 +19,35 @@
 			<div *ngIf="recipe.instructions"
 				class="instructions-container">
 				<h6 class="subtitle-1 body-section-header">Instructions</h6>
+				<app-edit-button *ngIf="!editingInstructions"
+					(click)="setEditingInstructions(true)"></app-edit-button>
 				<ol class="instructions">
-					<li *ngFor="let instruction of recipe.instructions">{{instruction}}</li>
+					<div *ngFor="let instruction of recipe.instructions"
+						class="instruction">
+						<li #instructionEl
+							[attr.contenteditable]="editingInstructions ? 'plaintext-only' : 'false'"
+							(blur)="editInstruction(instruction, instructionEl.innerText)">
+							{{instruction}}
+						</li>
+						<button *ngIf="editingInstructions"
+							(click)="deleteInstruction(instruction)"
+							mat-button>
+							<mat-icon>cancel</mat-icon>
+						</button>
+					</div>
 				</ol>
+				<form *ngIf="editingInstructions"
+					[formGroup]="newInstructionForm"
+					(ngSubmit)="addInstruction()"
+					class="new-instruction-form">
+					<mat-form-field color="accent">
+						<mat-label>New Instruction</mat-label>
+						<input (blur)="setEditingInstructions(false)"
+							formControlName="instruction"
+							matInput
+							type="text">
+					</mat-form-field>
+				</form>
 			</div>
 		</div>
 	</div>

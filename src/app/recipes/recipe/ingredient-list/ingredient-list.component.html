@@ -14,23 +14,20 @@
 					[option]="req"
 					[removedCb]="remove(req)"
 					[editedCb]="edit(req)"
-					[showForm]="focusedOptionIndex === i"
 					[editing]="editing"
+					[closeForm$]="closeFormsSub$.asObservable()"
 					(newIngredient)="add(req)($event)"
 					(revertToIngredient)="revertToIngredient(req)"
 					(deleteOption)="deleteOption(req)">
 				</app-option>
 			</ng-container>
 		</div>
-		<button *ngIf="!editing"
-			(click)="setEditing(true)"
-			mat-icon-button>
-			<mat-icon>edit</mat-icon>
-		</button>
+		<app-edit-button *ngIf="!editing"
+			(click)="setEditing(true)">
+		</app-edit-button>
 	</div>
 
 	<app-add-ingredient-form *ngIf="editing"
-		[setFocus]="focusForm.asObservable()"
 		(newIngredient)="add()($event)"
 		(close)="setEditing(false)">
 	</app-add-ingredient-form>

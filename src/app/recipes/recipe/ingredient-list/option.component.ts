@@ -6,7 +6,7 @@ import { IngredientComponent } from "./ingredient.component";
 import { OrTokenComponent } from "src/app/ui/tokens/or-token/or-token.component";
 import { AddAlternativeButton } from "./add-alternative.component";
 import { AddIngredientForm } from "./add-ingredient-form.component";
-import { Subject } from "rxjs";
+import { Observable, Subject } from "rxjs";
 
 @Component({
 	standalone: true,
@@ -26,8 +26,7 @@ import { Subject } from "rxjs";
 					</app-add-alternative>
 				</app-ingredient>
 			</div>
-			<app-add-ingredient-form *ngIf="showForm"
-				[setFocus]="focusForm.asObservable()"
+			<app-add-ingredient-form *ngIf="editing && showForm"
 				(newIngredient)="newIngredient.emit($event)"
 				(close)="closeForm()">
 			</app-add-ingredient-form>
@@ -57,20 +56,21 @@ import { Subject } from "rxjs";
 })
 export class OptionComponent {
 	@Input({ required: true }) option!: Option;
-	@Input() showForm = false;
 	@Input({ required: true }) removedCb: (ingredient: Ingredient) => void = () => { };
 	@Input({ required: true }) editedCb: (ingredient: Ingredient, event: MatChipEditedEvent) => void = () => { };
 	@Input() editing = false;
+	@Input() closeForm$!: Observable<void>;
 	@Output() newIngredient: EventEmitter<Ingredient> = new EventEmitter();
 	@Output() revertToIngredient: EventEmitter<void> = new EventEmitter();
 	@Output() deleteOption: EventEmitter<void> = new EventEmitter();
 
-	initialized = true;
+	showForm = true;
 	focusForm: Subject<void> = new Subject();
 
-	constructor(private readonly eRef: ElementRef) { };
-	ngAfterViewChecked() {
-		this.initialized = true;
+	ngOnInit() {
+		this.closeForm$.subscribe(() => {
+			this.closeForm();
+		});
 	}
 
 	addAlternativeClicked() {
@@ -83,12 +83,15 @@ export class OptionComponent {
 	removed = (ingredient: Ingredient) => {
 		if (this.option.options.length === 1 && !this.showForm) {
 			this.deleteOption.emit();
+		} else if (this.option.options.length === 2 && !this.showForm) {
+			this.removedCb(ingredient);
+			this.revertToIngredient.emit();
 		} else {
 			this.removedCb(ingredient);
 		}
 	}
 
-	closeForm() {
+	closeForm = () => {
 		this.showForm = false;
 		if (this.option.options.length === 1) {
 			this.revertToIngredient.emit();

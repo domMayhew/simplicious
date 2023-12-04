@@ -11,7 +11,7 @@ import { CommonModule } from "@angular/common";
   selector: 'app-ingredient',
   template: `
     <div class="ingredient-and-button">
-			<mat-chip-row [editable]="true"
+			<mat-chip-row [editable]="editing"
 				[aria-description]="'press enter to edit ' + ingredient.name"
 				[matTooltipPosition]="'below'"
 				[matTooltipShowDelay]="250"

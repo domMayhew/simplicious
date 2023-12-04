@@ -48,6 +48,7 @@ mat-card {
 }
 
 .instructions-container {
+  position: relative;
   flex-grow: 0;
 }
 
@@ -59,6 +60,18 @@ mat-card {
 
 .instructions {
   padding-left: 1rem;
+}
+
+.instructions-container app-edit-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.instruction {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
 }
 
 .card-image {

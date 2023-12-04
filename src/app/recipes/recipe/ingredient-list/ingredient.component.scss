@@ -7,3 +7,7 @@
   justify-content: space-between;
   gap: theme.padding(small);
 }
+
+mat-chip-row {
+  height: theme.token_height();
+}

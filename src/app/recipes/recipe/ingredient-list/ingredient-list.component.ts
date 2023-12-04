@@ -16,7 +16,8 @@ import { IngredientComponent } from './ingredient.component';
 import { OptionComponent } from './option.component';
 import { AddAlternativeButton } from './add-alternative.component';
 import { AddIngredientForm } from './add-ingredient-form.component';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
+import { EditButtonComponent } from 'src/app/ui/edit-button.component';
 
 @Component({
   standalone: true,
@@ -38,7 +39,8 @@ import { Observable, Subject } from 'rxjs';
     IngredientComponent,
     OptionComponent,
     AddAlternativeButton,
-    AddIngredientForm
+    AddIngredientForm,
+    EditButtonComponent
   ],
   providers: [FormBuilder]
 })
@@ -55,10 +57,11 @@ export class IngredientListComponent {
   }
 
   editing = false;
-  focusedOptionIndex: number = -1;
-  focusedOptionIndexSub$: Subject<number> = new Subject();
-  focusedOptionIndexObs$: Observable<number> = this.focusedOptionIndexSub$.asObservable();
-  focusForm: Subject<void> = new Subject();
+  closeFormsSub$: Subject<void> = new Subject();
+
+  ngAfterViewInit() {
+    this.closeFormsSub$.next();
+  }
 
   form = this.formBuilder.group({
     quantity: ['1', this.numberValidator],
@@ -99,8 +102,6 @@ export class IngredientListComponent {
         options: [ingredient]
       }
       this.requirements.splice(index, 1, option);
-      this.focusedOptionIndexSub$.next(index);
-      this.focusedOptionIndex = index;
     }
   }
 

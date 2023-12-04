@@ -252,7 +252,7 @@ $md-theme: mat.define-light-theme((color: (primary: $md-primary,
 }
 
 @function token-height() {
-  @return 2rem;
+  @return 1.5rem;
 }
 
 // Elevation

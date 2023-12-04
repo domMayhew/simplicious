@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { IngredientTokenComponent } from './ui/tokens/ingredient-token/ingredient-token.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,7 +17,6 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    IngredientTokenComponent,
     WelcomeComponent,
     BrowserAnimationsModule,
     MatButtonModule,

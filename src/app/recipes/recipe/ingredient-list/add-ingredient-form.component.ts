@@ -22,18 +22,11 @@ import { Ingredient } from "src/app/model";
 })
 export class AddIngredientForm {
 
-  @Input() setFocus!: Observable<void>;
   @Output() newIngredient: EventEmitter<Ingredient> = new EventEmitter();
   @Output() close: EventEmitter<void> = new EventEmitter();
   @ViewChild('quantity') quantityRef!: ElementRef<HTMLInputElement>;
 
   constructor(private readonly formBuilder: FormBuilder) { };
-
-  ngOnInit() {
-    this.setFocus.subscribe(() => {
-      this.quantityRef.nativeElement.focus();
-    });
-  }
 
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   readonly addOnBlur = true;
