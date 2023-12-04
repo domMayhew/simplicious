@@ -4,6 +4,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { Ingredient } from "src/app/model";
 import { IngredientQuantityPipe } from "src/app/pipes/ingredient-quantity.pipe";
 import { MatIconModule } from '@angular/material/icon';
+import { CommonModule } from "@angular/common";
 
 @Component({
   standalone: true,
@@ -18,7 +19,8 @@ import { MatIconModule } from '@angular/material/icon';
 				(removed)="removedCb(ingredient)"
 				(edited)="editedCb(ingredient, $event)">
 				{{ingredient.name}}
-				<button [attr.aria-label]="'remove ' + ingredient.name"
+				<button *ngIf="editing"
+          [attr.aria-label]="'remove ' + ingredient.name"
 					matChipRemove>
 					<mat-icon>cancel</mat-icon>
 				</button>
@@ -28,6 +30,7 @@ import { MatIconModule } from '@angular/material/icon';
   `,
   styleUrls: ['./ingredient.component.scss'],
   imports: [
+    CommonModule,
     MatChipsModule,
     MatTooltipModule,
     MatIconModule,
@@ -38,4 +41,5 @@ export class IngredientComponent {
   @Input({ required: true }) ingredient!: Ingredient;
   @Input() removedCb: (ingredient: Ingredient) => void = () => { };
   @Input() editedCb: (ingredient: Ingredient, event: MatChipEditedEvent) => void = () => { };
+  @Input() editing = false;
 }

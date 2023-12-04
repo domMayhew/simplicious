@@ -24,6 +24,7 @@ export class AddIngredientForm {
 
   @Input() setFocus!: Observable<void>;
   @Output() newIngredient: EventEmitter<Ingredient> = new EventEmitter();
+  @Output() close: EventEmitter<void> = new EventEmitter();
   @ViewChild('quantity') quantityRef!: ElementRef<HTMLInputElement>;
 
   constructor(private readonly formBuilder: FormBuilder) { };

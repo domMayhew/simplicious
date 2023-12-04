@@ -16,18 +16,20 @@ import { Subject } from "rxjs";
 			<div *ngFor="let ingredient of option.options; last as isLast"
 				class="chip-and-or-token">
 				<app-ingredient [ingredient]="ingredient"
-					[removedCb]="removedCb"
-					[editedCb]="editedCb">
+					[removedCb]="removed"
+					[editedCb]="editedCb"
+					[editing]="editing">
 					<app-or-token *ngIf="!isLast"></app-or-token>
 					<app-add-alternative class="{{showForm ? 'hidden' : ''}}"
-						*ngIf="isLast"
+						*ngIf="isLast && editing"
 						(click)="addAlternativeClicked()">
 					</app-add-alternative>
 				</app-ingredient>
 			</div>
 			<app-add-ingredient-form *ngIf="showForm"
 				[setFocus]="focusForm.asObservable()"
-				(newIngredient)="newIngredient.emit($event)">
+				(newIngredient)="newIngredient.emit($event)"
+				(close)="closeForm()">
 			</app-add-ingredient-form>
 		</div>
   `,
@@ -55,14 +57,21 @@ import { Subject } from "rxjs";
 })
 export class OptionComponent {
 	@Input({ required: true }) option!: Option;
-	@Input() removedCb: (ingredient: Ingredient) => void = () => { };
-	@Input() editedCb: (ingredient: Ingredient, event: MatChipEditedEvent) => void = () => { };
+	@Input() showForm = false;
+	@Input({ required: true }) removedCb: (ingredient: Ingredient) => void = () => { };
+	@Input({ required: true }) editedCb: (ingredient: Ingredient, event: MatChipEditedEvent) => void = () => { };
+	@Input() editing = false;
 	@Output() newIngredient: EventEmitter<Ingredient> = new EventEmitter();
+	@Output() revertToIngredient: EventEmitter<void> = new EventEmitter();
+	@Output() deleteOption: EventEmitter<void> = new EventEmitter();
 
-	showForm = false;
+	initialized = true;
 	focusForm: Subject<void> = new Subject();
 
 	constructor(private readonly eRef: ElementRef) { };
+	ngAfterViewChecked() {
+		this.initialized = true;
+	}
 
 	addAlternativeClicked() {
 		this.showForm = true;
@@ -71,8 +80,20 @@ export class OptionComponent {
 		setTimeout(() => this.focusForm.next(), 0);
 	}
 
-	@HostListener('document:click', ['$event'])
-	clickout(event: MouseEvent) {
-		this.showForm = this.eRef.nativeElement.contains(event.target);
+	removed = (ingredient: Ingredient) => {
+		if (this.option.options.length === 1 && !this.showForm) {
+			this.deleteOption.emit();
+		} else {
+			this.removedCb(ingredient);
+		}
+	}
+
+	closeForm() {
+		this.showForm = false;
+		if (this.option.options.length === 1) {
+			this.revertToIngredient.emit();
+		} else if (this.option.options.length === 0) {
+			this.deleteOption.emit();
+		}
 	}
 }

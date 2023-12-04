@@ -1,20 +1,37 @@
 <div class="ingredient-list-with-input">
-	<ng-container *ngFor="let req of requirements">
-		<app-ingredient *ngIf="isIngredient(req)"
-			[ingredient]="req"
-			[removedCb]="remove()"
-			[editedCb]="edit()">
-			<app-add-alternative></app-add-alternative>
-		</app-ingredient>
-		<app-option *ngIf="isOption(req)"
-			[option]="req"
-			[removedCb]="remove(req)"
-			[editedCb]="edit(req)"
-			(newIngredient)="add(req)($event)">
-		</app-option>
-	</ng-container>
+	<div class="ingredients-and-edit-button">
+		<div class="ingredients">
+			<ng-container *ngFor="let req of requirements; index as i">
+				<app-ingredient *ngIf="isIngredient(req)"
+					[ingredient]="req"
+					[removedCb]="remove()"
+					[editedCb]="edit()"
+					[editing]="editing">
+					<app-add-alternative *ngIf="editing"
+						(click)="convertToOption(req)"></app-add-alternative>
+				</app-ingredient>
+				<app-option *ngIf="isOption(req)"
+					[option]="req"
+					[removedCb]="remove(req)"
+					[editedCb]="edit(req)"
+					[showForm]="focusedOptionIndex === i"
+					[editing]="editing"
+					(newIngredient)="add(req)($event)"
+					(revertToIngredient)="revertToIngredient(req)"
+					(deleteOption)="deleteOption(req)">
+				</app-option>
+			</ng-container>
+		</div>
+		<button *ngIf="!editing"
+			(click)="setEditing(true)"
+			mat-icon-button>
+			<mat-icon>edit</mat-icon>
+		</button>
+	</div>
 
-	<app-add-ingredient-form [setFocus]="focusForm.asObservable()"
-		(newIngredient)="add()($event)">
+	<app-add-ingredient-form *ngIf="editing"
+		[setFocus]="focusForm.asObservable()"
+		(newIngredient)="add()($event)"
+		(close)="setEditing(false)">
 	</app-add-ingredient-form>
 </div>

@@ -2,13 +2,18 @@
 
 .new-ingredient-form {
   display: flex;
-  flex-flow: row nowrap;
-  justify-content: flex-start;
+  flex-flow: column nowrap;
   column-gap: theme.padding(small);
+  width: 100%;
 
   input {
     @include theme.typography-level(body-2);
   }
+}
+
+.form-inputs {
+  display: flex;
+  flex-flow: row wrap;
 }
 
 #quantity {
@@ -20,7 +25,15 @@
 }
 
 #ingredient {
-  width: 10rem;
+  flex-basis: 10rem;
+  flex-grow: 1;
+}
+
+.buttons {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: theme.padding(small);
 }
 
 .add-new-ingredient-submit {

@@ -16,7 +16,7 @@ import { IngredientComponent } from './ingredient.component';
 import { OptionComponent } from './option.component';
 import { AddAlternativeButton } from './add-alternative.component';
 import { AddIngredientForm } from './add-ingredient-form.component';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -54,6 +54,10 @@ export class IngredientListComponent {
     return matches ? null : { invalidNumber: control.value + "is not a number" };
   }
 
+  editing = false;
+  focusedOptionIndex: number = -1;
+  focusedOptionIndexSub$: Subject<number> = new Subject();
+  focusedOptionIndexObs$: Observable<number> = this.focusedOptionIndexSub$.asObservable();
   focusForm: Subject<void> = new Subject();
 
   form = this.formBuilder.group({
@@ -61,6 +65,10 @@ export class IngredientListComponent {
     units: [''],
     name: ['', Validators.required],
   });
+
+  setEditing(value: boolean) {
+    this.editing = value;
+  }
 
   remove = (option?: Option) => (ingredient: Ingredient): void => {
     const list = option ? option.options : this.requirements;
@@ -82,6 +90,33 @@ export class IngredientListComponent {
   add = (option?: Option) => (ingredient: Ingredient): void => {
     const list = option ? option.options : this.requirements;
     list.push(ingredient);
+  }
+
+  convertToOption = (ingredient: Ingredient): void => {
+    const index = this.requirements.indexOf(ingredient);
+    if (index >= 0) {
+      const option = {
+        options: [ingredient]
+      }
+      this.requirements.splice(index, 1, option);
+      this.focusedOptionIndexSub$.next(index);
+      this.focusedOptionIndex = index;
+    }
+  }
+
+  revertToIngredient = (option: Option): void => {
+    const index = this.requirements.indexOf(option);
+    if (index >= 0 && option.options.length === 1) {
+      const ingredient = option.options[0];
+      this.requirements.splice(index, 1, ingredient);
+    }
+  }
+
+  deleteOption = (option: Option): void => {
+    const index = this.requirements.indexOf(option);
+    if (index >= 0) {
+      this.requirements.splice(index, 1);
+    }
   }
 
   isIngredient(req: Requirement): req is Ingredient {

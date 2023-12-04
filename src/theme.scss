@@ -173,7 +173,7 @@ $md-button: mat.define-typography-level($font-family: $app-font,
 
 $md-primary: mat.define-palette($primary, 500, 300, 900);
 $md-secondary: mat.define-palette($secondary, 500, A100, 700);
-$md-warn: mat.define-palette($warn);
+$md-warn: mat.define-palette($warn, 300, 100, 500);
 $md-typography: mat.define-typography-config($headline-1: $md-headline-1,
     $headline-2: $md-headline-2,
     $headline-3: $md-headline-3,

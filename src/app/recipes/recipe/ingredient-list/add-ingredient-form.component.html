@@ -1,6 +1,6 @@
 <form [formGroup]="form"
 	(ngSubmit)="onSubmit()"
-	class="newIngredientForm">
+	class="new-ingredient-form">
 	<div class="form-inputs">
 		<mat-form-field id="quantity"
 			color="accent">
@@ -13,6 +13,7 @@
 		</mat-form-field>
 		<mat-form-field color="accent"
 			id="units">
+			<mat-label>Units</mat-label>
 			<input #units
 				formControlName="units"
 				matInput
@@ -21,6 +22,7 @@
 		</mat-form-field>
 		<mat-form-field color="accent"
 			id="ingredient">
+			<mat-label>Ingredient</mat-label>
 			<input #name
 				formControlName="name"
 				matInput
@@ -28,10 +30,17 @@
 				placeholder="Ingredient">
 		</mat-form-field>
 	</div>
-	<button class="add-new-ingredient-submit"
-		mat-raised-button
-		color="accent"
-		type="submit">
-		Add new ingredient
-	</button>
+	<div class="buttons">
+		<button class="add-new-ingredient-submit"
+			mat-raised-button
+			color="accent"
+			type="submit">
+			Add new ingredient
+		</button>
+		<button (click)="close.emit()"
+			mat-stroked-button
+			color="warn">
+			Close
+		</button>
+	</div>
 </form>
