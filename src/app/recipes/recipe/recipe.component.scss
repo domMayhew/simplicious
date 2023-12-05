@@ -30,9 +30,18 @@ mat-card {
   }
 }
 
-.card-image {
+.card-image-container {
   width: 200px;
-  flex-grow: 0;
+  height: 200px;
+  overflow: hidden;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.card-image {
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .card-text-elements {
