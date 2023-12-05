@@ -6,7 +6,7 @@ import { AbstractControl, FormsModule, ValidationErrors, ValidatorFn } from '@an
 import { MatInputModule } from '@angular/material/input';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatIconModule } from '@angular/material/icon';
-import { Ingredient, Option, Requirement } from 'src/app/model';
+import { Ingredient, Option, RecipeRequirement } from 'src/app/model';
 import { ReactiveFormsModule, Validators, FormBuilder } from '@angular/forms';
 import { IngredientQuantityPipe } from 'src/app/pipes/ingredient-quantity.pipe';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -45,7 +45,7 @@ import { EditButtonComponent } from 'src/app/ui/edit-button.component';
   providers: [FormBuilder]
 })
 export class IngredientListComponent {
-  @Input({ required: true }) requirements: Requirement[] = [];
+  @Input({ required: true }) requirements: RecipeRequirement[] = [];
   @Input() editing = false;
 
   constructor(private formBuilder: FormBuilder) { };
@@ -120,12 +120,12 @@ export class IngredientListComponent {
     }
   }
 
-  isIngredient(req: Requirement): req is Ingredient {
+  isIngredient(req: RecipeRequirement): req is Ingredient {
     const ingredient = req as Ingredient;
     return ingredient.name !== undefined && ingredient.quantity !== undefined;
   }
 
-  isOption(req: Requirement): req is Option {
+  isOption(req: RecipeRequirement): req is Option {
     const op = req as Option;
     return op.options !== undefined;
   }

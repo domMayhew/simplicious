@@ -15,6 +15,7 @@ $theme: theme.get-theme();
 @include mat.form-field-theme($theme);
 @include mat.input-theme($theme);
 @include mat.menu-theme($theme);
+@include mat.autocomplete-theme($theme);
 
 * {
   margin: 0;

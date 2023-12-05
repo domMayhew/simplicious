@@ -85,7 +85,6 @@ export class OptionComponent {
 
 	ngOnInit() {
 		this.closeForm$.subscribe(() => {
-			console.log("Closed FORM");
 			this.closeForm();
 		});
 	}

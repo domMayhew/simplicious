@@ -1,0 +1,10 @@
+@use '../../theme.scss';
+
+
+.routines {
+  display: flex;
+  flex-flow: row wrap;
+  gap: theme.grid-gutter-size();
+
+  margin: theme.grid-gutter-size() 0;
+}

@@ -12,6 +12,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { RecipeInstructionsComponent } from './recipe-instructions/recipe-instructions.component';
 import { MenuItem, SettingsButtonComponent } from 'src/app/ui/settings-button.component';
+import { RecipesService } from 'src/app/services/recipes.service';
+import { CardComponent } from 'src/app/ui/card.component';
+import { MenuItemNames } from 'src/app/ui/settings-button.component';
 
 @Component({
   standalone: true,
@@ -31,27 +34,29 @@ import { MenuItem, SettingsButtonComponent } from 'src/app/ui/settings-button.co
     IngredientListComponent,
     EditButtonComponent,
     RecipeInstructionsComponent,
-    SettingsButtonComponent
+    SettingsButtonComponent,
+    CardComponent,
   ]
 })
 export class RecipeComponent {
   @Input({ required: true }) recipe!: Recipe;
   @Output() deleteRecipe: EventEmitter<void> = new EventEmitter();
 
-  constructor(private readonly ref: ElementRef<HTMLElement>) { }
+  defaultImageUrl: string;
+  defaultImageCaption: string;
+
+  constructor(private readonly ref: ElementRef<HTMLElement>, private readonly recipesService: RecipesService) {
+    [this.defaultImageUrl, this.defaultImageCaption] = recipesService.defaultImage();
+  }
 
   editing = false;
-  settingsMenuItems: MenuItem[] = [
-    { name: menuItemNames.EDIT, icon: "edit" },
-    { name: menuItemNames.DELETE, icon: "delete", color: "warn" }
-  ]
 
   menuItemSelected(item: MenuItem) {
     switch (item.name) {
-      case menuItemNames.EDIT:
+      case MenuItemNames.EDIT:
         this.setEditing(true);
         break;
-      case menuItemNames.DELETE:
+      case MenuItemNames.DELETE:
         this.deleteRecipe.emit();
         break;
     }
@@ -83,8 +88,3 @@ export class RecipeComponent {
     this.ref.nativeElement.scrollIntoView({ behavior: 'smooth' });
   }
 }
-
-enum menuItemNames {
-  EDIT = "Edit",
-  DELETE = "Delete"
-};

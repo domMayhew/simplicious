@@ -1,0 +1,27 @@
+<img [src]="recipe.image?.url || defaultImageUrl"
+	[matTooltip]="recipe.image?.caption || defaultImageCaption"
+	[matTooltipPosition]="'left'"
+	[matTooltipShowDelay]="500">
+<h6 *ngIf="!editing"
+	class="headline-6 recipe-title">
+	{{recipe.title}}
+</h6>
+<ng-container *ngIf="editing">
+	<mat-form-field color="accent">
+		<mat-autocomplete #autoRecipe="matAutocomplete"
+			(optionSelected)="changeRecipe(recipeInput.value)"
+			requireSelection>
+			<mat-option *ngFor="let recipeOption of recipes"
+				[value]="recipeOption.title">
+				{{recipeOption.title}}
+			</mat-option>
+		</mat-autocomplete>
+		<input #recipeInput
+			[formControl]="autoRecipeControl"
+			[matAutocomplete]="autoRecipe"
+			[placeholder]="recipe.title"
+			type="text"
+			matInput
+			class="headline-6 recipe-title">
+	</mat-form-field>
+</ng-container>

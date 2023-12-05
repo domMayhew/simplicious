@@ -8,24 +8,6 @@ mat-card {
   column-gap: theme.padding(large);
 }
 
-.card-header {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
-}
-
-.card-title-container {
-  padding-bottom: theme.padding(medium);
-  margin-bottom: theme.padding(large);
-  border-bottom: 1px solid black;
-}
-
-.card-title,
-.title-input {
-  @include theme.typography-level(headline-4);
-}
-
-
 .card-body {
   display: flex;
   flex-flow: row nowrap;
@@ -57,6 +39,7 @@ mat-card {
   display: flex;
   flex-flow: row nowrap;
   gap: theme.padding(large);
+  flex-grow: 1;
 }
 
 @media only screen and (max-width: 1100px) {

@@ -1,0 +1,22 @@
+@use '../../../theme.scss';
+
+:host {
+  background-color: theme.background();
+  border-radius: theme.radius(medium);
+  overflow: hidden;
+
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+img {
+  max-width: 100%;
+}
+
+.recipe-title {
+  padding: 0 theme.padding(medium) theme.padding(medium) theme.padding(medium);
+}
+
+mat-form-field {
+  max-width: 11rem; // TODO
+}

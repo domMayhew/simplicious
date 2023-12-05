@@ -1,17 +1,7 @@
-<mat-card>
-	<div class="card-header">
-		<div class="card-title-container">
-			<h4 *ngIf="!editing"
-				class="card-title">
-				{{recipe.title || 'Untitled Recipe'}}
-			</h4>
-			<input #title
-				*ngIf="editing"
-				[value]="recipe.title"
-				(blur)="titleChange(title.value)"
-				class="title-input"
-				type="text">
-		</div>
+<app-card [title]="recipe.title"
+	[editing]="editing"
+	(titleChange)="titleChange($event)">
+	<ng-template #settingsButtons>
 		<div class="settings-buttons">
 			<div>
 				<button *ngIf="editing"
@@ -21,11 +11,10 @@
 					color="primary">
 					Save Recipe
 				</button>
-				<app-settings-button [menuItems]="settingsMenuItems"
-					(itemSelected)="menuItemSelected($event)"></app-settings-button>
+				<app-settings-button (itemSelected)="menuItemSelected($event)"></app-settings-button>
 			</div>
 		</div>
-	</div>
+	</ng-template>
 	<div class="card-body">
 		<div class="card-text-elements">
 			<div class="ingredients-container">
@@ -33,18 +22,16 @@
 				<app-ingredient-list [requirements]="recipe.requirements"
 					[editing]="editing"></app-ingredient-list>
 			</div>
-			<app-recipe-instructions *ngIf="recipe.instructions"
-				[instructions]="recipe.instructions || []"
+			<app-recipe-instructions [instructions]="recipe.instructions || []"
 				[editing]="editing"
 				(updateInstructions)="updateInstructions($event)">
 			</app-recipe-instructions>
 		</div>
-		<div *ngIf="recipe.image"
-			class="card-image-container">
-			<img [attr.src]="recipe.image.url"
-				[matTooltip]="recipe.image.caption"
+		<div class="card-image-container">
+			<img [attr.src]="recipe.image?.url || defaultImageUrl"
+				[matTooltip]="recipe.image?.caption || defaultImageCaption"
 				matTooltipShowDelay="500"
 				class="card-image">
 		</div>
 	</div>
-</mat-card>
+</app-card>

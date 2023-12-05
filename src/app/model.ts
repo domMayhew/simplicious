@@ -1,6 +1,8 @@
+// Recipes
+
 interface Recipe {
   title: string;
-  requirements: Requirement[];
+  requirements: RecipeRequirement[];
   instructions?: string[];
   image?: {
     url: string;
@@ -8,7 +10,7 @@ interface Recipe {
   }
 }
 
-type Requirement = Option | Ingredient;
+type RecipeRequirement = Option | Ingredient;
 
 interface Option {
   options: Ingredient[];
@@ -28,6 +30,42 @@ enum SelectionMethod {
   DEFAULT
 }
 
-export type {
-  Recipe, Requirement, Option, Ingredient, SelectionMethod
+// Routines
+
+interface Routine {
+  name: string;
+  days: RoutineDay[];
+  groups: RoutineGroup[];
 }
+
+interface RoutineGroup {
+  name: string;
+  recipes: Recipe[];
+  method: SelectionMethod;
+}
+
+interface RoutineDay extends RoutineGroup {
+  name: DAYS_OF_WEEK;
+}
+
+enum DAYS_OF_WEEK {
+  MONDAY = "Monday",
+  TUESDAY = "Tuesday",
+  WEDNESDAY = "Wednesday",
+  THURSDAY = "Thursday",
+  FRIDAY = "Friday",
+  SATURDAY = "Saturday",
+  SUNDAY = "Sunday"
+}
+
+export type {
+  Recipe,
+  RecipeRequirement,
+  Option,
+  Ingredient,
+  Routine,
+  RoutineDay,
+  RoutineGroup,
+}
+
+export { DAYS_OF_WEEK, SelectionMethod }

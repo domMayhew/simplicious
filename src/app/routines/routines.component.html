@@ -1,3 +1,11 @@
 <app-with-nav>
-	<p>routines works!</p>
+	<div *ngFor="let routine of routines"
+		class="routines">
+		<app-routine-group *ngFor="let day of routine.days"
+			[group]="day"
+			(deleteGroup)="deleteDay(day)"></app-routine-group>
+		<app-routine-group *ngFor="let group of routine.groups"
+			[group]="group"
+			(deleteGroup)="deleteGroup(group)"></app-routine-group>
+	</div>
 </app-with-nav>
