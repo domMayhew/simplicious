@@ -1,37 +1,34 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WithNavComponent } from '../with-nav/with-nav.component';
-import { RoutinesService } from '../services/routines.service';
-import { Recipe, Routine, RoutineDay, RoutineGroup } from '../model';
-import { RoutineGroupComponent } from './routine-group/routine-group.component';
+import { RoutineService } from '../services/routine.service';
+import { Routine } from '../model/routine.model';
+import { Observable } from 'rxjs';
+import { RoutineComponent } from './routine/routine.component';
 
 @Component({
   selector: 'app-routines',
   standalone: true,
-  imports: [CommonModule, WithNavComponent, RoutineGroupComponent],
+  imports: [CommonModule, WithNavComponent, RoutineComponent],
   templateUrl: './routines.component.html',
   styleUrls: ['./routines.component.scss']
 })
 export class RoutinesComponent {
-  readonly routines: Routine[];
+  readonly routines$: Observable<Routine[]>;
 
-  constructor(private readonly routinesService: RoutinesService) {
-    this.routines = routinesService.getRoutines();
+  constructor(private readonly routineService: RoutineService) {
+    this.routines$ = routineService.routines$;
   }
 
-  deleteDay(day: RoutineDay) {
-    this.delete(this.routines[0].days, day);
+  addRoutine() {
+    this.routineService.addRoutine(new Routine('Untitle Routine', []));
   }
 
-  deleteGroup(group: RoutineGroup) {
-    this.delete(this.routines[0].groups, group);
+  deleteRoutine(i: number) {
+    this.routineService.deleteRoutine(i);
   }
 
-  private delete(list: RoutineGroup[], group: RoutineGroup) {
-    const index = list.indexOf(group);
-    if (index >= 0) {
-      list.splice(index, 1);
-    }
-
+  updateRoutine = (i: number) => (routine: Routine) => {
+    this.routineService.updateRoutine(i)(routine);
   }
 }

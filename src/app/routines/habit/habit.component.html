@@ -1,0 +1,16 @@
+<app-card [title]="habit.name"
+	[attr.span]="min(largestAlternativeGroup, 4)"
+	[editing]="editing"
+	(titleChange)="rename($event)"
+	class="routine-group">
+	<div *ngFor="let recipe of habit.recipes"
+		class="habit-recipe">
+		<div class="habit-alternatives">
+			<div *ngFor="let alternative of
+				(isAlternatives(recipe) ? recipe.alternatives : [recipe])"
+				class="habit-alternative">
+				{{alternative.name}}
+			</div>
+		</div>
+	</div>
+</app-card>

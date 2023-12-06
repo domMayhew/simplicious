@@ -1,11 +1,6 @@
 <app-with-nav>
-	<div *ngFor="let routine of routines"
-		class="routines">
-		<app-routine-group *ngFor="let day of routine.days"
-			[group]="day"
-			(deleteGroup)="deleteDay(day)"></app-routine-group>
-		<app-routine-group *ngFor="let group of routine.groups"
-			[group]="group"
-			(deleteGroup)="deleteGroup(group)"></app-routine-group>
-	</div>
+	<app-routine *ngFor="let routine of (routines$ | async); index as i"
+		[routine]="routine"
+		(update)="updateRoutine(i)"
+		(delete)="deleteRoutine(i)"></app-routine>
 </app-with-nav>

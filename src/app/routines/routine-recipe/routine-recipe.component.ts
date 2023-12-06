@@ -1,13 +1,15 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
-import { Recipe } from 'src/app/model';
-import { RecipesService } from 'src/app/services/recipes.service';
+import { Image, Recipe } from 'src/app/model/recipe.model';
+import { RecipeService } from 'src/app/services/recipe.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { Observable } from 'rxjs';
+import { OrAlternatives } from 'src/app/model/common.model';
 
 
 @Component({
@@ -27,23 +29,22 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   styleUrls: ['./routine-recipe.component.scss'],
 })
 export class RoutineRecipeComponent {
-  @Input({ required: true }) recipe!: Recipe;
+  @Input({ required: true }) recipe!: OrAlternatives<Recipe>;
   @Input() editing = false;
-  @Output('changeRecipe') changeRecipeEvent: EventEmitter<Recipe> = new EventEmitter();
+  @Output() update: EventEmitter<Recipe> = new EventEmitter();
 
-  recipes: Recipe[];
-  defaultImageUrl: string;
-  defaultImageCaption: string;
+  recipes: Observable<Recipe[]>;
+  defaultImage: Image;
 
   autoRecipeControl: FormControl = new FormControl('');
 
-  constructor(private readonly recipesService: RecipesService) {
-    [this.defaultImageUrl, this.defaultImageCaption] = this.recipesService.defaultImage();
-    this.recipes = recipesService.getRecipes();
+  constructor(private readonly recipeService: RecipeService) {
+    this.defaultImage = this.recipeService.defaultImage();
+    this.recipes = recipeService.currentUserRecipes();
   }
 
-  changeRecipe(newRecipeTitle: string): void {
-    const newRecipe = this.recipes.find(r => r.title === newRecipeTitle);
-    this.changeRecipeEvent.emit(newRecipe);
-  }
+  // changeRecipe(newRecipeTitle: string): void {
+  //   const newRecipe = this.recipes.find(r => r.title === newRecipeTitle);
+  //   this.changeRecipeEvent.emit(newRecipe);
+  // }
 }

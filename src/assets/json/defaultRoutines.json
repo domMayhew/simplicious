@@ -1,0 +1,37 @@
+[
+  {
+    "name": "My week",
+    "habits": [
+      {
+        "name": "Monday",
+        "recipes": [
+          "Fish Tacos"
+        ]
+      },
+      {
+        "name": "Tuesday",
+        "recipes": [
+          "Roast Veg"
+        ]
+      },
+      {
+        "name": "Breakfasts",
+        "recipes": [
+          {
+            "name": "Breakfast",
+            "recipes": [
+              "Fried Egg Breakfast",
+              "Oatmeal"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Lunches",
+        "recipes": [
+          "Sandwiches"
+        ]
+      }
+    ]
+  }
+]

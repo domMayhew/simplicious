@@ -45,7 +45,11 @@ export class CardTitleComponent {
   @Input({ required: true }) title!: string;
   @Output('titleChange') titleChangeEvent: EventEmitter<string> = new EventEmitter();
 
-  titleChange(newTitle: string) {
+  titleChange(title: string) {
+    const trimmed = title.trim();
+    const firstNewline = title.indexOf("\n");
+    const firstLine = firstNewline === -1 ? trimmed : trimmed.substring(0, firstNewline);
+    const newTitle = firstLine || 'Untitled';
     this.titleChangeEvent.emit(newTitle);
   }
 }

@@ -1,10 +1,11 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, SimpleChanges, ViewChild } from '@angular/core';
 import { WithNavComponent } from '../with-nav/with-nav.component';
 import { MatButtonModule } from '@angular/material/button';
-import { CommonModule, ViewportScroller } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { RecipeComponent } from './recipe/recipe.component';
-import { Recipe } from '../model';
-import { RecipesService } from '../services/recipes.service';
+import { Recipe } from '../model/recipe.model';
+import { RecipeService } from '../services/recipe.service';
+import { Observable } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -14,19 +15,23 @@ import { RecipesService } from '../services/recipes.service';
   imports: [CommonModule, WithNavComponent, RecipeComponent, MatButtonModule]
 })
 export class RecipesComponent {
+
   @ViewChild(RecipeComponent) firstRecipe: RecipeComponent | undefined;
 
-  recipes: Recipe[] = [];
+  recipes: Observable<Recipe[]>;
 
-  constructor(private readonly recipesService: RecipesService) {
-    this.recipes = recipesService.getRecipes();
+  constructor(private readonly recipeService: RecipeService) {
+    this.recipes = recipeService.currentUserRecipes();
   }
 
-  newRecipe() {
-    this.recipes.unshift({
-      title: 'Untitled',
-      requirements: []
-    });
+  ngOnChanges(changes: SimpleChanges) {
+    console.log(changes);
+  }
+
+  newRecipe = (): void => {
+    this.recipeService.addRecipe(
+      new Recipe('Untitled Recipe', [], [], this.recipeService.defaultImage())
+    );
 
     setTimeout(() => {
       console.log(this.firstRecipe);
@@ -37,10 +42,11 @@ export class RecipesComponent {
     }, 0);
   }
 
-  deleteRecipe(recipe: Recipe) {
-    const index = this.recipes.indexOf(recipe);
-    if (index >= 0) {
-      this.recipes.splice(index, 1);
-    }
+  deleteRecipe = (i: number): void => {
+    this.recipeService.deleteRecipe(i);
+  }
+
+  updateRecipe = (i: number) => (recipe: Recipe): void => {
+    this.recipeService.updateRecipe(i, recipe);
   }
 }

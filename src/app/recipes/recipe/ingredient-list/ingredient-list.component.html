@@ -1,31 +1,28 @@
 <div class="ingredient-list-with-input">
 	<div class="ingredients-and-edit-button">
 		<div class="ingredients">
-			<ng-container *ngFor="let req of requirements; index as i">
-				<app-ingredient *ngIf="isIngredient(req)"
-					[ingredient]="req"
-					[removedCb]="remove()"
-					[editedCb]="edit()"
-					[editing]="editing">
-					<app-add-alternative *ngIf="editing"
-						(click)="convertToOption(req)"></app-add-alternative>
-				</app-ingredient>
-				<app-option *ngIf="isOption(req)"
-					[option]="req"
-					[removedCb]="remove(req)"
-					[editedCb]="edit(req)"
+			<ng-container *ngFor="let ingredient of ingredients; index as i">
+				<app-ingredient *ngIf="isIngredient(ingredient)"
+					[ingredient]="ingredient"
 					[editing]="editing"
-					[closeForm$]="closeFormsSub$.asObservable()"
-					(newIngredient)="add(req)($event)"
-					(revertToIngredient)="revertToIngredient(req)"
-					(deleteOption)="deleteOption(req)"
-					(editName)="editOptionName(req)($event)">
-				</app-option>
+					(delete)="deleteIngredient(i)"
+					(update)="updateIngredient(i)($event)">
+					<app-add-alternative *ngIf="editing"
+						(click)="convertToAlternatives(i)"></app-add-alternative>
+				</app-ingredient>
+				<app-alternatives *ngIf="isAlternatives(ingredient)"
+					[alternativesGroup]="ingredient"
+					[editing]="editing"
+					[closeForm$]="closeForms$.asObservable()"
+					(delete)="deleteIngredient(i)"
+					(update)="updateIngredient(i)($event)"
+					(revertToIngredient)="revertToIngredient(i)">
+				</app-alternatives>
 			</ng-container>
 		</div>
 	</div>
 
 	<app-add-ingredient-form *ngIf="editing"
-		(newIngredient)="add()($event)">
+		(newIngredient)="addIngredient($event)">
 	</app-add-ingredient-form>
 </div>

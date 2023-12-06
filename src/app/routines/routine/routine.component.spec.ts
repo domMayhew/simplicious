@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OrTokenComponent } from './or-token.component';
+import { RoutineComponent } from './routine.component';
 
-describe('OrComponent', () => {
-  let component: OrTokenComponent;
-  let fixture: ComponentFixture<OrTokenComponent>;
+describe('RoutineComponent', () => {
+  let component: RoutineComponent;
+  let fixture: ComponentFixture<RoutineComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [OrTokenComponent]
+      imports: [RoutineComponent]
     });
-    fixture = TestBed.createComponent(OrTokenComponent);
+    fixture = TestBed.createComponent(RoutineComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

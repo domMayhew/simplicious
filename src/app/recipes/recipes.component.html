@@ -1,8 +1,9 @@
 <app-with-nav>
 	<div class="recipes">
-		<app-recipe *ngFor="let recipe of recipes"
+		<app-recipe *ngFor="let recipe of (recipes | async); index as i"
 			[recipe]="recipe"
-			(deleteRecipe)="deleteRecipe(recipe)"></app-recipe>
+			(updateRecipe)="updateRecipe(i)($event)"
+			(deleteRecipe)="deleteRecipe(i)"></app-recipe>
 	</div>
 	<button (click)="newRecipe()"
 		id="new-recipe-button"

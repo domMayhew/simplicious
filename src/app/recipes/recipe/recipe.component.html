@@ -1,6 +1,6 @@
-<app-card [title]="recipe.title"
+<app-card [title]="recipe.name"
 	[editing]="editing"
-	(titleChange)="titleChange($event)">
+	(titleChange)="rename($event)">
 	<ng-template #settingsButtons>
 		<div class="settings-buttons">
 			<div>
@@ -19,7 +19,7 @@
 		<div class="card-text-elements">
 			<div class="ingredients-container">
 				<h6 class="subtitle-2 body-section-header">Ingredients</h6>
-				<app-ingredient-list [requirements]="recipe.requirements"
+				<app-ingredient-list [ingredients]="recipe.ingredients"
 					[editing]="editing"></app-ingredient-list>
 			</div>
 			<app-recipe-instructions [instructions]="recipe.instructions || []"
@@ -28,8 +28,8 @@
 			</app-recipe-instructions>
 		</div>
 		<div class="card-image-container">
-			<img [attr.src]="recipe.image?.url || defaultImageUrl"
-				[matTooltip]="recipe.image?.caption || defaultImageCaption"
+			<img [attr.src]="recipe.image.url"
+				[matTooltip]="recipe.image.caption"
 				matTooltipShowDelay="500"
 				class="card-image">
 		</div>

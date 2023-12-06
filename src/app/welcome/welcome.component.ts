@@ -16,7 +16,7 @@ export class WelcomeComponent {
   instructions: Instruction[] = [
     {
       title: "Add your go-to meals",
-      content: "Build variety into your week by defining a meal with options. For example, create a “Roast Veg” meal that has rice, vegetables, and one of either chicken, ground beef, or pork chops."
+      content: "Build variety into your week by defining a meal with alternatives. For example, create a “Roast Veg” meal that has rice, vegetables, and one of either chicken, ground beef, or pork chops."
     },
     {
       title: "Create a template",

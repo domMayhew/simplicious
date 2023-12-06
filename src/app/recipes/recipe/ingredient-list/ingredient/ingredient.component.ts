@@ -1,7 +1,7 @@
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { MatChipEditedEvent, MatChipsModule } from "@angular/material/chips";
 import { MatTooltipModule } from "@angular/material/tooltip";
-import { Ingredient } from "src/app/model";
+import { Ingredient } from "src/app/model/recipe.model";
 import { IngredientQuantityPipe } from "src/app/pipes/ingredient-quantity.pipe";
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from "@angular/common";
@@ -16,8 +16,8 @@ import { CommonModule } from "@angular/common";
 				[matTooltipPosition]="'below'"
 				[matTooltipShowDelay]="250"
 				[matTooltip]="ingredient | ingredientQuantity"
-				(removed)="removedCb(ingredient)"
-				(edited)="editedCb(ingredient, $event)">
+				(removed)="delete.emit()"
+				(edited)="updateName($event)">
 				{{ingredient.name}}
 				<button *ngIf="editing"
           [attr.aria-label]="'remove ' + ingredient.name"
@@ -39,7 +39,11 @@ import { CommonModule } from "@angular/common";
 })
 export class IngredientComponent {
   @Input({ required: true }) ingredient!: Ingredient;
-  @Input() removedCb: (ingredient: Ingredient) => void = () => { };
-  @Input() editedCb: (ingredient: Ingredient, event: MatChipEditedEvent) => void = () => { };
   @Input() editing = false;
+  @Output() delete: EventEmitter<void> = new EventEmitter();
+  @Output() update: EventEmitter<Ingredient> = new EventEmitter();
+
+  updateName(event: MatChipEditedEvent) {
+    this.update.emit(this.ingredient.rename(event.value));
+  }
 }

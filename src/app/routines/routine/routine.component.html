@@ -1,0 +1,4 @@
+<app-habit *ngFor="let habit of routine.habits; index as i"
+	[habit]="habit"
+	(update)="updateHabit(i)($event)"
+	(delete)="deleteHabit(i)"></app-habit>

@@ -1,23 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Output } from '@angular/core';
-import { MatChipEditedEvent, MatChipsModule } from '@angular/material/chips';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { AbstractControl, FormsModule, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MatIconModule } from '@angular/material/icon';
-import { Ingredient, Option, RecipeRequirement } from 'src/app/model';
-import { ReactiveFormsModule, Validators, FormBuilder } from '@angular/forms';
-import { IngredientQuantityPipe } from 'src/app/pipes/ingredient-quantity.pipe';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatButtonModule } from '@angular/material/button';
-import { OrTokenComponent } from 'src/app/ui/tokens/or-token/or-token.component';
-import { IngredientComponent } from './ingredient.component';
-import { OptionComponent } from './option.component';
-import { AddAlternativeButton } from './add-alternative.component';
-import { AddIngredientForm } from './add-ingredient-form.component';
+import { Ingredient } from 'src/app/model/recipe.model';
+import { Validators, FormBuilder } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { EditButtonComponent } from 'src/app/ui/edit-button.component';
+import { Alternatives, OrAlternatives } from 'src/app/model/common.model';
+import { ArrayService } from 'src/app/services/array.service';
+import { isAlternatives, isSingleElement } from '../../../model/common.model';
+import { IngredientComponent } from './ingredient/ingredient.component';
+import { AddAlternativeButton } from 'src/app/ui/add-alternative.component';
+import { AlternativesComponent } from './alternatives.component';
+import { AddIngredientForm } from './new-ingredient-form/add-ingredient-form.component';
 
 @Component({
   standalone: true,
@@ -26,29 +20,17 @@ import { EditButtonComponent } from 'src/app/ui/edit-button.component';
   styleUrls: ['./ingredient-list.component.scss'],
   imports: [
     CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatChipsModule,
-    MatIconModule,
-    MatInputModule,
-    MatTooltipModule,
-    MatButtonModule,
-    IngredientQuantityPipe,
-    OrTokenComponent,
     IngredientComponent,
-    OptionComponent,
     AddAlternativeButton,
-    AddIngredientForm,
-    EditButtonComponent
+    AlternativesComponent,
+    AddIngredientForm
   ],
   providers: [FormBuilder]
 })
 export class IngredientListComponent {
-  @Input({ required: true }) requirements: RecipeRequirement[] = [];
+  @Input({ required: true }) ingredients: OrAlternatives<Ingredient>[] = [];
   @Input() editing = false;
-
-  constructor(private formBuilder: FormBuilder) { };
+  @Output() updateIngredients: EventEmitter<OrAlternatives<Ingredient>[]> = new EventEmitter();
 
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   readonly addOnBlur = true;
@@ -57,11 +39,7 @@ export class IngredientListComponent {
     return matches ? null : { invalidNumber: control.value + "is not a number" };
   }
 
-  closeFormsSub$: Subject<void> = new Subject();
-
-  ngAfterViewInit() {
-    this.closeFormsSub$.next();
-  }
+  closeForms$: Subject<void> = new Subject();
 
   form = this.formBuilder.group({
     quantity: ['1', this.numberValidator],
@@ -69,64 +47,67 @@ export class IngredientListComponent {
     name: ['', Validators.required],
   });
 
-  remove = (option?: Option) => (ingredient: Ingredient): void => {
-    const list = option ? option.options : this.requirements;
-    const index = list.indexOf(ingredient);
-    if (index >= 0) {
-      list.splice(index, 1);
+  constructor(
+    private readonly formBuilder: FormBuilder,
+    private readonly arrayService: ArrayService) { };
+
+  ngAfterViewInit() {
+    this.closeForms$.next();
+  }
+
+  deleteIngredient = (i: number): void => {
+    this.updateIngredients.emit(
+      this.arrayService.remove(this.ingredients, i)
+    );
+  }
+
+  updateIngredient = (i: number) => (ingredient: OrAlternatives<Ingredient>) => {
+    this.updateIngredients.emit(
+      this.arrayService.update(this.ingredients, i, ingredient)
+    );
+  }
+
+  addIngredient = (ingredient: OrAlternatives<Ingredient>) => {
+    this.updateIngredients.emit(
+      this.arrayService.add(this.ingredients, ingredient)
+    );
+  }
+
+  convertToAlternatives = (i: number) => {
+    const ingredient = this.ingredients[i];
+    if (this.isIngredient(ingredient)) {
+      this.updateIngredients.emit(
+        this.arrayService.update(
+          this.ingredients,
+          i,
+          new Alternatives('Untitled Ingredient', [ingredient]))
+      )
+    } else {
+      console.warn(
+        "Cannot convert to alternatives because it is already an alternatives group",
+        ingredient);
     }
   }
 
-  edit = (option?: Option) => (ingredient: Ingredient, event: MatChipEditedEvent): void => {
-    const list = option ? option.options : this.requirements;
-    const newIngredient = Object.assign({}, ingredient, { name: event.value });
-    const index = list.indexOf(ingredient);
-    if (index >= 0) {
-      list.splice(index, 1, newIngredient);
-    }
-  }
-
-  editOptionName = (option: Option) => (name: string) => {
-    option.name = name;
-  }
-
-  add = (option?: Option) => (ingredient: Ingredient): void => {
-    const list = option ? option.options : this.requirements;
-    list.push(ingredient);
-  }
-
-  convertToOption = (ingredient: Ingredient): void => {
-    const index = this.requirements.indexOf(ingredient);
-    if (index >= 0) {
-      const option = {
-        options: [ingredient]
+  revertToIngredient(i: number) {
+    const group = this.ingredients[i];
+    if (isAlternatives(group)) {
+      if (group.alternatives.length === 1) {
+        this.updateIngredient(i)(group.alternatives[0]);
+      } else {
+        console.error(
+          "Reverted an alternative group to ingredient but it had more than one element.",
+          group.alternatives
+        );
       }
-      this.requirements.splice(index, 1, option);
+    } else {
+      console.error(
+        "Cannot revert to ingredient because it is not an alternatives group.",
+        group
+      );
     }
   }
 
-  revertToIngredient = (option: Option): void => {
-    const index = this.requirements.indexOf(option);
-    if (index >= 0 && option.options.length === 1) {
-      const ingredient = option.options[0];
-      this.requirements.splice(index, 1, ingredient);
-    }
-  }
-
-  deleteOption = (option: Option): void => {
-    const index = this.requirements.indexOf(option);
-    if (index >= 0) {
-      this.requirements.splice(index, 1);
-    }
-  }
-
-  isIngredient(req: RecipeRequirement): req is Ingredient {
-    const ingredient = req as Ingredient;
-    return ingredient.name !== undefined && ingredient.quantity !== undefined;
-  }
-
-  isOption(req: RecipeRequirement): req is Option {
-    const op = req as Option;
-    return op.options !== undefined;
-  }
+  isAlternatives = isAlternatives;
+  isIngredient = isSingleElement;
 }

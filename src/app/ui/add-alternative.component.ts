@@ -17,7 +17,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
   </button>
   `,
   styles: [`
-  @use '../../../../theme.scss';
+  @use '../../theme.scss';
   .add-alternative {
     width: theme.token-height();
     height: theme.token-height();

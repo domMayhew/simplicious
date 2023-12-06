@@ -1,32 +1,32 @@
 import { CommonModule } from "@angular/common";
-import { Component, ElementRef, EventEmitter, HostListener, Input, Output } from "@angular/core";
-import { MatChipEditedEvent } from "@angular/material/chips";
-import { Ingredient, Option } from "src/app/model";
-import { IngredientComponent } from "./ingredient.component";
-import { OrTokenComponent } from "src/app/ui/tokens/or-token/or-token.component";
-import { AddAlternativeButton } from "./add-alternative.component";
-import { AddIngredientForm } from "./add-ingredient-form.component";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Ingredient } from "src/app/model/recipe.model";
+import { IngredientComponent } from "./ingredient/ingredient.component";
+import { OrTokenComponent } from "src/app/ui/or-token/or-token.component";
+import { AddAlternativeButton } from "../../../ui/add-alternative.component";
+import { AddIngredientForm } from "./new-ingredient-form/add-ingredient-form.component";
 import { Observable, Subject } from "rxjs";
+import { Alternatives } from "src/app/model/common.model";
 
 @Component({
 	standalone: true,
-	selector: 'app-option',
+	selector: 'app-alternatives',
 	template: `
 		<div class="option-list">
 			<h4 *ngIf="!editing"
 				class="body-1 option-name">
-				{{option.name || 'Untitled option'}}
+				{{alternativesGroup.name || 'Untitled option'}}
 			</h4>
 			<input #name *ngIf="editing"
 				class="body-1 option-name"
 				type="text"
-				value="{{option.name || 'Untitled option'}}"
-				(blur)="editName(name.value)">
-			<div *ngFor="let ingredient of option.options; last as isLast"
+				value="{{alternativesGroup.name || 'Untitled option'}}"
+				(blur)="rename(name.value)">
+			<div *ngFor="let ingredient of alternativesGroup.alternatives; index as i; last as isLast"
 				class="chip-and-or-token">
 				<app-ingredient [ingredient]="ingredient"
-					[removedCb]="removed"
-					[editedCb]="editedCb"
+					(delete)="deleteIngredient(i)"
+					(update)="updateIngredient(i)($event)"
 					[editing]="editing">
 					<app-or-token *ngIf="!isLast"></app-or-token>
 					<app-add-alternative class="{{showForm ? 'hidden' : ''}}"
@@ -36,7 +36,7 @@ import { Observable, Subject } from "rxjs";
 				</app-ingredient>
 			</div>
 			<app-add-ingredient-form *ngIf="editing && showForm"
-				(newIngredient)="newIngredient.emit($event)"
+				(newIngredient)="addIngredient($event)"
 				(close)="closeForm()"
 				[inOption]="true">
 			</app-add-ingredient-form>
@@ -69,16 +69,13 @@ import { Observable, Subject } from "rxjs";
 		AddIngredientForm
 	]
 })
-export class OptionComponent {
-	@Input({ required: true }) option!: Option;
-	@Input({ required: true }) removedCb: (ingredient: Ingredient) => void = () => { };
-	@Input({ required: true }) editedCb: (ingredient: Ingredient, event: MatChipEditedEvent) => void = () => { };
+export class AlternativesComponent {
+	@Input({ required: true }) alternativesGroup!: Alternatives<Ingredient>;
 	@Input() editing = false;
 	@Input() closeForm$!: Observable<void>;
-	@Output() newIngredient: EventEmitter<Ingredient> = new EventEmitter();
+	@Output() delete = new EventEmitter<void>();
+	@Output() update = new EventEmitter<Alternatives<Ingredient>>();
 	@Output() revertToIngredient: EventEmitter<void> = new EventEmitter();
-	@Output() deleteOption: EventEmitter<void> = new EventEmitter();
-	@Output('editName') editNameEvent: EventEmitter<string> = new EventEmitter();
 
 	showForm = true;
 	focusForm: Subject<void> = new Subject();
@@ -89,34 +86,35 @@ export class OptionComponent {
 		});
 	}
 
-	addAlternativeClicked() {
+	addAlternativeClicked = () => {
 		this.showForm = true;
 		// use setTimeout so that the DOM has time to respond to the changed
 		// `showForm` value and the form has actually rendered
 		setTimeout(() => this.focusForm.next(), 0);
 	}
 
-	editName(newName: string) {
-		this.editNameEvent.emit(newName);
+	rename = (newName: string) => {
+		this.update.emit(this.alternativesGroup.rename(newName));
 	}
 
-	removed = (ingredient: Ingredient) => {
-		if (this.option.options.length === 1 && !this.showForm) {
-			this.deleteOption.emit();
-		} else if (this.option.options.length === 2 && !this.showForm) {
-			this.removedCb(ingredient);
-			this.revertToIngredient.emit();
-		} else {
-			this.removedCb(ingredient);
-		}
+	addIngredient = (ingredient: Ingredient) => {
+		this.update.emit(this.alternativesGroup.addAlternative(ingredient));
+	}
+
+	deleteIngredient = (i: number) => {
+		this.update.emit(this.alternativesGroup.deleteAlternative(i));
+	}
+
+	updateIngredient = (i: number) => (ingredient: Ingredient) => {
+		this.update.emit(this.alternativesGroup.updateAlternative(i, ingredient));
 	}
 
 	closeForm = () => {
 		this.showForm = false;
-		if (this.option.options.length === 1) {
+		if (this.alternativesGroup.alternatives.length === 1) {
 			this.revertToIngredient.emit();
-		} else if (this.option.options.length === 0) {
-			this.deleteOption.emit();
+		} else if (this.alternativesGroup.alternatives.length === 0) {
+			this.delete.emit();
 		}
 	}
 }
