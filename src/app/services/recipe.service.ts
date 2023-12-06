@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Image, Ingredient, PopulatedRecipe, Recipe, RecipeJson } from '../model/recipe.model';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, UnaryFunction, map, pipe } from 'rxjs';
 import * as _ from 'lodash';
 import { UUID } from '../model/user.model';
 import { Alternatives, OrAlternatives, PopulatedAlternatives, SelectionMethod, isAlternatives } from '../model/common.model';
@@ -30,21 +30,16 @@ export class RecipeService {
 
   getRecipeByName(name: string): Observable<Recipe | undefined> {
     return this.recipes.pipe(
-      map(
-        (recipes: Recipe[]) => recipes.find(r => r.name === name)
-      ));
+      map((recipes: Recipe[]) => recipes.find(r => r.name === name)),
+      this.sanitize
+    );
   }
 
   getRecipeById(id: UUID): Observable<Recipe | undefined> {
     return this.recipes.pipe(
-      map(
-        (recipes: Recipe[]) => recipes.find(r => r.id.equals(id))
-      )
+      map((recipes: Recipe[]) => recipes.find(r => r.id.equals(id))),
+      this.sanitize
     )
-  }
-
-  getPopulatedRecipeById(id: UUID): Observable<Recipe | undefined> {
-    return this.getRecipeById(id);
   }
 
   populate = (recipe: Recipe): PopulatedRecipe => {
@@ -77,6 +72,9 @@ export class RecipeService {
     const suffix = this.recipes.getValue().slice(i + 1);
     this.recipes.next([...prefix, recipe, ...suffix]);
   }
+
+  sanitize: UnaryFunction<Observable<Recipe | undefined>, Observable<Recipe>> =
+    pipe(map((recipe: Recipe | undefined) => recipe ? recipe : this.nullRecipe()));
 
   defaultImage(): Image {
     return new Image(
