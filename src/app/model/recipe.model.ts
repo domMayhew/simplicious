@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { ArgValidator, OrAlternatives, OrAlternativesJson, add, orAlternativeFromObj, remove, update } from './common.model';
+import { ArgValidator, OrAlternatives, OrAlternativesJson, OrPopulatedAlternatives, add, orAlternativeFromObj, remove, update } from './common.model';
 import { UUID } from './user.model';
 
 export class Recipe extends ArgValidator {
@@ -59,6 +59,18 @@ export class Recipe extends ArgValidator {
     const instructions = obj.instructions || [];
     const image = obj.image ? Image.fromObj(obj.image) : defaultImage;
     return new Recipe(UUID.fromString(obj.id), name, ingredients, instructions, image);
+  }
+}
+
+export class PopulatedRecipe extends Recipe {
+  constructor(
+    id: UUID,
+    name: string,
+    ingredients: OrPopulatedAlternatives<Ingredient>[],
+    instructions: string[],
+    image: Image
+  ) {
+    super(id, name, ingredients, instructions, image);
   }
 }
 

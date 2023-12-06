@@ -21,6 +21,9 @@ export class UUID {
   }
 
   toString() { return this.id; }
+  equals(uuid: UUID) {
+    return this.id === uuid.id;
+  }
 }
 
 export type { User }

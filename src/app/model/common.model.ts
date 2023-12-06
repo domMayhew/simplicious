@@ -10,6 +10,8 @@ export class ArgValidator {
 
 export type OrAlternatives<T> = Alternatives<T> | T;
 
+export type OrPopulatedAlternatives<T> = PopulatedAlternatives<T> | T;
+
 export type OrAlternativesJson<ObjType> = ObjType | AlternativesJson<ObjType>;
 
 export function orAlternativeFromObj<T, ObjType>(
@@ -25,7 +27,7 @@ export function orAlternativeFromObj<T, ObjType>(
 }
 
 export class Alternatives<T> {
-  constructor(readonly name: string, readonly alternatives: T[], readonly method?: SelectionMethod) { }
+  constructor(readonly name: string, readonly alternatives: T[], readonly method: SelectionMethod = SelectionMethod.RANDOM) { }
 
   rename(name: string): Alternatives<T> {
     return new Alternatives(name, this.alternatives, this.method);
@@ -52,6 +54,13 @@ export class Alternatives<T> {
     const alternatives = _.map(obj.alternatives, constructor);
     return new Alternatives(name, alternatives);
   }
+}
+
+export class PopulatedAlternatives<T> extends Alternatives<T> {
+  constructor(
+    name: string, alternatives: T[], readonly choice: number, method: SelectionMethod = SelectionMethod.RANDOM) {
+    super(name, alternatives, method);
+  };
 }
 
 interface AlternativesJson<T> {
