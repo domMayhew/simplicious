@@ -5,13 +5,22 @@ import { isAlternatives } from '../model/common.model';
 import { RecipeService } from './recipe.service';
 import { Ingredient, PopulatedRecipe } from '../model/recipe.model';
 import { UUID } from '../model/user.model';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { ArrayService } from './array.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ShoppingService {
 
-  constructor(private readonly recipeService: RecipeService) { }
+  private lists = new BehaviorSubject<ShoppingList[]>([]);
+
+  constructor(private readonly recipeService: RecipeService,
+    private readonly arrayService: ArrayService) { }
+
+  getLists = (): Observable<ShoppingList[]> => {
+    return this.lists;
+  }
 
   generateList = (routine: PopulatedRoutine): ShoppingList => {
     const rawIngredientSources: [Ingredient, PopulatedRecipe][] =
@@ -29,7 +38,7 @@ export class ShoppingService {
     const sourceMap: Map<string, [Ingredient, string, UUID][]> = new Map();
     const quantityMap: Map<string, Ingredient> = new Map();
     rawIngredientSources.forEach(([ingredient, populatedRecipe]) => {
-      this.quantityMap(quantityMap, ingredient);
+      this.updateQuantityMap(quantityMap, ingredient);
       this.updateSourceMap(sourceMap, ingredient, populatedRecipe);
     })
 
@@ -41,10 +50,22 @@ export class ShoppingService {
       )
     });
 
-    return new ShoppingList(UUID.randomUUID(), new Date(), items);
+    const newList = new ShoppingList(UUID.randomUUID(), new Date(), items);
+    const oldLists = this.lists.getValue();
+    this.lists.next(
+      this.arrayService.addToStart(oldLists, newList)
+    );
+    return newList;
   }
 
-  private quantityMap(quantityMap: Map<string, Ingredient>, ingredient: Ingredient): void {
+  updateList = (i: number) => (list: ShoppingList): void => {
+    const oldLists = this.lists.getValue();
+    const newLists = this.arrayService.update(oldLists, i, list);
+    this.lists.next(newLists);
+  }
+
+
+  private updateQuantityMap(quantityMap: Map<string, Ingredient>, ingredient: Ingredient): void {
     const prevSumIngredient = quantityMap.get(ingredient.name);
     const newSumIngredient = prevSumIngredient ?
       this.addIngredients(prevSumIngredient, ingredient)

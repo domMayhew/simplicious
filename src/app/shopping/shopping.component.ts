@@ -20,20 +20,24 @@ import { UUID } from '../model/user.model';
   styleUrls: ['./shopping.component.scss']
 })
 export class ShoppingComponent {
-  lists = new BehaviorSubject<ShoppingList[]>([]);
+  lists = new Observable<ShoppingList[]>();
 
   constructor(
     private readonly routineService: RoutineService,
     private readonly shoppingService: ShoppingService,
-    private readonly arrayService: ArrayService) { }
+    private readonly arrayService: ArrayService) {
+    this.lists = shoppingService.getLists();
+  }
 
   newList() {
     this.selectRoutine().subscribe(routine => {
       const populatedRoutine = this.routineService.populate(routine);
       const list = this.shoppingService.generateList(populatedRoutine);
-      const newLists = this.arrayService.addToStart(this.lists.getValue(), list);
-      this.lists.next(newLists);
     })
+  }
+
+  updateList = (i: number) => (list: ShoppingList) => {
+    this.shoppingService.updateList(i)(list);
   }
 
   private selectRoutine(): Observable<Routine> {

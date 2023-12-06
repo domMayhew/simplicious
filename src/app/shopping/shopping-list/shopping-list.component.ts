@@ -15,11 +15,13 @@ import { CheckboxComponent } from "src/app/ui/checkbox.component";
 })
 export class ShoppingListComponent {
   @Input({ required: true }) shoppingList!: ShoppingList;
+  @Output() update = new EventEmitter<ShoppingList>();
 
   constructor(private readonly recipeService: RecipeService) { }
 
   toggleChecked = (i: number) => {
     this.shoppingList.items[i].toggleChecked();
+    this.update.emit(this.shoppingList);
   }
 
   tooltip = (item: ShoppingItem): string => {

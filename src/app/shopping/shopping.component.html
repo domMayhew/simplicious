@@ -3,6 +3,7 @@
 		(click)="newList()">
 		Create Shopping List
 	</app-main-fab>
-	<app-shopping-list *ngFor="let list of (lists | async); trackBy:identifyList"
-		[shoppingList]="list"></app-shopping-list>
+	<app-shopping-list *ngFor="let list of (lists | async); index as i; trackBy:identifyList"
+		[shoppingList]="list"
+		(update)="updateList(i)"></app-shopping-list>
 </app-with-nav>
