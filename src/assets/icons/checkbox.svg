@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+  <!-- <defs> -->
+  <rect id="border" x="1" y="1" width="14" height="14" rx="1" stroke="black" stroke-width="2" />
+  <g id="check">
+    <path d="M3 9L6 12" stroke-width="2" stroke="black" stroke-linecap="round" />
+    <path d="M6.00007 12.0001L13 4.99998" stroke-width="2" stroke="black" stroke-linecap="round" />
+  </g>
+  <!-- </defs> -->
+  <g id="unchecked">
+    <use href='#border' />
+  </g>
+  <g id="checked">
+    <use href='#border' />
+    <use href='#check' />
+  </g>
+</svg>
