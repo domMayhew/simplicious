@@ -23,7 +23,13 @@ export class ShoppingListComponent {
   }
 
   tooltip = (item: ShoppingItem): string => {
-    return item.usedBy.map(([ingredient, recipeName, recipeId]) => `${recipeName} (${ingredient.quantity}${ingredient.units ? ` ${ingredient.units}` : ''})`)
-      .join(", ");
+    if (item.usedBy.length < 1) {
+      return '';
+    } else if (item.usedBy.length === 1) {
+      return item.usedBy.map(([ingredient, recipeName, recipeId]) => `${recipeName}`).join('');
+    } else {
+      return item.usedBy.map(([ingredient, recipeName, recipeId]) => `${recipeName} (${ingredient.quantity}${ingredient.units ? ` ${ingredient.units}` : ''})`)
+        .join(", ");
+    }
   }
 }
