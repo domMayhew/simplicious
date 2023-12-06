@@ -32,10 +32,6 @@ export class RecipesComponent {
     this.recipes = recipeService.currentUserRecipes();
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
-  }
-
   newRecipe = (): void => {
     const id = UUID.randomUUID();
     this.recipeService.addRecipe(

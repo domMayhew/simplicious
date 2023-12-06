@@ -154,7 +154,6 @@ export class HabitComponent {
   }
 
   scrollIntoView() {
-    console.log("scrolling to", this.ref.nativeElement);
     this.ref.nativeElement.scrollIntoView({ behavior: 'smooth' });
   }
 
