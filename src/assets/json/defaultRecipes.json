@@ -52,8 +52,8 @@
       "Put it all together!"
     ],
     "image": {
-      "url": "/assets/images/stir-fry.webp",
-      "caption": "https://downshiftology.com/recipes/chicken-stir-fry/"
+      "url": "/assets/images/fish_tacos.png",
+      "caption": "https://kristineskitchenblog.com/fish-tacos/"
     }
   },
   {
@@ -164,7 +164,11 @@
         "quantity": 0.5,
         "units": "cups"
       }
-    ]
+    ],
+    "image": {
+      "url": "/assets/images/oatmeal.png",
+      "caption": "https://www.acouplecooks.com/oatmeal-recipe/"
+    }
   },
   {
     "id": "76c2de67-4ce3-4ef1-9e6e-097451d4e629",
@@ -189,6 +193,63 @@
         "quantity": 0.5,
         "units": "heads"
       }
-    ]
+    ],
+    "image": {
+      "url": "/assets/images/sandwiches.jpg",
+      "caption": "https://www.jellycat.com/us/Amuseable-Sandwich-A2SAN/?sku_s=A2SAN%26locale=us&gclid=CjwKCAiA1MCrBhAoEiwAC2d64WlMc0RRTSlZkXru-MmEFmf7Ao5n0vnq78anFuLe0n7TnT4hp-GWpxoCoZ0QAvD_BwE"
+    }
+  },
+  {
+    "id": "228e7873-f285-40e3-af1e-46b30e1e6ecb",
+    "name": "Stir Fry",
+    "ingredients": [
+      {
+        "name": "rice",
+        "quantity": 1,
+        "units": "cups"
+      },
+      {
+        "name": "bell peppers",
+        "quantity": 2
+      },
+      {
+        "name": "Tree type vegetable",
+        "alternatives": [
+          {
+            "name": "broccoli",
+            "quanity": 1,
+            "units": "heads"
+          },
+          {
+            "name": "cauliflower",
+            "quantity": 1,
+            "units": "heads"
+          }
+        ]
+      },
+      {
+        "name": "mushrooms",
+        "quantity": 1,
+        "units": "cups"
+      },
+      {
+        "name": "protein",
+        "alternatives": [
+          {
+            "name": "tofu",
+            "quantity": 1,
+            "units": "blocks"
+          },
+          {
+            "name": "chicken breasts",
+            "quantity": 1
+          }
+        ]
+      }
+    ],
+    "image": {
+      "url": "/assets/images/stir-fry.webp",
+      "caption": "https://downshiftology.com/recipes/chicken-stir-fry/"
+    }
   }
 ]
