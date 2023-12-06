@@ -108,6 +108,10 @@ export class IngredientListComponent {
     }
   }
 
+  identifyIngredientOrGroup(i: number, ingredientOrGroup: OrAlternatives<Ingredient>): string {
+    return ingredientOrGroup.name;
+  }
+
   isAlternatives = isAlternatives;
   isIngredient = isSingleElement;
 }

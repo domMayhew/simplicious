@@ -1,7 +1,7 @@
 <div class="ingredient-list-with-input">
 	<div class="ingredients-and-edit-button">
 		<div class="ingredients">
-			<ng-container *ngFor="let ingredient of ingredients; index as i">
+			<ng-container *ngFor="let ingredient of ingredients; index as i; trackBy:identifyIngredientOrGroup">
 				<app-ingredient *ngIf="isIngredient(ingredient)"
 					[ingredient]="ingredient"
 					[editing]="editing"
