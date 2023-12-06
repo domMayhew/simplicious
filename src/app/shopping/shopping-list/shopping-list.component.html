@@ -1,8 +1,10 @@
 <div class="shopping-list">
 	<div *ngFor="let item of shoppingList.items; index as i"
+		(click)="toggleChecked(i)"
 		class="shopping-item">
-		<app-checkbox (check)="check(i, $event)"></app-checkbox>
+		<app-checkbox [checked]="item.checked"></app-checkbox>
 		<span [matTooltip]="tooltip(item)"
+			[matTooltipPosition]="'right'"
 			class="item-text">
 			{{item.ingredient.quantity}}
       {{item.ingredient.units}}

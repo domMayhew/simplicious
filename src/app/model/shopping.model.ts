@@ -19,6 +19,10 @@ export class ShoppingItem {
     public checked: boolean = false,
   ) { }
 
+  toggleChecked() {
+    this.checked = !this.checked;
+  }
+
   setChecked(isChecked: boolean) {
     this.checked = isChecked;
   }
