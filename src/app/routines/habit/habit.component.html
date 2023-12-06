@@ -25,9 +25,20 @@
 					recipeOrAlternatives.alternatives;
 					index as columnIndex;
 					last as isLast">
-						<app-recipe-token [recipe]="alternative"
+						<app-recipe-token *ngIf="editing"
+							[recipe]="alternative"
 							[editing]="editing"
 							[matMenuTriggerFor]="menu"
+							[isLast]="isLast"
+							(menuOpened)="menuToggled(rowIndex)(columnIndex)(true)"
+							(menuClosed)="menuToggled(rowIndex)(columnIndex)(false)"
+							(delete)="deleteRecipeFromGroup(rowIndex)(columnIndex)"
+							(addAlternative)="addAlternative(rowIndex)">
+							{{alternative.name}}
+						</app-recipe-token>
+						<app-recipe-token *ngIf="!editing"
+							[recipe]="alternative"
+							[editing]="editing"
 							[isLast]="isLast"
 							(menuOpened)="menuToggled(rowIndex)(columnIndex)(true)"
 							(menuClosed)="menuToggled(rowIndex)(columnIndex)(false)"
@@ -39,9 +50,20 @@
 					</ng-container>
 				</ng-container>
 				<ng-container *ngIf="!isAlternatives(recipeOrAlternatives)">
-					<app-recipe-token [recipe]="recipeOrAlternatives"
+					<app-recipe-token *ngIf="editing"
+						[recipe]="recipeOrAlternatives"
 						[editing]="editing"
 						[matMenuTriggerFor]="menu"
+						[isLast]="true"
+						(menuOpened)="menuToggled(rowIndex)()(true)"
+						(menuClosed)="menuToggled(rowIndex)()(false)"
+						(delete)="deleteRow(rowIndex)"
+						(addAlternative)="addAlternative(rowIndex)">
+						{{recipeOrAlternatives.name}}
+					</app-recipe-token>
+					<app-recipe-token *ngIf="!editing"
+						[recipe]="recipeOrAlternatives"
+						[editing]="editing"
 						[isLast]="true"
 						(menuOpened)="menuToggled(rowIndex)()(true)"
 						(menuClosed)="menuToggled(rowIndex)()(false)"
@@ -53,7 +75,7 @@
 			</div>
 			<mat-menu #menu="matMenu">
 				<button *ngFor="let recipe of (allRecipes$ | async)"
-					(click)="recipeSelected(recipe.name)"
+					(click)="recipeSelected(recipe.id)"
 					mat-menu-item>
 					{{recipe.name}}
 				</button>
