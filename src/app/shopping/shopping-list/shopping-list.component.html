@@ -1,9 +1,14 @@
-<div class="shopping-list">
+<app-card [title]="shoppingList.date.toLocaleDateString()">
+	<ng-template #settingsButtons>
+		<app-settings-button [menuItems]="menuItems"
+			(itemSelected)="menuItemSelected($event)"></app-settings-button>
+	</ng-template>
 	<div *ngFor="let item of shoppingList.items; index as i"
 		(click)="toggleChecked(i)"
 		class="shopping-item">
 		<app-checkbox [checked]="item.checked"></app-checkbox>
 		<span [matTooltip]="tooltip(item)"
+			[matTooltipShowDelay]="500"
 			[matTooltipPosition]="'right'"
 			class="item-text">
 			{{item.ingredient.quantity}}
@@ -11,4 +16,4 @@
       {{item.ingredient.name}}
 		</span>
 	</div>
-</div>
+</app-card>

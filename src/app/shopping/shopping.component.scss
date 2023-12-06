@@ -1,0 +1,9 @@
+@use '../../theme.scss';
+
+.shopping-lists {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: theme.padding(large);
+
+  margin: theme.padding(large) 0;
+}

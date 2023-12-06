@@ -2,7 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/cor
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { CardComponent } from 'src/app/ui/card.component';
-import { MenuItem, MenuItemNames, SettingsButtonComponent } from 'src/app/ui/settings-button.component';
+import { MenuItem, MenuItemName, SettingsButtonComponent } from 'src/app/ui/settings-button.component';
 import { MatButtonModule } from '@angular/material/button';
 import { RoutineRecipeComponent } from '../routine-recipe/routine-recipe.component';
 import { OrTokenComponent } from 'src/app/ui/or-token/or-token.component';
@@ -65,10 +65,10 @@ export class HabitComponent {
 
   menuItemSelected(item: MenuItem) {
     switch (item.name) {
-      case MenuItemNames.EDIT:
+      case MenuItemName.EDIT:
         this.setEditing(true);
         break;
-      case MenuItemNames.DELETE:
+      case MenuItemName.DELETE:
         this.delete.emit();
         break;
     }

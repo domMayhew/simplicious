@@ -9,7 +9,7 @@ import { RecipeInstructionsComponent } from './recipe-instructions/recipe-instru
 import { MenuItem, SettingsButtonComponent } from 'src/app/ui/settings-button.component';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { CardComponent } from 'src/app/ui/card.component';
-import { MenuItemNames } from 'src/app/ui/settings-button.component';
+import { MenuItemName } from 'src/app/ui/settings-button.component';
 import { OrAlternatives } from 'src/app/model/common.model';
 
 @Component({
@@ -40,10 +40,10 @@ export class RecipeComponent {
 
   menuItemSelected(item: MenuItem) {
     switch (item.name) {
-      case MenuItemNames.EDIT:
+      case MenuItemName.EDIT:
         this.setEditing(true);
         break;
-      case MenuItemNames.DELETE:
+      case MenuItemName.DELETE:
         this.deleteRecipeEvent.emit();
         break;
     }

@@ -40,6 +40,10 @@ export class ShoppingComponent {
     this.shoppingService.updateList(i)(list);
   }
 
+  deleteList = (i: number): void => {
+    this.shoppingService.deleteList(i);
+  }
+
   private selectRoutine(): Observable<Routine> {
     return this.routineService.routines$.pipe(
       map(routines => routines[0])

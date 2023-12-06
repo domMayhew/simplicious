@@ -49,25 +49,26 @@ import { MatMenuModule } from '@angular/material/menu';
   imports: [CommonModule, MatButtonModule, MatIconModule, MatMenuModule]
 })
 export class SettingsButtonComponent {
-  @Input() menuItems: MenuItem[] = [
-    { name: MenuItemNames.EDIT, icon: "edit" },
-    { name: MenuItemNames.DELETE, icon: "delete", color: "warn" }
-  ];
+  @Input() menuItems: MenuItem[] = [EDIT_MENU_ITEM, DELETE_MENU_ITEM];
   @Output() itemSelected: EventEmitter<MenuItem> = new EventEmitter();
-
 
   selectItem(item: MenuItem) {
     this.itemSelected.emit(item);
   }
 }
 
-export enum MenuItemNames {
+export enum MenuItemName {
   EDIT = "Edit",
-  DELETE = "Delete"
+  DELETE = "Delete",
+  CLEAR = "CLEAR"
 };
 
 export interface MenuItem {
-  name: string;
+  name: MenuItemName;
   icon?: string;
   color?: string;
 }
+
+export const DELETE_MENU_ITEM: MenuItem = { name: MenuItemName.DELETE, icon: "delete", color: "warn" }
+export const EDIT_MENU_ITEM: MenuItem = { name: MenuItemName.EDIT, icon: "edit" }
+

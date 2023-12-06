@@ -64,6 +64,11 @@ export class ShoppingService {
     this.lists.next(newLists);
   }
 
+  deleteList = (i: number): void => {
+    const oldLists = this.lists.getValue();
+    const newLists = this.arrayService.remove(oldLists, i);
+    this.lists.next(newLists);
+  }
 
   private updateQuantityMap(quantityMap: Map<string, Ingredient>, ingredient: Ingredient): void {
     const prevSumIngredient = quantityMap.get(ingredient.name);

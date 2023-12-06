@@ -1,12 +1,5 @@
 @use '../../../theme.scss';
 
-.shopping-list {
-  background-color: theme.surface();
-  padding: theme.padding(large);
-  margin: theme.padding(large) 0;
-  @include theme.typography-level(body-1);
-}
-
 .shopping-item {
   display: flex;
   flex-flow: row nowrap;
