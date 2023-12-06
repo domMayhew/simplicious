@@ -78,11 +78,19 @@ export class PopulatedRecipe extends Recipe {
   constructor(
     id: UUID,
     name: string,
-    ingredients: OrPopulatedAlternatives<Ingredient>[],
+    override readonly ingredients: OrPopulatedAlternatives<Ingredient>[],
     instructions: string[],
     image: Image
   ) {
     super(id, name, ingredients, instructions, image);
+  }
+
+  getIngredients(): Ingredient[] {
+    return this.ingredients.map(ingredientOrPopulatedGroup => {
+      return isAlternatives(ingredientOrPopulatedGroup) ?
+        ingredientOrPopulatedGroup.getChoice()
+        : ingredientOrPopulatedGroup;
+    })
   }
 }
 

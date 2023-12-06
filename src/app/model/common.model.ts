@@ -65,6 +65,10 @@ export class PopulatedAlternatives<T> extends Alternatives<T> {
     name: string, alternatives: T[], readonly choice: number, method: SelectionMethod = SelectionMethod.RANDOM) {
     super(name, alternatives, method);
   };
+
+  getChoice(): T {
+    return this.alternatives[this.choice];
+  }
 }
 
 interface AlternativesJson<T> {

@@ -1,3 +1,8 @@
 <app-with-nav>
-	<p>shopping works!</p>
+	<app-main-fab [position]="'bottom-right'"
+		(click)="newList()">
+		Create Shopping List
+	</app-main-fab>
+	<app-shopping-list *ngFor="let list of (lists | async); trackBy:identifyList"
+		[shoppingList]="list"></app-shopping-list>
 </app-with-nav>

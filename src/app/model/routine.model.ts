@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
-import { ArgValidator, OrAlternatives, OrPopulatedAlternatives, add, isAlternatives, remove, update } from './common.model';
-import { Recipe } from './recipe.model';
+import { ArgValidator, OrAlternatives, OrPopulatedAlternatives, add, remove, update } from './common.model';
+import { PopulatedRecipe, Recipe } from './recipe.model';
 import { UUID } from './user.model';
 
 export class Routine extends ArgValidator {
@@ -38,7 +38,7 @@ export class Routine extends ArgValidator {
 }
 
 export class PopulatedRoutine extends Routine {
-  constructor(id: UUID, name: string, habits: PopulatedHabit[]) {
+  constructor(id: UUID, name: string, override readonly habits: PopulatedHabit[]) {
     super(id, name, habits);
   }
 }
@@ -66,7 +66,7 @@ export class Habit extends ArgValidator {
 }
 
 export class PopulatedHabit extends Habit {
-  constructor(id: UUID, name: string, recipes: OrPopulatedAlternatives<Recipe>[]) {
+  constructor(id: UUID, name: string, override readonly recipes: OrPopulatedAlternatives<Recipe>[]) {
     super(id, name, recipes);
   }
 }

@@ -1,0 +1,12 @@
+<div class="shopping-list">
+	<div *ngFor="let item of shoppingList.items; index as i"
+		class="shopping-item">
+		<app-checkbox (check)="check(i, $event)"></app-checkbox>
+		<span [matTooltip]="tooltip(item)"
+			class="item-text">
+			{{item.ingredient.quantity}}
+      {{item.ingredient.units}}
+      {{item.ingredient.name}}
+		</span>
+	</div>
+</div>
