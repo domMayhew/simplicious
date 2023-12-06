@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { RecipeService } from './recipe.service';
-import { Alternatives, OrAlternatives, } from '../model/common.model';
+import { Alternatives, OrAlternatives, isAlternatives, } from '../model/common.model';
 import { HttpClient } from '@angular/common/http';
 import { Recipe } from '../model/recipe.model';
-import { Habit, Routine } from '../model/routine.model';
+import { Habit, PopulatedHabit, PopulatedRoutine, Routine } from '../model/routine.model';
 import * as _ from 'lodash';
 import { BehaviorSubject, Observable, Subject, combineLatest, filter, map, mergeMap } from 'rxjs';
 import { ArrayService } from './array.service';
+import { AlternativesService } from './alternatives.service';
+import { UUID } from '../model/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +20,8 @@ export class RoutineService {
   constructor(
     private readonly http: HttpClient,
     private readonly recipeService: RecipeService,
-    private readonly arrayService: ArrayService) {
+    private readonly arrayService: ArrayService,
+    private readonly alternativesService: AlternativesService) {
     const jsonRoutines$ = http.get<any>('/assets/json/defaultRoutines.json');
     const routinesObs$ = jsonRoutines$.pipe(
       mergeMap(
@@ -52,6 +55,24 @@ export class RoutineService {
         routine
       )
     );
+  }
+
+  populate = (routine: Routine): PopulatedRoutine => {
+    const populatedHabits = routine.habits.map(habit => {
+      const populatedRecipeGroups = habit.recipes.map(recipeOrGroup => {
+        if (isAlternatives(recipeOrGroup)) {
+          const recipeChoice = this.alternativesService.chooseAlternative(routine.getIteration())(recipeOrGroup);
+          return recipeOrGroup.populateWith(recipeChoice);
+        } else {
+          return recipeOrGroup;
+        }
+      });
+      const id = UUID.randomUUID();
+      const populatedHabit = new PopulatedHabit(id, habit.name, populatedRecipeGroups);
+      return populatedHabit;
+    })
+    const id = UUID.randomUUID();
+    return new PopulatedRoutine(id, routine.name, populatedHabits);
   }
 
   routineFromJson(json: any): Observable<Routine> {

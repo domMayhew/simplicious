@@ -49,6 +49,10 @@ export class Alternatives<T> {
     return new Alternatives(this.name, this.alternatives, method);
   }
 
+  populateWith(choice: number): PopulatedAlternatives<T> {
+    return new PopulatedAlternatives(this.name, this.alternatives, choice, this.method);
+  }
+
   fromObj<ObjType>(constructor: (obj: ObjType) => T, obj: AlternativesJson<ObjType>): Alternatives<T> {
     const name = obj.name;
     const alternatives = _.map(obj.alternatives, constructor);

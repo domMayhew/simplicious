@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Image, Recipe, RecipeJson } from '../model/recipe.model';
+import { Image, Ingredient, PopulatedRecipe, Recipe, RecipeJson } from '../model/recipe.model';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import * as _ from 'lodash';
 import { UUID } from '../model/user.model';
+import { Alternatives, OrAlternatives, PopulatedAlternatives, SelectionMethod, isAlternatives } from '../model/common.model';
+import { AlternativesService } from './alternatives.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +14,7 @@ export class RecipeService {
 
   recipes: BehaviorSubject<Recipe[]> = new BehaviorSubject([] as Recipe[]);
 
-  constructor(private readonly http: HttpClient) {
+  constructor(private readonly http: HttpClient, private readonly alternativesService: AlternativesService) {
     const res = this.http.get<RecipeJson[]>('/assets/json/defaultRecipes.json');
     const recipeInstances = res.pipe(
       map(
@@ -31,6 +33,32 @@ export class RecipeService {
       map(
         (recipes: Recipe[]) => recipes.find(r => r.name === name)
       ));
+  }
+
+  getRecipeById(id: UUID): Observable<Recipe | undefined> {
+    return this.recipes.pipe(
+      map(
+        (recipes: Recipe[]) => recipes.find(r => r.id.equals(id))
+      )
+    )
+  }
+
+  getPopulatedRecipeById(id: UUID): Observable<Recipe | undefined> {
+    return this.getRecipeById(id);
+  }
+
+  populate = (recipe: Recipe): PopulatedRecipe => {
+    const populatedIngredients = recipe.ingredients
+      .map(ingredientOrGroup => {
+        if (isAlternatives(ingredientOrGroup)) {
+          const choice = this.alternativesService.chooseAlternative(recipe.getIteration())(ingredientOrGroup);
+          return ingredientOrGroup.populateWith(choice);
+        } else {
+          return ingredientOrGroup;
+        }
+      });
+    const id = UUID.randomUUID();
+    return new PopulatedRecipe(id, recipe.name, populatedIngredients, recipe.instructions, recipe.image);
   }
 
   addRecipe(recipe: Recipe) {

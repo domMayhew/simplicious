@@ -1,8 +1,10 @@
 import * as _ from 'lodash';
-import { ArgValidator, OrAlternatives, OrAlternativesJson, OrPopulatedAlternatives, add, orAlternativeFromObj, remove, update } from './common.model';
+import { ArgValidator, OrAlternatives, OrAlternativesJson, OrPopulatedAlternatives, add, isAlternatives, orAlternativeFromObj, remove, update } from './common.model';
 import { UUID } from './user.model';
 
 export class Recipe extends ArgValidator {
+  private iteration: number = 0;
+
   constructor(
     readonly id: UUID,
     readonly name: string,
@@ -51,6 +53,16 @@ export class Recipe extends ArgValidator {
 
   updateImage(image: Image) {
     return new Recipe(this.id, this.name, this.ingredients, this.instructions, image);
+  }
+
+  iterate() {
+    const r = new Recipe(this.id, this.name, this.ingredients, this.instructions, this.image);
+    r.iteration++;
+    return r;
+  }
+
+  getIteration() {
+    return this.iteration;
   }
 
   static fromObj = (defaultImage: Image) => (obj: RecipeJson): Recipe => {

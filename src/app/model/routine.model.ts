@@ -1,9 +1,11 @@
 import * as _ from 'lodash';
-import { ArgValidator, OrAlternatives, add, remove, update } from './common.model';
+import { ArgValidator, OrAlternatives, OrPopulatedAlternatives, add, isAlternatives, remove, update } from './common.model';
 import { Recipe } from './recipe.model';
 import { UUID } from './user.model';
 
 export class Routine extends ArgValidator {
+  private iteration = 0;
+
   constructor(readonly id: UUID, readonly name: string, readonly habits: Habit[]) {
     super([id, name, habits]);
   }
@@ -22,6 +24,22 @@ export class Routine extends ArgValidator {
 
   deleteHabit(i: number) {
     return new Routine(this.id, this.name, remove(this.habits, i));
+  }
+
+  iterate() {
+    const r = new Routine(this.id, this.name, this.habits);
+    r.iteration++;
+    return r;
+  }
+
+  getIteration() {
+    return this.iteration;
+  }
+}
+
+export class PopulatedRoutine extends Routine {
+  constructor(id: UUID, name: string, habits: PopulatedHabit[]) {
+    super(id, name, habits);
   }
 }
 
@@ -44,6 +62,12 @@ export class Habit extends ArgValidator {
 
   deleteOrAlternatives(i: number) {
     return new Habit(this.id, this.name, remove(this.recipes, i));
+  }
+}
+
+export class PopulatedHabit extends Habit {
+  constructor(id: UUID, name: string, recipes: OrPopulatedAlternatives<Recipe>[]) {
+    super(id, name, recipes);
   }
 }
 
