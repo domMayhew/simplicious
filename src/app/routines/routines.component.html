@@ -1,6 +1,6 @@
 <app-with-nav>
-	<app-routine *ngFor="let routine of (routines$ | async); index as i"
+	<app-routine *ngFor="let routine of (routines$ | async); index as i; trackBy:identifyRoutine"
 		[routine]="routine"
-		(update)="updateRoutine(i)"
+		(update)="updateRoutine(i)($event)"
 		(delete)="deleteRoutine(i)"></app-routine>
 </app-with-nav>

@@ -6,10 +6,3 @@
   flex-flow: column nowrap;
   row-gap: theme.padding(large);
 }
-
-#new-recipe-button {
-  @include theme.main-page-FAB();
-  position: fixed;
-  right: 0;
-  bottom: 0;
-}

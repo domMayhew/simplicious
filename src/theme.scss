@@ -219,10 +219,9 @@ $md-theme: mat.define-light-theme((color: (primary: $md-primary,
   }
 }
 
-@mixin main-page-FAB() {
+@mixin main-page-fab() {
   @include typography-level(headline-4);
   padding: padding(large);
-  margin: padding(very-large);
 }
 
 @function get-color($paletteName, $hue: default) {

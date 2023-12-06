@@ -1,8 +1,10 @@
 [
   {
+    "id": "a213998c-03bf-4439-95b8-76da5d3f3235",
     "name": "My week",
     "habits": [
       {
+        "id": "19ce66f9-feba-4af6-8ff1-1cc61042a869",
         "name": "Monday",
         "recipes": [
           "Fish Tacos",
@@ -10,12 +12,14 @@
         ]
       },
       {
+        "id": "39627afc-5779-4442-9e08-a673e7383e80",
         "name": "Tuesday",
         "recipes": [
           "Roast Veg"
         ]
       },
       {
+        "id": "090b78e8-22ad-4f5d-93ba-40831d443542",
         "name": "Breakfasts",
         "recipes": [
           {
@@ -28,6 +32,7 @@
         ]
       },
       {
+        "id": "4551127c-9084-4d2f-a566-4d96a62b92b5",
         "name": "Lunches",
         "recipes": [
           "Sandwiches"

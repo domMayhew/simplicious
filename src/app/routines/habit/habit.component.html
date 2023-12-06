@@ -2,19 +2,68 @@
 	[editing]="editing"
 	(titleChange)="rename($event)"
 	class="habit">
-	<div class="habit-recipe-rows">
-		<div *ngFor="let recipeOrAlternatives of habit.recipes"
-			class="habit-recipe-row">
-			<ng-container *ngFor="let alternative of
-		(isAlternatives(recipeOrAlternatives)
-			? recipeOrAlternatives.alternatives
-			: [recipeOrAlternatives]);
-		last as isLast">
-				<app-recipe-token [recipe]="alternative">
-					{{alternative.name}}
-				</app-recipe-token>
-				<app-or-token *ngIf="!isLast"></app-or-token>
-			</ng-container>
+	<ng-template #settingsButtons>
+		<div class="settings-buttons">
+			<div>
+				<button *ngIf="editing"
+					(click)="setEditing(false)"
+					mat-flat-button
+					class="edit-action-button"
+					color="primary">
+					Save Changes
+				</button>
+				<app-settings-button (itemSelected)="menuItemSelected($event)"></app-settings-button>
+			</div>
 		</div>
+	</ng-template>
+	<div class="habit-recipe-rows-with-button">
+		<div class="habit-recipe-rows">
+			<div *ngFor="let recipeOrAlternatives of habit.recipes; index as rowIndex"
+				class="habit-recipe-row">
+				<ng-container *ngIf="isAlternatives(recipeOrAlternatives)">
+					<ng-container *ngFor="let alternative of
+					recipeOrAlternatives.alternatives;
+					index as columnIndex;
+					last as isLast">
+						<app-recipe-token [recipe]="alternative"
+							[editing]="editing"
+							[matMenuTriggerFor]="menu"
+							[isLast]="isLast"
+							(menuOpened)="menuToggled(rowIndex)(columnIndex)(true)"
+							(menuClosed)="menuToggled(rowIndex)(columnIndex)(false)"
+							(delete)="deleteRecipeFromGroup(rowIndex)(columnIndex)"
+							(addAlternative)="addAlternative(rowIndex)">
+							{{alternative.name}}
+						</app-recipe-token>
+						<app-or-token *ngIf="!isLast"></app-or-token>
+					</ng-container>
+				</ng-container>
+				<ng-container *ngIf="!isAlternatives(recipeOrAlternatives)">
+					<app-recipe-token [recipe]="recipeOrAlternatives"
+						[editing]="editing"
+						[matMenuTriggerFor]="menu"
+						[isLast]="true"
+						(menuOpened)="menuToggled(rowIndex)()(true)"
+						(menuClosed)="menuToggled(rowIndex)()(false)"
+						(delete)="deleteRow(rowIndex)"
+						(addAlternative)="addAlternative(rowIndex)">
+						{{recipeOrAlternatives.name}}
+					</app-recipe-token>
+				</ng-container>
+			</div>
+			<mat-menu #menu="matMenu">
+				<button *ngFor="let recipe of (allRecipes$ | async)"
+					(click)="recipeSelected(recipe.name)"
+					mat-menu-item>
+					{{recipe.name}}
+				</button>
+			</mat-menu>
+		</div>
+		<button *ngIf="editing"
+			(click)="addRecipe()"
+			mat-flat-button
+			color="accent">
+			Add recipe
+		</button>
 	</div>
 </app-card>

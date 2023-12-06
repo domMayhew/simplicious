@@ -5,6 +5,7 @@ import { RoutineService } from '../services/routine.service';
 import { Routine } from '../model/routine.model';
 import { Observable } from 'rxjs';
 import { RoutineComponent } from './routine/routine.component';
+import { UUID } from '../model/user.model';
 
 @Component({
   selector: 'app-routines',
@@ -21,7 +22,8 @@ export class RoutinesComponent {
   }
 
   addRoutine() {
-    this.routineService.addRoutine(new Routine('Untitle Routine', []));
+    const id = UUID.randomUUID();
+    this.routineService.addRoutine(new Routine(id, 'Untitle Routine', []));
   }
 
   deleteRoutine(i: number) {
@@ -31,4 +33,6 @@ export class RoutinesComponent {
   updateRoutine = (i: number) => (routine: Routine) => {
     this.routineService.updateRoutine(i)(routine);
   }
+
+  identifyRoutine = (index: number, routine: Routine) => routine.id;
 }

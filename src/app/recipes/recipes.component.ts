@@ -7,13 +7,20 @@ import { Recipe } from '../model/recipe.model';
 import { RecipeService } from '../services/recipe.service';
 import { Observable } from 'rxjs';
 import { UUID } from '../model/user.model';
+import { MainFab } from '../ui/main-fab.component';
 
 @Component({
   standalone: true,
   selector: 'app-recipes',
   templateUrl: './recipes.component.html',
   styleUrls: ['./recipes.component.scss'],
-  imports: [CommonModule, WithNavComponent, RecipeComponent, MatButtonModule]
+  imports: [
+    CommonModule,
+    WithNavComponent,
+    RecipeComponent,
+    MatButtonModule,
+    MainFab,
+  ]
 })
 export class RecipesComponent {
 
@@ -36,7 +43,6 @@ export class RecipesComponent {
     );
 
     setTimeout(() => {
-      console.log(this.firstRecipe);
       this.firstRecipe?.scrollIntoView();
       if (this.firstRecipe) {
         this.firstRecipe.editing = true;

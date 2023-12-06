@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { CardComponent } from 'src/app/ui/card.component';
@@ -10,10 +10,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { Habit } from 'src/app/model/routine.model';
 import { Recipe } from 'src/app/model/recipe.model';
 import { RecipeService } from 'src/app/services/recipe.service';
-import { Observable, map } from 'rxjs';
-import { OrAlternatives, isAlternatives, isSingleElement } from 'src/app/model/common.model';
+import { BehaviorSubject, Observable, map } from 'rxjs';
+import { Alternatives, OrAlternatives, isAlternatives, isSingleElement } from 'src/app/model/common.model';
 import * as _ from 'lodash';
 import { RecipeTokenComponent } from 'src/app/recipes/recipe-token/recipe-token.component';
+import { AddAlternativeButton } from 'src/app/ui/add-alternative.component';
+import { UUID } from 'src/app/model/user.model';
+import { ArrayService } from 'src/app/services/array.service';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-habit',
@@ -27,7 +31,9 @@ import { RecipeTokenComponent } from 'src/app/recipes/recipe-token/recipe-token.
     SettingsButtonComponent,
     RoutineRecipeComponent,
     OrTokenComponent,
-    RecipeTokenComponent
+    RecipeTokenComponent,
+    AddAlternativeButton,
+    MatMenuModule,
   ],
   templateUrl: './habit.component.html',
   styleUrls: ['./habit.component.scss']
@@ -41,18 +47,12 @@ export class HabitComponent {
   // TODO: This component should not actually house all the recipes in memory
   // Instead, a list of names should be retrieved
   allRecipes$: Observable<Recipe[]>;
-  largestAlternativeGroup = 1;
+  updatingRecipe: [number, number | undefined] | undefined;
 
-  constructor(private readonly recipeService: RecipeService) {
+  constructor(private readonly recipeService: RecipeService,
+    private readonly arrayService: ArrayService,
+    private readonly ref: ElementRef<HTMLElement>) {
     this.allRecipes$ = recipeService.currentUserRecipes();
-  }
-
-  ngOnInit() {
-    this.largestAlternativeGroup = _.max(
-      _.map(this.habit.recipes, (r: OrAlternatives<Recipe>) =>
-        isAlternatives(r) ? r.alternatives.length : 1
-      )
-    ) || 1
   }
 
   setEditing(value: boolean) {
@@ -75,10 +75,7 @@ export class HabitComponent {
   }
 
   addRecipe() {
-    const randomRecipe$ = this.allRecipes$.pipe(
-      map((recipes: Recipe[]) => recipes[0])
-    );
-    randomRecipe$.subscribe(recipe => {
+    this.getRandomRecipe().subscribe(recipe => {
       this.update.emit(
         this.habit.addRecipe(recipe)
       )
@@ -89,6 +86,76 @@ export class HabitComponent {
     this.update.emit(
       this.habit.updateOrAlternatives(i, recipe)
     );
+  }
+
+  deleteRow = (i: number) => {
+    this.update.emit(
+      this.habit.deleteOrAlternatives(i)
+    );
+  }
+
+  deleteRecipeFromGroup = (groupIndex: number) => (alternativeIndex: number) => {
+    const group = this.habit.recipes[groupIndex];
+    if (isAlternatives(group)) {
+      const newGroup = group.deleteAlternative(alternativeIndex);
+      const newHabit = this.habit.updateOrAlternatives(groupIndex, newGroup);
+      this.update.emit(newHabit);
+    }
+  }
+
+  addAlternative(rowIndex: number) {
+    const recipeOrGroup: OrAlternatives<Recipe> = this.habit.recipes[rowIndex];
+    if (isAlternatives(recipeOrGroup)) {
+      this.getRandomRecipe().subscribe(recipe => {
+        this.update.emit(
+          this.habit.updateOrAlternatives(rowIndex, recipeOrGroup.addAlternative(recipe))
+        )
+      });
+    } else {
+      this.getRandomRecipe().subscribe(recipe => {
+        const id = UUID.randomUUID();
+        this.update.emit(
+          this.habit.updateOrAlternatives(
+            rowIndex,
+            new Alternatives<Recipe>("Untitled", [recipeOrGroup, recipe])
+          )
+        )
+      });
+    }
+  }
+
+  menuToggled = (groupIndex: number) => (alternativeIndex?: number) => (isOpen: boolean) => {
+    const nextVal: [number, number | undefined] | undefined = isOpen ? [groupIndex, alternativeIndex] : undefined;
+    this.updatingRecipe = nextVal;
+  }
+
+  recipeSelected = (name: string) => {
+    const recipe$ = this.recipeService.getRecipeByName(name);
+    recipe$.subscribe(recipe => {
+      if (this.updatingRecipe && recipe) {
+        const [groupIndex, alternativeIndex] = this.updatingRecipe;
+        if (alternativeIndex) {
+          const group = this.habit.recipes[groupIndex] as Alternatives<Recipe>;
+          const newGroup = group.updateAlternative(alternativeIndex, recipe);
+          const newHabit = this.habit.updateOrAlternatives(groupIndex, newGroup);
+          this.update.emit(newHabit);
+        } else {
+          const newHabit = this.habit.updateOrAlternatives(groupIndex, recipe);
+          this.update.emit(newHabit);
+        }
+      }
+    })
+  }
+
+  private getRandomRecipe(): Observable<Recipe> {
+    return this.allRecipes$.pipe(
+      map((recipes: Recipe[]) => recipes[0])
+    );
+  }
+
+  scrollIntoView() {
+    console.log("scrolling to", this.ref.nativeElement);
+    this.ref.nativeElement.scrollIntoView({ behavior: 'smooth' });
   }
 
   min = Math.min;

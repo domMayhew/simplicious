@@ -58,16 +58,18 @@ export class RoutineService {
     if (typeof json === 'string') {
       json = JSON.parse(json);
     }
+    const id = json.id;
     const name = json.name;
     const habits$ = _.map(json.habits, this.habitFromJson.bind(this));
     return combineLatest(habits$).pipe(
       map(
-        (habits: Habit[]) => new Routine(name, habits)
+        (habits: Habit[]) => new Routine(id, name, habits)
       )
     )
   }
 
   habitFromJson(json: any): Observable<Habit> {
+    const id = json.id;
     const name = json.name;
     const recipesOrAlternatives$ = _.map(json.recipes, this.recipeOrAlternativeFromJson.bind(this));
     return combineLatest(recipesOrAlternatives$).pipe(
@@ -76,7 +78,7 @@ export class RoutineService {
           recipesOrAlternatives.filter(oa => oa !== undefined) as OrAlternatives<Recipe>[]),
       map(
         (recipesOrAlternatives: OrAlternatives<Recipe>[]) =>
-          new Habit(name, recipesOrAlternatives)
+          new Habit(id, name, recipesOrAlternatives)
       )
     );
   }

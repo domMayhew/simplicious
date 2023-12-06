@@ -5,10 +5,8 @@
 			(updateRecipe)="updateRecipe(i)($event)"
 			(deleteRecipe)="deleteRecipe(i)"></app-recipe>
 	</div>
-	<button (click)="newRecipe()"
-		id="new-recipe-button"
-		mat-raised-button
-		color="accent">
+	<app-main-fab [position]="'bottom-right'"
+		(click)="newRecipe()">
 		New Recipe
-	</button>
+	</app-main-fab>
 </app-with-nav>

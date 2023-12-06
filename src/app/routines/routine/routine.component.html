@@ -1,4 +1,8 @@
-<app-habit *ngFor="let habit of routine.habits; index as i"
+<app-habit *ngFor="let habit of routine.habits; index as i; trackBy:identifyHabit"
 	[habit]="habit"
 	(update)="updateHabit(i)($event)"
 	(delete)="deleteHabit(i)"></app-habit>
+<app-main-fab [position]="'bottom-right'"
+	(click)="addHabit()">
+	New Group
+</app-main-fab>

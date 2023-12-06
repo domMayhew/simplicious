@@ -4,6 +4,13 @@
   @return $span * 3;
 }
 
+.habit-recipe-rows-with-button {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-start;
+  gap: theme.padding(medium);
+}
+
 .habit-recipe-rows {
   display: flex;
   flex-flow: column nowrap;
@@ -15,4 +22,16 @@
   flex-flow: row wrap;
   gap: theme.padding(medium);
   align-items: center;
+}
+
+.settings-buttons div {
+  display: flex;
+  align-items: center;
+  gap: theme.padding(large);
+
+  app-settings-button {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+  }
 }
