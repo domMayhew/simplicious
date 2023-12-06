@@ -10,7 +10,7 @@
 
   #call-to-action {
     margin-top: theme.padding(large);
-    @include theme.main-page-FAB();
+    @include theme.main-page-fab();
   }
 }
 
