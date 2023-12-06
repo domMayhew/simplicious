@@ -1,6 +1,6 @@
 <app-with-nav>
 	<div class="recipes">
-		<app-recipe *ngFor="let recipe of (recipes | async); index as i"
+		<app-recipe *ngFor="let recipe of (recipes | async); index as i; trackBy:identifyRecipe"
 			[recipe]="recipe"
 			(updateRecipe)="updateRecipe(i)($event)"
 			(deleteRecipe)="deleteRecipe(i)"></app-recipe>

@@ -1,16 +1,20 @@
 <app-card [title]="habit.name"
-	[attr.span]="min(largestAlternativeGroup, 4)"
 	[editing]="editing"
 	(titleChange)="rename($event)"
-	class="routine-group">
-	<div *ngFor="let recipe of habit.recipes"
-		class="habit-recipe">
-		<div class="habit-alternatives">
-			<div *ngFor="let alternative of
-				(isAlternatives(recipe) ? recipe.alternatives : [recipe])"
-				class="habit-alternative">
-				{{alternative.name}}
-			</div>
+	class="habit">
+	<div class="habit-recipe-rows">
+		<div *ngFor="let recipeOrAlternatives of habit.recipes"
+			class="habit-recipe-row">
+			<ng-container *ngFor="let alternative of
+		(isAlternatives(recipeOrAlternatives)
+			? recipeOrAlternatives.alternatives
+			: [recipeOrAlternatives]);
+		last as isLast">
+				<app-recipe-token [recipe]="alternative">
+					{{alternative.name}}
+				</app-recipe-token>
+				<app-or-token *ngIf="!isLast"></app-or-token>
+			</ng-container>
 		</div>
 	</div>
 </app-card>

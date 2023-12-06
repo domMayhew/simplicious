@@ -10,14 +10,14 @@
 					<app-add-alternative *ngIf="editing"
 						(click)="convertToAlternatives(i)"></app-add-alternative>
 				</app-ingredient>
-				<app-alternatives *ngIf="isAlternatives(ingredient)"
+				<app-ingredient-alternatives *ngIf="isAlternatives(ingredient)"
 					[alternativesGroup]="ingredient"
 					[editing]="editing"
 					[closeForm$]="closeForms$.asObservable()"
 					(delete)="deleteIngredient(i)"
 					(update)="updateIngredient(i)($event)"
 					(revertToIngredient)="revertToIngredient(i)">
-				</app-alternatives>
+				</app-ingredient-alternatives>
 			</ng-container>
 		</div>
 	</div>

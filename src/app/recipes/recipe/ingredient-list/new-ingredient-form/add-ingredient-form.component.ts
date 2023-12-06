@@ -42,23 +42,23 @@ export class AddIngredientForm {
     name: ['', Validators.required],
   });
 
-  // onSubmit() {
-  //   // Re-validate controls since on last submit errors were set to `null`
-  //   Object.values(this.form.controls).forEach((c: AbstractControl) => c.updateValueAndValidity());
-  //   if (this.form.valid) {
-  //     const ingredient: Ingredient = {
-  //       name: this.form.value.name || '',
-  //       units: this.form.value.units || '',
-  //       quantity: Number.parseFloat(this.form.value.quantity || '') || 1
-  //     }
-  //     this.newIngredient.emit(ingredient);
-  //     this.form.reset();
-  //     this.form.controls.quantity.setValue('1');
-  //     this.quantityRef.nativeElement.focus();
+  onSubmit() {
+    // Re-validate controls since on last submit errors were set to `null`
+    Object.values(this.form.controls).forEach((c: AbstractControl) => c.updateValueAndValidity());
+    if (this.form.valid) {
+      const ingredient = new Ingredient(
+        this.form.value.name || '',
+        Number.parseFloat(this.form.value.quantity || '') || 1,
+        this.form.value.units || ''
+      );
+      this.newIngredient.emit(ingredient);
+      this.form.reset();
+      this.form.controls.quantity.setValue('1');
+      this.quantityRef.nativeElement.focus();
 
-  //     Object.values(this.form.controls).forEach(control => {
-  //       control.setErrors(null);
-  //     });
-  //   }
-  // }
+      Object.values(this.form.controls).forEach(control => {
+        control.setErrors(null);
+      });
+    }
+  }
 }

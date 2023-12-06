@@ -10,23 +10,21 @@ import { CommonModule } from "@angular/common";
   standalone: true,
   selector: 'app-ingredient',
   template: `
-    <div class="ingredient-and-button">
-			<mat-chip-row [editable]="editing"
-				[aria-description]="'press enter to edit ' + ingredient.name"
-				[matTooltipPosition]="'below'"
-				[matTooltipShowDelay]="250"
-				[matTooltip]="ingredient | ingredientQuantity"
-				(removed)="delete.emit()"
-				(edited)="updateName($event)">
-				{{ingredient.name}}
-				<button *ngIf="editing"
-          [attr.aria-label]="'remove ' + ingredient.name"
-					matChipRemove>
-					<mat-icon>cancel</mat-icon>
-				</button>
-			</mat-chip-row>
-      <ng-content></ng-content>
-    </div>
+    <mat-chip-row [editable]="editing"
+      [aria-description]="'press enter to edit ' + ingredient.name"
+      [matTooltipPosition]="'below'"
+      [matTooltipShowDelay]="250"
+      [matTooltip]="ingredient | ingredientQuantity"
+      (removed)="delete.emit()"
+      (edited)="updateName($event)">
+      {{ingredient.name}}
+      <button *ngIf="editing"
+        [attr.aria-label]="'remove ' + ingredient.name"
+        matChipRemove>
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-chip-row>
+    <ng-content></ng-content>
   `,
   styleUrls: ['./ingredient.component.scss'],
   imports: [

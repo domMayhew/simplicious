@@ -10,6 +10,7 @@ export class UUID {
 
   static randomUUID() { return new UUID(uuid.v4()); }
   static validate = uuid.validate;
+  static fromString(id: string) { return new UUID(id); }
 
   private constructor(id: string) {
     if (!uuid.validate(id)) {

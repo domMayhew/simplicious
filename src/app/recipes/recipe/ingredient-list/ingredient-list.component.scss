@@ -6,15 +6,9 @@
   gap: theme.padding(small);
 }
 
-@mixin outlined-group() {
-  padding: theme.padding(medium);
-  border: 1px solid theme.get-color(accent, darker);
-  border-radius: theme.radius(medium);
-}
-
 .ingredient-list-with-input {
   @include ingredient-list();
-  @include outlined-group();
+  @include theme.outlined-group();
 }
 
 .ingredients-and-edit-button {
@@ -26,12 +20,6 @@
 .ingredients {
   @include ingredient-list();
   align-items: flex-start;
-}
-
-app-option {
-  @include ingredient-list();
-  @include outlined-group();
-  align-items: stretch;
 }
 
 app-add-alternative {

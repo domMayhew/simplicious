@@ -10,57 +10,38 @@ import { Alternatives } from "src/app/model/common.model";
 
 @Component({
 	standalone: true,
-	selector: 'app-alternatives',
+	selector: 'app-ingredient-alternatives',
 	template: `
-		<div class="option-list">
-			<h4 *ngIf="!editing"
-				class="body-1 option-name">
-				{{alternativesGroup.name || 'Untitled option'}}
-			</h4>
-			<input #name *ngIf="editing"
-				class="body-1 option-name"
-				type="text"
-				value="{{alternativesGroup.name || 'Untitled option'}}"
-				(blur)="rename(name.value)">
-			<div *ngFor="let ingredient of alternativesGroup.alternatives; index as i; last as isLast"
-				class="chip-and-or-token">
-				<app-ingredient [ingredient]="ingredient"
-					(delete)="deleteIngredient(i)"
-					(update)="updateIngredient(i)($event)"
-					[editing]="editing">
-					<app-or-token *ngIf="!isLast"></app-or-token>
-					<app-add-alternative class="{{showForm ? 'hidden' : ''}}"
-						*ngIf="isLast && editing"
-						(click)="addAlternativeClicked()">
-					</app-add-alternative>
-				</app-ingredient>
-			</div>
-			<app-add-ingredient-form *ngIf="editing && showForm"
-				(newIngredient)="addIngredient($event)"
-				(close)="closeForm()"
-				[inOption]="true">
-			</app-add-ingredient-form>
-		</div>
+		<h4 *ngIf="!editing"
+			class="body-1 group-name">
+			{{alternativesGroup.name || 'Untitled option'}}
+		</h4>
+		<input #name *ngIf="editing"
+			class="body-1 group-name"
+			type="text"
+			value="{{alternativesGroup.name || 'Untitled option'}}"
+			(blur)="rename(name.value)">
+		<ng-container *ngFor="
+			let ingredient of alternativesGroup.alternatives;
+			index as i; last as isLast">
+			<app-ingredient [ingredient]="ingredient"
+				(delete)="deleteIngredient(i)"
+				(update)="updateIngredient(i)($event)"
+				[editing]="editing">
+				<app-or-token *ngIf="!isLast"></app-or-token>
+				<app-add-alternative class="{{showForm ? 'hidden' : ''}}"
+					*ngIf="isLast && editing"
+					(click)="addAlternativeClicked()">
+				</app-add-alternative>
+			</app-ingredient>
+		</ng-container>
+		<app-add-ingredient-form *ngIf="editing && showForm"
+			(newIngredient)="addIngredient($event)"
+			(close)="closeForm()"
+			[inOption]="true">
+		</app-add-ingredient-form>
   `,
-	styles: [`
-		@use '../../../../theme.scss';
-		.option-list {
-			display: flex;
-			flex-flow: column nowrap;
-			gap: theme.padding(small);
-		}
-
-		.option-name {
-			font-weight: 600;
-			font-style: italic;
-		}
-		app-add-alternative {
-			visibility: hidden;
-		}
-		.option-list:hover app-add-alternative:not(.hidden) {
-			visibility: visible;
-		}
-	`],
+	styleUrls: ['./ingredient-alternatives.component.scss'],
 	imports: [
 		CommonModule,
 		IngredientComponent,
@@ -69,7 +50,7 @@ import { Alternatives } from "src/app/model/common.model";
 		AddIngredientForm
 	]
 })
-export class AlternativesComponent {
+export class IngredientAlternativesComponent {
 	@Input({ required: true }) alternativesGroup!: Alternatives<Ingredient>;
 	@Input() editing = false;
 	@Input() closeForm$!: Observable<void>;

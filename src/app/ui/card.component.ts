@@ -25,7 +25,6 @@ import { CardTitleComponent } from "./card-title.component";
     mat-card {
       padding: theme.padding(large);
       width: 100%;
-      height: 100%;
       display: flex;
       flex-flow: column nowrap;
       column-gap: theme.padding(large);

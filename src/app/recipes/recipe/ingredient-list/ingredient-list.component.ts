@@ -10,7 +10,7 @@ import { ArrayService } from 'src/app/services/array.service';
 import { isAlternatives, isSingleElement } from '../../../model/common.model';
 import { IngredientComponent } from './ingredient/ingredient.component';
 import { AddAlternativeButton } from 'src/app/ui/add-alternative.component';
-import { AlternativesComponent } from './alternatives.component';
+import { IngredientAlternativesComponent } from './ingredient-alternatives.component';
 import { AddIngredientForm } from './new-ingredient-form/add-ingredient-form.component';
 
 @Component({
@@ -22,7 +22,7 @@ import { AddIngredientForm } from './new-ingredient-form/add-ingredient-form.com
     CommonModule,
     IngredientComponent,
     AddAlternativeButton,
-    AlternativesComponent,
+    IngredientAlternativesComponent,
     AddIngredientForm
   ],
   providers: [FormBuilder]

@@ -3,6 +3,7 @@ import { Image, Recipe, RecipeJson } from '../model/recipe.model';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import * as _ from 'lodash';
+import { UUID } from '../model/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -34,7 +35,7 @@ export class RecipeService {
 
   addRecipe(recipe: Recipe) {
     const oldRecipes = this.recipes.getValue();
-    this.recipes.next([...oldRecipes, recipe]);
+    this.recipes.next([recipe, ...oldRecipes]);
   }
 
   deleteRecipe(i: number) {
@@ -56,9 +57,10 @@ export class RecipeService {
     );
   }
 
-  nullRecipe(name: string): Recipe {
+  nullRecipe(id?: UUID, name?: string): Recipe {
     return new Recipe(
-      name,
+      id || UUID.randomUUID(),
+      name || "Untitled Recipe",
       [],
       [],
       new Image('/assets/icons/error.svg',

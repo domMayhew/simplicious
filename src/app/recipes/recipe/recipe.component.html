@@ -20,7 +20,8 @@
 			<div class="ingredients-container">
 				<h6 class="subtitle-2 body-section-header">Ingredients</h6>
 				<app-ingredient-list [ingredients]="recipe.ingredients"
-					[editing]="editing"></app-ingredient-list>
+					[editing]="editing"
+					(updateIngredients)="updateIngredients($event)"></app-ingredient-list>
 			</div>
 			<app-recipe-instructions [instructions]="recipe.instructions || []"
 				[editing]="editing"

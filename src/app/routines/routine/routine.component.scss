@@ -1,0 +1,9 @@
+@use '../../../theme.scss';
+
+:host {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: theme.padding(large);
+  justify-content: space-evenly;
+  margin: theme.padding(large) 0;
+}

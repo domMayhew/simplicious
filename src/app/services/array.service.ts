@@ -13,6 +13,11 @@ export class ArrayService {
     return [...newArr, el];
   }
 
+  addToStart<T>(arr: T[], el: T): T[] {
+    const newArr = _.cloneDeep(arr);
+    return [el, ...newArr];
+  }
+
   remove<T>(arr: T[], i: number): T[] {
     const prefix = _.take(arr, i);
     const suffix = _.drop(arr, i + 1);

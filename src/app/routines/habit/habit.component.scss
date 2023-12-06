@@ -4,51 +4,15 @@
   @return $span * 3;
 }
 
-app-card {
-  display: inline-block;
-  height: 100%;
-
-  width: theme.multi-column-width(columnsFromSpan(1));
-
-  &[span='2'] {
-    width: theme.multi-column-width(columnsFromSpan(2));
-  }
-
-  &[span='3'] {
-    width: theme.multi-column-width(columnsFromSpan(3));
-  }
-
-  &[span='4'] {
-    width: theme.multi-column-width(columnsFromSpan(4));
-  }
-}
-
-.recipes {
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  gap: theme.grid-gutter-size();
-}
-
-.recipes-with-save-button {
-  height: 100%;
+.habit-recipe-rows {
   display: flex;
   flex-flow: column nowrap;
-  justify-content: space-between;
-  gap: theme.padding(large);
+  gap: theme.padding(medium);
 }
 
-.recipe-with-delete-button {
+.habit-recipe-row {
   display: flex;
-  flex-flow: column nowrap;
+  flex-flow: row wrap;
+  gap: theme.padding(medium);
   align-items: center;
-  height: 100%;
-}
-
-button.warn {
-  color: theme.get-color(warn);
-}
-
-button.hidden {
-  visibility: hidden;
 }

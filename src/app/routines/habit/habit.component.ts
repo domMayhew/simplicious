@@ -13,6 +13,7 @@ import { RecipeService } from 'src/app/services/recipe.service';
 import { Observable, map } from 'rxjs';
 import { OrAlternatives, isAlternatives, isSingleElement } from 'src/app/model/common.model';
 import * as _ from 'lodash';
+import { RecipeTokenComponent } from 'src/app/recipes/recipe-token/recipe-token.component';
 
 @Component({
   selector: 'app-habit',
@@ -26,6 +27,7 @@ import * as _ from 'lodash';
     SettingsButtonComponent,
     RoutineRecipeComponent,
     OrTokenComponent,
+    RecipeTokenComponent
   ],
   templateUrl: './habit.component.html',
   styleUrls: ['./habit.component.scss']

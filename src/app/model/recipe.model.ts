@@ -1,8 +1,10 @@
 import * as _ from 'lodash';
 import { ArgValidator, OrAlternatives, OrAlternativesJson, add, orAlternativeFromObj, remove, update } from './common.model';
+import { UUID } from './user.model';
 
 export class Recipe extends ArgValidator {
   constructor(
+    readonly id: UUID,
     readonly name: string,
     readonly ingredients: OrAlternatives<Ingredient>[],
     readonly instructions: string[],
@@ -11,44 +13,44 @@ export class Recipe extends ArgValidator {
   }
 
   rename(name: string) {
-    return new Recipe(name, this.ingredients, this.instructions, this.image);
+    return new Recipe(this.id, name, this.ingredients, this.instructions, this.image);
   }
 
   updateIngredients(ingredients: OrAlternatives<Ingredient>[]) {
-    return new Recipe(this.name, ingredients, this.instructions, this.image);
+    return new Recipe(this.id, this.name, ingredients, this.instructions, this.image);
   }
 
   addIngredient(req: OrAlternatives<Ingredient>) {
-    return new Recipe(this.name, add(this.ingredients, req), this.instructions, this.image);
+    return new Recipe(this.id, this.name, add(this.ingredients, req), this.instructions, this.image);
   }
 
   deleteIngredient(i: number) {
-    return new Recipe(this.name, remove(this.ingredients, i), this.instructions, this.image);
+    return new Recipe(this.id, this.name, remove(this.ingredients, i), this.instructions, this.image);
   }
 
   updateIngredient(i: number, req: OrAlternatives<Ingredient>) {
 
-    return new Recipe(this.name, update(this.ingredients, i, req), this.instructions, this.image);
+    return new Recipe(this.id, this.name, update(this.ingredients, i, req), this.instructions, this.image);
   }
 
   addInstruction(instruction: string) {
-    return new Recipe(this.name, this.ingredients, add(this.instructions, instruction), this.image);
+    return new Recipe(this.id, this.name, this.ingredients, add(this.instructions, instruction), this.image);
   }
 
   deleteInstruction(i: number) {
-    return new Recipe(this.name, this.ingredients, remove(this.instructions, i), this.image);
+    return new Recipe(this.id, this.name, this.ingredients, remove(this.instructions, i), this.image);
   }
 
   updateInstructions(instructions: string[]) {
-    return new Recipe(this.name, this.ingredients, instructions, this.image);
+    return new Recipe(this.id, this.name, this.ingredients, instructions, this.image);
   }
 
   updateInstruction(i: number, instruction: string) {
-    return new Recipe(this.name, this.ingredients, update(this.instructions, i, instruction), this.image);
+    return new Recipe(this.id, this.name, this.ingredients, update(this.instructions, i, instruction), this.image);
   }
 
   updateImage(image: Image) {
-    return new Recipe(this.name, this.ingredients, this.instructions, image);
+    return new Recipe(this.id, this.name, this.ingredients, this.instructions, image);
   }
 
   static fromObj = (defaultImage: Image) => (obj: RecipeJson): Recipe => {
@@ -56,11 +58,12 @@ export class Recipe extends ArgValidator {
     const ingredients = _.map(obj.ingredients, ingredient => orAlternativeFromObj(Ingredient.fromObj, ingredient)) || [];
     const instructions = obj.instructions || [];
     const image = obj.image ? Image.fromObj(obj.image) : defaultImage;
-    return new Recipe(name, ingredients, instructions, image);
+    return new Recipe(UUID.fromString(obj.id), name, ingredients, instructions, image);
   }
 }
 
 export interface RecipeJson {
+  id: string,
   name: string;
   ingredients: OrAlternativesJson<IngredientJson>[];
   instructions: string[];

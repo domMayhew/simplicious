@@ -265,6 +265,12 @@ $md-theme: mat.define-light-theme((color: (primary: $md-primary,
   }
 }
 
+@mixin outlined-group() {
+  padding: padding(medium);
+  border: 1px solid get-color(accent, darker);
+  border-radius: radius(medium);
+}
+
 @function token-height() {
   @return 1.5rem;
 }

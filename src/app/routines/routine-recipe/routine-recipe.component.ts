@@ -11,7 +11,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { Observable } from 'rxjs';
 import { OrAlternatives } from 'src/app/model/common.model';
 
-
 @Component({
   selector: 'app-routine-recipe',
   standalone: true,

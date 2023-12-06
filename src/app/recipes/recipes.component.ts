@@ -6,6 +6,7 @@ import { RecipeComponent } from './recipe/recipe.component';
 import { Recipe } from '../model/recipe.model';
 import { RecipeService } from '../services/recipe.service';
 import { Observable } from 'rxjs';
+import { UUID } from '../model/user.model';
 
 @Component({
   standalone: true,
@@ -29,8 +30,9 @@ export class RecipesComponent {
   }
 
   newRecipe = (): void => {
+    const id = UUID.randomUUID();
     this.recipeService.addRecipe(
-      new Recipe('Untitled Recipe', [], [], this.recipeService.defaultImage())
+      new Recipe(id, 'Untitled Recipe', [], [], this.recipeService.defaultImage())
     );
 
     setTimeout(() => {
@@ -48,5 +50,9 @@ export class RecipesComponent {
 
   updateRecipe = (i: number) => (recipe: Recipe): void => {
     this.recipeService.updateRecipe(i, recipe);
+  }
+
+  identifyRecipe(index: number, recipe: Recipe): string {
+    return recipe.name;
   }
 }

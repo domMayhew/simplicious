@@ -1,0 +1,21 @@
+@use '../../../../theme.scss';
+
+:host {
+  @include theme.outlined-group;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: theme.padding(small);
+}
+
+.group-name {
+  font-weight: 600;
+  font-style: italic;
+}
+
+app-add-alternative {
+  visibility: hidden;
+}
+
+:host:hover app-add-alternative:not(.hidden) {
+  visibility: visible;
+}
