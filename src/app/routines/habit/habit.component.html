@@ -74,11 +74,7 @@
 				</ng-container>
 			</div>
 			<mat-menu #menu="matMenu">
-				<button *ngFor="let recipe of (allRecipes$ | async)"
-					(click)="recipeSelected(recipe.id)"
-					mat-menu-item>
-					{{recipe.name}}
-				</button>
+				<app-recipe-select [recipes$]="recipes$"></app-recipe-select>
 			</mat-menu>
 		</div>
 		<button *ngIf="editing"

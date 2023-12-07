@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Habit } from 'src/app/model/routine.model';
 import { Recipe } from 'src/app/model/recipe.model';
 import { RecipeService } from 'src/app/services/recipe.service';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Alternatives, OrAlternatives, isAlternatives, isSingleElement } from 'src/app/model/common.model';
 import * as _ from 'lodash';
 import { RecipeTokenComponent } from 'src/app/recipes/recipe-token/recipe-token.component';
@@ -18,6 +18,7 @@ import { AddAlternativeButton } from 'src/app/ui/add-alternative.component';
 import { UUID } from 'src/app/model/user.model';
 import { ArrayService } from 'src/app/services/array.service';
 import { MatMenuModule } from '@angular/material/menu';
+import { RecipeSelectComponent } from 'src/app/recipes/recipe-select/recipe-select.component';
 
 @Component({
   selector: 'app-habit',
@@ -34,6 +35,7 @@ import { MatMenuModule } from '@angular/material/menu';
     RecipeTokenComponent,
     AddAlternativeButton,
     MatMenuModule,
+    RecipeSelectComponent,
   ],
   templateUrl: './habit.component.html',
   styleUrls: ['./habit.component.scss']
@@ -46,13 +48,12 @@ export class HabitComponent {
 
   // TODO: This component should not actually house all the recipes in memory
   // Instead, a list of names should be retrieved
-  allRecipes$: Observable<Recipe[]>;
+  recipes$: Observable<[UUID, string][]>;
   updatingRecipe: [number, number | undefined] | undefined;
 
   constructor(private readonly recipeService: RecipeService,
-    private readonly arrayService: ArrayService,
     private readonly ref: ElementRef<HTMLElement>) {
-    this.allRecipes$ = recipeService.currentUserRecipes();
+    this.recipes$ = recipeService.currentUserRecipeNames();
   }
 
   setEditing(value: boolean) {
@@ -148,9 +149,7 @@ export class HabitComponent {
   }
 
   private getRandomRecipe(): Observable<Recipe> {
-    return this.allRecipes$.pipe(
-      map((recipes: Recipe[]) => recipes[0])
-    );
+    return this.recipeService.getRandomRecipe();
   }
 
   scrollIntoView() {

@@ -24,8 +24,12 @@ export class RecipeService {
     recipeInstances.subscribe(instances => this.recipes.next(instances));
   }
 
-  currentUserRecipes(): BehaviorSubject<Recipe[]> {
+  currentUserRecipes(): Observable<Recipe[]> {
     return this.recipes;
+  }
+
+  currentUserRecipeNames(): Observable<[UUID, string][]> {
+    return this.recipes.pipe(map(recipes => recipes.map(r => [r.id, r.name])));
   }
 
   getRecipeByName(name: string): Observable<Recipe | undefined> {
@@ -39,6 +43,15 @@ export class RecipeService {
     return this.recipes.pipe(
       map((recipes: Recipe[]) => recipes.find(r => r.id.equals(id))),
       this.sanitize
+    )
+  }
+
+  getRandomRecipe(): Observable<Recipe> {
+    return this.recipes.pipe(
+      map(recipes => {
+        const index = Math.floor(Math.random() * recipes.length);
+        return recipes[index];
+      })
     )
   }
 
