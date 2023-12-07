@@ -1,7 +1,15 @@
 <app-card [title]="shoppingList.date.toLocaleDateString()">
 	<ng-template #settingsButtons>
 		<app-settings-button [menuItems]="menuItems"
-			(itemSelected)="menuItemSelected($event)"></app-settings-button>
+			(itemSelected)="menuItemSelected($event)">
+			<button *ngIf="editing"
+				(click)="editing = false"
+				mat-flat-button
+				class="edit-action-button"
+				color="primary">
+				Save Recipe
+			</button>
+		</app-settings-button>
 	</ng-template>
 	<div *ngFor="let item of shoppingList.items; index as i"
 		(click)="toggleChecked(i)"
@@ -15,5 +23,20 @@
       {{item.ingredient.units}}
       {{item.ingredient.name}}
 		</span>
+	</div>
+	<div class="add-forms">
+		<app-add-ingredient-form *ngIf="editing"
+			(newIngredient)="addIngredient($event)"></app-add-ingredient-form>
+		<button *ngIf="editing"
+			[matMenuTriggerFor]="menu"
+			mat-raised-button
+			color="primary"
+			class="add-ingredient-button">
+			Add Recipe
+		</button>
+		<mat-menu #menu="matMenu">
+			<app-recipe-select [recipes$]="recipeNames$"
+				(recipeSelected)="addRecipe($event)"></app-recipe-select>
+		</mat-menu>
 	</div>
 </app-card>

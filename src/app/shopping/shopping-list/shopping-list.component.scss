@@ -4,4 +4,12 @@
   display: flex;
   flex-flow: row nowrap;
   gap: theme.padding(medium);
+  align-items: flex-start;
+}
+
+.add-forms {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: theme.padding(small);
+  width: 25rem;
 }

@@ -9,6 +9,12 @@ export class ShoppingList {
     readonly date: Date,
     readonly items: ShoppingItem[]
   ) { }
+
+  addItem(item: ShoppingItem): ShoppingList {
+    return new ShoppingList(
+      this.id, this.date, [...this.items, item]
+    );
+  }
 }
 
 export class ShoppingItem {

@@ -2,7 +2,7 @@
 	<div class="shopping-lists">
 		<app-shopping-list *ngFor="let list of (lists | async); index as i; trackBy:identifyList"
 			[shoppingList]="list"
-			(update)="updateList(i)"
+			(update)="updateList(i)($event)"
 			(delete)="deleteList(i)"></app-shopping-list>
 	</div>
 	<app-main-fab [position]="'bottom-right'"

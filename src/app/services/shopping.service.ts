@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { PopulatedHabit, PopulatedRoutine } from '../model/routine.model';
 import { ShoppingItem, ShoppingList } from '../model/shopping.model';
-import { isAlternatives } from '../model/common.model';
+import { OrPopulatedAlternatives, isAlternatives } from '../model/common.model';
 import { RecipeService } from './recipe.service';
-import { Ingredient, PopulatedRecipe } from '../model/recipe.model';
+import { Ingredient, PopulatedRecipe, Recipe } from '../model/recipe.model';
 import { UUID } from '../model/user.model';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import { ArrayService } from './array.service';
+import { isNgTemplate } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -56,6 +57,47 @@ export class ShoppingService {
       this.arrayService.addToStart(oldLists, newList)
     );
     return newList;
+  }
+
+  addRecipe = (list: ShoppingList) => (recipeId: UUID): Observable<ShoppingList> => {
+
+    const recipe$ = this.recipeService.getRecipeById(recipeId);
+    return recipe$.pipe(map(recipe => {
+      if (recipe === undefined) {
+        throw new Error(`Cannot add recipe [${recipeId}] to list because it could not be found.`);
+      }
+
+      const populatedRecipe = this.recipeService.populate(recipe);
+      const newIngredients = populatedRecipe.getIngredients();
+      const oldItems: ShoppingItem[] = list.items;
+      const newItems = this.mergeNewIngredientsWithItems([recipe.id, recipe.name])(oldItems)(newIngredients);
+      return new ShoppingList(list.id, list.date, newItems);
+    }))
+  }
+
+  private mergeNewIngredientsWithItems = (recipeName: [UUID, string]) => (items: ShoppingItem[]) => (ingredients: Ingredient[]): ShoppingItem[] => {
+    const findItem = (items: ShoppingItem[]) => (ingredient: Ingredient): number => {
+      return items.findIndex(item => item.ingredient.name === ingredient.name);
+    }
+
+    ingredients.forEach(ingredient => {
+      const oldItemIndex = findItem(items)(ingredient);
+      const oldItem = oldItemIndex >= 0 ? items[oldItemIndex] : undefined;
+      const sumIngredient = oldItem ? this.addIngredients(oldItem.ingredient, ingredient) : ingredient;
+      const oldUsedBy = oldItem?.usedBy || [];
+      const newItem = new ShoppingItem(
+        oldItem?.id || UUID.randomUUID(),
+        sumIngredient,
+        [...oldUsedBy, [ingredient, recipeName[1], recipeName[0]]]
+      )
+      if (oldItem) {
+        items[oldItemIndex] = newItem;
+      } else {
+        items.push(newItem);
+      }
+    });
+
+    return items;
   }
 
   updateList = (i: number) => (list: ShoppingList): void => {
