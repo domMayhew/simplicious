@@ -15,20 +15,16 @@ export class WelcomeComponent {
 
   instructions: Instruction[] = [
     {
-      title: "Add your go-to meals",
-      content: "Build variety into your week by defining a meal with alternatives. For example, create a “Roast Veg” meal that has rice, vegetables, and one of either chicken, ground beef, or pork chops."
+      title: "Add some recipes",
+      content: "Make each meal unique by adding ingredient alternatives in a recipe. Simplicious will choose one of the alternatives for you each time you generate a shopping list. For example, make a recipe different options for the main protein or carbohydrate source used."
     },
     {
-      title: "Create a template",
-      content: "Tell Simplicious about your habits and preferences so it can help you plan. A template has meals, requests, or ingredients to help you make a meal plan more efficiently."
-    },
-    {
-      title: "Make a meal plan",
-      content: "Generate a meal plan from a template and customize it to meet your current needs. Not in the mood for the meal Simplicious selected? Switch it easily. Want to make a different choice about a meal variation? Pick a different variation."
+      title: "Create a routine",
+      content: "Tell Simplicious about your habits and preferences so it can help you plan. Make a list of recipes that you eat each week that will automatically be added to new shopping lists. To add variety to your routine, add alternatives for a recipe and Simplicious will choose one at random when you generate a new shopping list. For example, if you do not want to eat tacos every single week, add an alternative and Simplicious will make a grocery shopping list that includes ingredients for one or the other. Once Simplicious has chosen a recipe from a set of alternatives, it will choose the specific ingredients from any ingredient alternatives you defined in that specific recipe."
     },
     {
       title: "Generate a shopping list",
-      content: "Generate a shopping list from your meal plan, and add any other items you need. Need some batteries? Add it to the list!"
+      content: "Generate a shopping list from your routine, and add any other items you need. Hover over an item to see what recipes require it!"
     }
   ]
 

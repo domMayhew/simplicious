@@ -1,27 +1,27 @@
-# Simplicious
+# Comp 3451 || PP4
+## Dominic Mayhew || T00688238
+### December 7, 2023
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.10.
+# Accessing the Prototype
 
-## Development server
+The prototype is hosted at [http://simplicious.dominicmayhew.ca](http://simplicious.dominicmayhew.ca) using an S3 bucket and CNAME record. If you wish to build and run the application locally, you need `npm` and the Angular CLI (`ng`).
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+```bash
+npm install
+ng serve
+```
 
-## Code scaffolding
+Navigate to `http://localhost:4200` in a browser to see use the prototype.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+# Improvements from the low-fidelity prototype
 
-## Build
+The process/flow has been simplified and naming of process steps have been made more clear.  "Meals" and "Templates" were confusing terms, so they have been renamed "Recipes" and "Routines". Additionally, "Plan" does not exist anymore. Eventually it will be encorporated into the "generate shopping list" step.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+# Prototype limitations
 
-## Running unit tests
+There are several functionalities required by an actual product that are missing in this prototype:
+1. Users cannot create a profile and have their actions remembered. Each time you reload the page you start from scratch.
+1. There is no ability to plan for specific dates.
+1. There is no ability to see (at a glance) which recipes are included in the shopping list. You must mouse over each ingredient to see what recipes are included.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Due to this being a prototype, I had to limit scope and not include the above features. I chose instead to implement most of the core workflow to test if it is usable and useful.

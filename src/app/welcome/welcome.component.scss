@@ -5,6 +5,7 @@
   flex-flow: column wrap;
   justify-content: flex-start;
   align-items: center;
+  background-color: theme.surface();
 
   padding: theme.padding(large);
 
@@ -15,9 +16,9 @@
 }
 
 .line {
-  height: 2.5rem;
+  height: 5rem;
   width: 0.125rem;
-  background-color: theme.background();
+  background-color: lighten(theme.on-surface(), 50%);
 }
 
 .line:last-of-type {

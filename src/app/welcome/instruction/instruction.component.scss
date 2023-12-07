@@ -24,6 +24,7 @@
 
 .instruction-text {
   @include theme.typography-level(body-2);
+  line-height: 2;
   padding: theme.padding("medium");
   width: 100%;
   max-width: 720px;
