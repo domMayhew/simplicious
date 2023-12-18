@@ -26,6 +26,18 @@ export function orAlternativeFromObj<T, ObjType>(
   }
 }
 
+export function orAlternativesToObj<T, J>(convert: (t: T) => J, orAlternatives: OrAlternatives<T>) {
+  if (isAlternatives(orAlternatives)) {
+    return {
+      name: orAlternatives.name,
+      alternatives: _.map(orAlternatives.alternatives, convert),
+      method: orAlternatives.method
+    };
+  } else {
+    return convert(orAlternatives);
+  }
+}
+
 export class Alternatives<T> {
   constructor(readonly name: string, readonly alternatives: T[], readonly method: SelectionMethod = SelectionMethod.RANDOM) { }
 
@@ -53,10 +65,18 @@ export class Alternatives<T> {
     return new PopulatedAlternatives(this.name, this.alternatives, choice, this.method);
   }
 
-  fromObj<ObjType>(constructor: (obj: ObjType) => T, obj: AlternativesJson<ObjType>): Alternatives<T> {
+  fromObj<J>(constructor: (obj: J) => T, obj: AlternativesJson<J>): Alternatives<T> {
     const name = obj.name;
     const alternatives = _.map(obj.alternatives, constructor);
     return new Alternatives(name, alternatives);
+  }
+
+  toObj<J>(convert: (t: T) => J): AlternativesJson<J> {
+    return {
+      name: this.name,
+      alternatives: _.map(this.alternatives, convert),
+      method: this.method
+    };
   }
 }
 
@@ -71,9 +91,10 @@ export class PopulatedAlternatives<T> extends Alternatives<T> {
   }
 }
 
-interface AlternativesJson<T> {
+interface AlternativesJson<J> {
   name: string;
-  alternatives: T[];
+  alternatives: J[];
+  method?: SelectionMethod;
 }
 
 function isAlternativeJson<ObjType>(obj: any): obj is AlternativesJson<ObjType> {

@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { ArgValidator, OrAlternatives, OrAlternativesJson, OrPopulatedAlternatives, add, isAlternatives, orAlternativeFromObj, remove, update } from './common.model';
+import { ArgValidator, OrAlternatives, OrAlternativesJson, OrPopulatedAlternatives, add, isAlternatives, orAlternativeFromObj, orAlternativesToObj, remove, update } from './common.model';
 import { UUID } from './user.model';
 
 export class Recipe extends ArgValidator {
@@ -72,6 +72,16 @@ export class Recipe extends ArgValidator {
     const image = obj.image ? Image.fromObj(obj.image) : defaultImage;
     return new Recipe(UUID.fromString(obj.id), name, ingredients, instructions, image);
   }
+
+  static toObj(recipe: Recipe): RecipeJson {
+    return {
+      id: recipe.id.toString(),
+      name: recipe.name,
+      ingredients: _.map(recipe.ingredients, iOrAlternative => orAlternativesToObj(Ingredient.toObj, iOrAlternative)),
+      instructions: recipe.instructions,
+      image: Image.toObj(recipe.image)
+    };
+  }
 }
 
 export class PopulatedRecipe extends Recipe {
@@ -123,6 +133,10 @@ export class Ingredient extends ArgValidator {
     const empty = new Ingredient('', 0, '');
     return _.assign(empty, obj);
   }
+
+  static toObj(ingredient: Ingredient): IngredientJson {
+    return ingredient;
+  }
 }
 
 export interface IngredientJson {
@@ -141,6 +155,10 @@ export class Image extends ArgValidator {
 
   static fromObj(obj: ImageJson) {
     return new Image(obj.url, obj.caption);
+  }
+
+  static toObj(image: Image): ImageJson {
+    return image;
   }
 }
 

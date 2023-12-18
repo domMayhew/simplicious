@@ -12,16 +12,33 @@ import { AlternativesService } from './alternatives.service';
 })
 export class RecipeService {
 
+  LOCAL_STORAGE_KEY = "RECIPES";
+
   recipes: BehaviorSubject<Recipe[]> = new BehaviorSubject([] as Recipe[]);
 
   constructor(private readonly http: HttpClient, private readonly alternativesService: AlternativesService) {
-    const res = this.http.get<RecipeJson[]>('/assets/json/defaultRecipes.json');
-    const recipeInstances = res.pipe(
+    const recipes$ = this.getStoredRecipes() || this.getDefaultRecipes();
+    recipes$.subscribe(recipes => this.recipes.next(recipes));
+    this.recipes.subscribe(this.persistRecipes.bind(this));
+  }
+
+  private getStoredRecipes(): Observable<Recipe[]> | undefined {
+    const storedRecipesJson = localStorage.getItem(this.LOCAL_STORAGE_KEY);
+    const storedRecipes = storedRecipesJson ?
+      _.map(JSON.parse(storedRecipesJson), Recipe.fromObj(this.defaultImage()))
+      : undefined;
+    console.log(storedRecipes);
+    return storedRecipes && new BehaviorSubject(storedRecipes);
+  }
+
+  private getDefaultRecipes(): Observable<Recipe[]> {
+    const recipeObjects = this.http.get<RecipeJson[]>('/assets/json/defaultRecipes.json');
+    const recipes = recipeObjects.pipe(
       map(
         (recipes: RecipeJson[]) => _.map(recipes, Recipe.fromObj(this.defaultImage()))
       )
     )
-    recipeInstances.subscribe(instances => this.recipes.next(instances));
+    return recipes;
   }
 
   currentUserRecipes(): Observable<Recipe[]> {
@@ -106,4 +123,8 @@ export class RecipeService {
         'This recipe may have been deleted, or an error may have occurred'))
   }
 
+  persistRecipes(recipes: Recipe[]) {
+    console.log(recipes);
+    localStorage.setItem(this.LOCAL_STORAGE_KEY, JSON.stringify(_.map(recipes, (r) => Recipe.toObj(r))));
+  }
 }
