@@ -130,7 +130,7 @@ export class HabitComponent {
     this.updatingRecipe = nextVal;
   }
 
-  recipeSelected = (id: UUID) => {
+  recipeSelected = ([id, name]: [UUID, string]) => {
     const recipe$ = this.recipeService.getRecipeById(id);
     recipe$.subscribe(recipe => {
       if (this.updatingRecipe && recipe) {

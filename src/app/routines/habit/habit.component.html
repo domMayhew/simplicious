@@ -74,7 +74,8 @@
 				</ng-container>
 			</div>
 			<mat-menu #menu="matMenu">
-				<app-recipe-select [recipes$]="recipes$"></app-recipe-select>
+				<app-recipe-select [recipes$]="recipes$"
+					(recipeSelected)="recipeSelected($event)"></app-recipe-select>
 			</mat-menu>
 		</div>
 		<button *ngIf="editing"
