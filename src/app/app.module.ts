@@ -11,6 +11,7 @@ import { FullGridWidthComponent } from './ui/full-grid-width/full-grid-width.com
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { HttpClientModule } from '@angular/common/http';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     BrowserAnimationsModule,
     MatButtonModule,
     FullGridWidthComponent,
-    HttpClientModule
+    HttpClientModule,
+    MatDialogModule
   ],
   providers: [RouterModule,
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } },

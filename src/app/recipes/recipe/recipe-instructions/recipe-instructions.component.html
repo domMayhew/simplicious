@@ -2,7 +2,8 @@
 	class="subtitle-2 body-section-header">
 	Instructions
 </h6>
-<ol class="instructions">
+<ol *ngIf="instructions.length > 0"
+	class="instructions">
 	<div *ngFor="let instruction of instructions; index as i"
 		class="instruction">
 		<li #instructionEl
