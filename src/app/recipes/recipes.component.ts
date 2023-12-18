@@ -54,7 +54,7 @@ export class RecipesComponent {
     this.recipeService.updateRecipe(i, recipe);
   }
 
-  identifyRecipe(index: number, recipe: Recipe): string {
-    return recipe.name;
+  identifyRecipe(index: number, recipe: Recipe): UUID {
+    return recipe.id;
   }
 }
