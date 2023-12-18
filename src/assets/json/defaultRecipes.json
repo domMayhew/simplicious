@@ -57,6 +57,38 @@
     }
   },
   {
+    "id": "65253b6c-ba18-4d45-b5e7-fadd556a229e",
+    "name": "Salad",
+    "ingredients": [
+      {
+        "name": "romain Lettuce",
+        "quantity": 2,
+        "units": "hearts"
+      },
+      {
+        "name": "bell peppers",
+        "quantity": 2
+      },
+      {
+        "name": "carrots",
+        "quantity": 2
+      },
+      {
+        "name": "red onion",
+        "quantity": 0.25
+      },
+      {
+        "name": "plumb tomatoes",
+        "quantity": 0.75,
+        "units": "pounds"
+      }
+    ],
+    "image": {
+      "url": "/assets/images/salad.webp",
+      "caption": "https://www.foodandwine.com/recipes/jordons-romaine-salad"
+    }
+  },
+  {
     "id": "f253ba02-98ec-4052-9117-f8983ea27d56",
     "name": "Roast Veg",
     "ingredients": [
