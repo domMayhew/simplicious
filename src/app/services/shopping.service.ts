@@ -134,7 +134,7 @@ export class ShoppingService {
     if (left.units === right.units) {
       return new Ingredient(left.name, left.quantity + right.quantity, left.units);
     } else {
-      throw new Error("adding ingredients with different units is not supported yet.");
+      throw new Error(`Adding ingredients with different units is not supported yet. [ ${left.name} ]`);
     }
   }
 }
