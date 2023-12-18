@@ -135,7 +135,7 @@ export class HabitComponent {
     recipe$.subscribe(recipe => {
       if (this.updatingRecipe && recipe) {
         const [groupIndex, alternativeIndex] = this.updatingRecipe;
-        if (alternativeIndex) {
+        if (alternativeIndex !== undefined) {
           const group = this.habit.recipes[groupIndex] as Alternatives<Recipe>;
           const newGroup = group.updateAlternative(alternativeIndex, recipe);
           const newHabit = this.habit.updateOrAlternatives(groupIndex, newGroup);
