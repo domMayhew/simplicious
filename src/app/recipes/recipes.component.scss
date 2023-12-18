@@ -3,6 +3,7 @@
 .recipes {
   margin: theme.padding(large) 0;
   display: flex;
-  flex-flow: column nowrap;
-  row-gap: theme.padding(large);
+  flex-flow: row wrap;
+  gap: theme.grid-gutter-size();
+  align-items: stretch;
 }

@@ -1,0 +1,38 @@
+<app-card [title]="recipe.name"
+	[editing]="editing"
+	(titleChange)="rename($event)">
+	<ng-template #settingsButtons>
+		<div class="settings-buttons">
+			<div>
+				<button *ngIf="editing"
+					(click)="setEditing(false)"
+					mat-flat-button
+					class="edit-action-button"
+					color="primary">
+					Save Recipe
+				</button>
+				<app-settings-button (itemSelected)="menuItemSelected($event)"></app-settings-button>
+			</div>
+		</div>
+	</ng-template>
+	<div class="card-body">
+		<div class="card-text-elements">
+			<div class="ingredients-container">
+				<h6 class="subtitle-2 body-section-header">Ingredients</h6>
+				<app-ingredient-list [ingredients]="recipe.ingredients"
+					[editing]="editing"
+					(updateIngredients)="updateIngredients($event)"></app-ingredient-list>
+			</div>
+			<app-recipe-instructions [instructions]="recipe.instructions || []"
+				[editing]="editing"
+				(updateInstructions)="updateInstructions($event)">
+			</app-recipe-instructions>
+		</div>
+		<div class="card-image-container">
+			<img [attr.src]="recipe.image.url"
+				[matTooltip]="recipe.image.caption"
+				matTooltipShowDelay="500"
+				class="card-image">
+		</div>
+	</div>
+</app-card>

@@ -1,0 +1,84 @@
+@use '../../../theme.scss';
+
+mat-card {
+  padding: theme.padding(large);
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  column-gap: theme.padding(large);
+}
+
+.card-body {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: theme.padding(large);
+}
+
+@media only screen and (max-width: 800px) {
+  .card-body {
+    display: flex;
+    flex-flow: column-reverse nowrap;
+    // align-items: flex-start;
+  }
+
+  .card-image-container {
+    width: 40%;
+
+    .card-image {
+      width: 100%;
+    }
+  }
+}
+
+.card-image-container {
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.card-image {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.card-text-elements {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: theme.padding(large);
+  flex-grow: 1;
+}
+
+@media only screen and (max-width: 1100px) {
+  .card-text-elements {
+    flex-flow: column nowrap;
+    align-items: flex-start;
+  }
+}
+
+.body-section-header {
+  padding-bottom: theme.padding(large);
+}
+
+.ingredients-container {
+  flex-grow: 0;
+}
+
+.ingredients {
+  @include theme.typography-level(body-2);
+  opacity: 0.7;
+}
+
+.settings-buttons div {
+  display: flex;
+  align-items: center;
+  gap: theme.padding(large);
+
+  app-settings-button {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+  }
+}
