@@ -7,15 +7,15 @@
         "id": "19ce66f9-feba-4af6-8ff1-1cc61042a869",
         "name": "Monday",
         "recipes": [
-          "Fish Tacos",
-          "Fried Egg Breakfast"
+          "84ce2f66-43fa-4203-83b7-398b448449a8",
+          "65253b6c-ba18-4d45-b5e7-fadd556a229e"
         ]
       },
       {
         "id": "39627afc-5779-4442-9e08-a673e7383e80",
         "name": "Tuesday",
         "recipes": [
-          "Roast Veg"
+          "f253ba02-98ec-4052-9117-f8983ea27d56"
         ]
       },
       {
@@ -25,8 +25,8 @@
           {
             "name": "Breakfast",
             "recipes": [
-              "Fried Egg Breakfast",
-              "Oatmeal"
+              "e6720618-2473-4fe1-b007-77ff682e22c6",
+              "d552e34e-54f8-481a-acf9-bdb61eab07c6"
             ]
           }
         ]
@@ -35,7 +35,7 @@
         "id": "4551127c-9084-4d2f-a566-4d96a62b92b5",
         "name": "Lunches",
         "recipes": [
-          "Sandwiches"
+          "76c2de67-4ce3-4ef1-9e6e-097451d4e629"
         ]
       }
     ]

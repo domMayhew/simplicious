@@ -104,14 +104,14 @@ export class RoutineService {
     );
   }
 
-  recipeOrAlternativeFromJson(nameOrAlternatives: string | { name: string, recipes: string[] }):
+  recipeOrAlternativeFromJson(idOrAlternatives: string | { name: string, recipes: string[] }):
     Observable<OrAlternatives<Recipe> | undefined> {
-    if (typeof nameOrAlternatives === 'string') {
-      return this.recipeService.getRecipeByName(nameOrAlternatives);
+    if (typeof idOrAlternatives === 'string') {
+      return this.recipeService.getRecipeById(UUID.fromString(idOrAlternatives));
     } else {
-      const name = nameOrAlternatives.name;
-      const recipeNames = nameOrAlternatives.recipes;
-      const recipes$ = _.map(recipeNames, rName => this.recipeService.getRecipeByName(rName));
+      const name = idOrAlternatives.name;
+      const recipeNames = idOrAlternatives.recipes;
+      const recipes$ = _.map(recipeNames, id => this.recipeService.getRecipeById(UUID.fromString(id)));
       return combineLatest(recipes$).pipe(
         map(
           (recipes: (Recipe | undefined)[]) =>
