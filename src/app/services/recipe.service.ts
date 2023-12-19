@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Image, Ingredient, PopulatedRecipe, Recipe, RecipeJson } from '../model/recipe.model';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, UnaryFunction, map, pipe } from 'rxjs';
+import { BehaviorSubject, Observable, UnaryFunction, combineLatest, map, pipe } from 'rxjs';
 import * as _ from 'lodash';
 import { UUID } from '../model/user.model';
 import { Alternatives, OrAlternatives, PopulatedAlternatives, SelectionMethod, isAlternatives } from '../model/common.model';
 import { AlternativesService } from './alternatives.service';
+import { getValues, persistValues } from './helper';
 
 @Injectable({
   providedIn: 'root',
@@ -17,28 +18,13 @@ export class RecipeService {
   recipes: BehaviorSubject<Recipe[]> = new BehaviorSubject([] as Recipe[]);
 
   constructor(private readonly http: HttpClient, private readonly alternativesService: AlternativesService) {
-    const recipes$ = this.getStoredRecipes() || this.getDefaultRecipes();
+    const recipes$ = getValues<Recipe, RecipeJson>(
+      http,
+      this.LOCAL_STORAGE_KEY,
+      '/assets/json/defaultRecipes.json',
+      Recipe.fromObj(this.defaultImage()));
     recipes$.subscribe(recipes => this.recipes.next(recipes));
-    this.recipes.subscribe(this.persistRecipes.bind(this));
-  }
-
-  private getStoredRecipes(): Observable<Recipe[]> | undefined {
-    const storedRecipesJson = localStorage.getItem(this.LOCAL_STORAGE_KEY);
-    const storedRecipes = storedRecipesJson ?
-      _.map(JSON.parse(storedRecipesJson), Recipe.fromObj(this.defaultImage()))
-      : undefined;
-    console.log(storedRecipes);
-    return storedRecipes && new BehaviorSubject(storedRecipes);
-  }
-
-  private getDefaultRecipes(): Observable<Recipe[]> {
-    const recipeObjects = this.http.get<RecipeJson[]>('/assets/json/defaultRecipes.json');
-    const recipes = recipeObjects.pipe(
-      map(
-        (recipes: RecipeJson[]) => _.map(recipes, Recipe.fromObj(this.defaultImage()))
-      )
-    )
-    return recipes;
+    this.recipes.subscribe(persistValues<Recipe, RecipeJson>(this.LOCAL_STORAGE_KEY, Recipe.toObj));
   }
 
   currentUserRecipes(): Observable<Recipe[]> {
@@ -56,11 +42,15 @@ export class RecipeService {
     );
   }
 
-  getRecipeById(id: UUID): Observable<Recipe | undefined> {
+  getRecipeById(id: UUID): Observable<Recipe> {
     return this.recipes.pipe(
       map((recipes: Recipe[]) => recipes.find(r => r.id.equals(id))),
       this.sanitize
     )
+  }
+
+  getRecipesByIds(ids: UUID[]): Observable<Recipe[]> {
+    return combineLatest(ids.map(this.getRecipeById.bind(this)));
   }
 
   getRandomRecipe(): Observable<Recipe> {
@@ -121,10 +111,5 @@ export class RecipeService {
       [],
       new Image('/assets/icons/error.svg',
         'This recipe may have been deleted, or an error may have occurred'))
-  }
-
-  persistRecipes(recipes: Recipe[]) {
-    console.log(recipes);
-    localStorage.setItem(this.LOCAL_STORAGE_KEY, JSON.stringify(_.map(recipes, (r) => Recipe.toObj(r))));
   }
 }

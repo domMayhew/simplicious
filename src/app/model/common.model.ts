@@ -14,27 +14,29 @@ export type OrPopulatedAlternatives<T> = PopulatedAlternatives<T> | T;
 
 export type OrAlternativesJson<ObjType> = ObjType | AlternativesJson<ObjType>;
 
-export function orAlternativeFromObj<T, ObjType>(
-  constructor: (obj: ObjType) => T,
-  obj: OrAlternativesJson<ObjType>): OrAlternatives<T> {
-  if (isAlternativeJson<ObjType>(obj)) {
-    const name = obj.name;
-    const alternatives = _.map(obj.alternatives, constructor);
-    return new Alternatives(name, alternatives);
-  } else {
-    return constructor(obj);
+export const orAlternativeFromObj = <T, ObjType>(
+  constructor: (obj: ObjType) => T): (obj: OrAlternativesJson<ObjType>) => OrAlternatives<T> =>
+  (obj: OrAlternativesJson<ObjType>): OrAlternatives<T> => {
+    if (isAlternativeJson<ObjType>(obj)) {
+      const name = obj.name;
+      const alternatives = _.map(obj.alternatives, constructor);
+      return new Alternatives(name, alternatives);
+    } else {
+      return constructor(obj);
+    }
   }
-}
 
-export function orAlternativesToObj<T, J>(convert: (t: T) => J, orAlternatives: OrAlternatives<T>) {
-  if (isAlternatives(orAlternatives)) {
-    return {
-      name: orAlternatives.name,
-      alternatives: _.map(orAlternatives.alternatives, convert),
-      method: orAlternatives.method
-    };
-  } else {
-    return convert(orAlternatives);
+export function orAlternativesToObj<T, J>(convert: (t: T) => J) {
+  return function (orAlternatives: OrAlternatives<T>) {
+    if (isAlternatives(orAlternatives)) {
+      return {
+        name: orAlternatives.name,
+        alternatives: _.map(orAlternatives.alternatives, convert),
+        method: orAlternatives.method
+      };
+    } else {
+      return convert(orAlternatives);
+    }
   }
 }
 

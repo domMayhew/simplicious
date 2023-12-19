@@ -8,6 +8,8 @@ import { UUID } from '../model/user.model';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { ArrayService } from './array.service';
 import { isNgTemplate } from '@angular/compiler';
+import { getValues } from './helper';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +19,9 @@ export class ShoppingService {
   private lists = new BehaviorSubject<ShoppingList[]>([]);
 
   constructor(private readonly recipeService: RecipeService,
-    private readonly arrayService: ArrayService) { }
+    private readonly arrayService: ArrayService,
+    private readonly http: HttpClient) {
+  }
 
   getLists = (): Observable<ShoppingList[]> => {
     return this.lists;

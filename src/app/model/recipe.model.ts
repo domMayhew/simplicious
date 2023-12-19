@@ -67,7 +67,7 @@ export class Recipe extends ArgValidator {
 
   static fromObj = (defaultImage: Image) => (obj: RecipeJson): Recipe => {
     const name = obj.name;
-    const ingredients = _.map(obj.ingredients, ingredient => orAlternativeFromObj(Ingredient.fromObj, ingredient)) || [];
+    const ingredients = _.map(obj.ingredients, orAlternativeFromObj(Ingredient.fromObj)) || [];
     const instructions = obj.instructions || [];
     const image = obj.image ? Image.fromObj(obj.image) : defaultImage;
     return new Recipe(UUID.fromString(obj.id), name, ingredients, instructions, image);
@@ -77,7 +77,7 @@ export class Recipe extends ArgValidator {
     return {
       id: recipe.id.toString(),
       name: recipe.name,
-      ingredients: _.map(recipe.ingredients, iOrAlternative => orAlternativesToObj(Ingredient.toObj, iOrAlternative)),
+      ingredients: recipe.ingredients.map(orAlternativesToObj(Ingredient.toObj)),
       instructions: recipe.instructions,
       image: Image.toObj(recipe.image)
     };

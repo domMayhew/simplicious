@@ -3,17 +3,20 @@ import { RecipeService } from './recipe.service';
 import { Alternatives, OrAlternatives, isAlternatives, } from '../model/common.model';
 import { HttpClient } from '@angular/common/http';
 import { Recipe } from '../model/recipe.model';
-import { Habit, PopulatedHabit, PopulatedRoutine, Routine } from '../model/routine.model';
+import { Habit, HabitJson, PopulatedHabit, PopulatedRoutine, Routine } from '../model/routine.model';
 import * as _ from 'lodash';
-import { BehaviorSubject, Observable, Subject, combineLatest, filter, map, mergeMap } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, combineLatest, filter, map, mergeAll, mergeMap } from 'rxjs';
 import { ArrayService } from './array.service';
 import { AlternativesService } from './alternatives.service';
 import { UUID } from '../model/user.model';
+import { getValues, persistValues } from './helper';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RoutineService {
+
+  LOCAL_STORAGE_KEY = "ROUTINES";
 
   readonly routines$: BehaviorSubject<Routine[]> = new BehaviorSubject([] as Routine[]);
 
@@ -22,15 +25,18 @@ export class RoutineService {
     private readonly recipeService: RecipeService,
     private readonly arrayService: ArrayService,
     private readonly alternativesService: AlternativesService) {
-    const jsonRoutines$ = http.get<any>('/assets/json/defaultRoutines.json');
-    const routinesObs$ = jsonRoutines$.pipe(
-      mergeMap(
-        (routines: any) =>
-          combineLatest(_.map(routines, this.routineFromJson.bind(this)))
-      )
-    )
-    routinesObs$.subscribe(this.routines$);
+    const routines$ =
+      getValues(
+        http,
+        this.LOCAL_STORAGE_KEY,
+        'assets/json/defaultRoutines.json',
+        Routine.fromObj(recipeService.defaultImage(), recipeService.getRecipesByIds.bind(recipeService))).pipe(
+          map(rs => combineLatest(rs)),
+          mergeAll());
+    routines$.subscribe(this.routines$);
+    this.routines$.subscribe(persistValues(this.LOCAL_STORAGE_KEY, Routine.toObj));
   }
+
 
   addRoutine = (routine: Routine) => {
     this.routines$.next(
@@ -73,54 +79,5 @@ export class RoutineService {
     })
     const id = UUID.randomUUID();
     return new PopulatedRoutine(id, routine.name, populatedHabits);
-  }
-
-  routineFromJson(json: any): Observable<Routine> {
-    if (typeof json === 'string') {
-      json = JSON.parse(json);
-    }
-    const id = json.id;
-    const name = json.name;
-    const habits$ = _.map(json.habits, this.habitFromJson.bind(this));
-    return combineLatest(habits$).pipe(
-      map(
-        (habits: Habit[]) => new Routine(id, name, habits)
-      )
-    )
-  }
-
-  habitFromJson(json: any): Observable<Habit> {
-    const id = json.id;
-    const name = json.name;
-    const recipesOrAlternatives$ = _.map(json.recipes, this.recipeOrAlternativeFromJson.bind(this));
-    return combineLatest(recipesOrAlternatives$).pipe(
-      map(
-        (recipesOrAlternatives: OrAlternatives<Recipe | undefined>[]) =>
-          recipesOrAlternatives.filter(oa => oa !== undefined) as OrAlternatives<Recipe>[]),
-      map(
-        (recipesOrAlternatives: OrAlternatives<Recipe>[]) =>
-          new Habit(id, name, recipesOrAlternatives)
-      )
-    );
-  }
-
-  recipeOrAlternativeFromJson(idOrAlternatives: string | { name: string, recipes: string[] }):
-    Observable<OrAlternatives<Recipe> | undefined> {
-    if (typeof idOrAlternatives === 'string') {
-      return this.recipeService.getRecipeById(UUID.fromString(idOrAlternatives));
-    } else {
-      const name = idOrAlternatives.name;
-      const recipeNames = idOrAlternatives.recipes;
-      const recipes$ = _.map(recipeNames, id => this.recipeService.getRecipeById(UUID.fromString(id)));
-      return combineLatest(recipes$).pipe(
-        map(
-          (recipes: (Recipe | undefined)[]) =>
-            recipes.map(r => r === undefined ? this.recipeService.nullRecipe : r) as Recipe[]),
-        map(
-          (recipes: (Recipe)[]) =>
-            new Alternatives(name, recipes)
-        )
-      );
-    }
   }
 }
